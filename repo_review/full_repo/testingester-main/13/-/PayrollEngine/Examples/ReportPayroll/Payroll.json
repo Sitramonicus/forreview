@@ -1,0 +1,752 @@
+﻿{
+  "$schema": "../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2025-01-01T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "Report.Tenant",
+      "culture": "en-US",
+      "attributes": {
+        "ErpId": "3CDBE5C7-A317-4942-8070-7CBC04A5BB70",
+        "SyncPayService": "MyService",
+        "MaxEmployee": "200"
+      },
+      "users": [
+        {
+          "identifier": "lucy.smith@foo.com",
+          "firstName": "Lucy",
+          "lastName": "Smith",
+          "culture": "en-US",
+          "userType": "TenantAdministrator"
+        }
+      ],
+      "divisions": [
+        {
+          "name": "Report.Division"
+        }
+      ],
+      "regulations": [
+        {
+          "name": "Report.Regulation",
+          "description": "The report example payroll",
+          "lookups": [
+            {
+              "name": "Location",
+              "created": "2024-12-01T00:00:00.0Z",
+              "values": [
+                {
+                  "key": "1000",
+                  "value": "London",
+                  "valueLocalizations": {
+                    "de": "London"
+                  }
+                },
+                {
+                  "key": "2000",
+                  "value": "New York",
+                  "valueLocalizations": {
+                    "de": "New York"
+                  }
+                },
+                {
+                  "key": "3000",
+                  "value": "Paris",
+                  "valueLocalizations": {
+                    "de": "Paris"
+                  }
+                }
+              ]
+            },
+            {
+              "name": "WithholdingTax",
+              "values": [
+                {
+                  "keyValues": [ "A", 1, "LONDON", 50, "Y" ],
+                  "valueObject": 0.04
+                },
+                {
+                  "keyValues": [ "B", 2, "LONDON", 0, "Y" ],
+                  "valueObject": 0.05
+                },
+                {
+                  "keyValues": [ "B", 2, "LONDON", 0, "N" ],
+                  "valueObject": 0.05
+                },
+                {
+                  "keyValues": [ "B", 2, "LONDON", 50, "Y" ],
+                  "valueObject": 0.08
+                },
+                {
+                  "keyValues": [ "C", 2, "LONDON", 50, "Y" ],
+                  "valueObject": 0.12
+                }
+              ]
+            },
+            {
+              "name": "SpecialBonus",
+              "values": [
+                {
+                  "key": "Bonus1",
+                  "rangeValue": 2000,
+                  "valueObject": 0.05
+                },
+                {
+                  "key": "Bonus2",
+                  "rangeValue": 3000,
+                  "valueObject": 0.03
+                }
+              ]
+            }
+          ],
+          "cases": [
+            {
+              "name": "SocialSecurity",
+              "caseType": "National",
+              "fields": [
+                {
+                  "name": "SocialSecurityRate",
+                  "valueType": "Percent",
+                  "timeType": "Period"
+                }
+              ]
+            },
+            {
+              "name": "Unemployment",
+              "caseType": "National",
+              "fields": [
+                {
+                  "name": "UnemploymentRate",
+                  "valueType": "Percent",
+                  "timeType": "Period"
+                }
+              ]
+            },
+            {
+              "name": "AccidentInsurance",
+              "caseType": "Company",
+              "fields": [
+                {
+                  "name": "AccidentRate",
+                  "valueType": "Percent",
+                  "timeType": "CalendarPeriod"
+                }
+              ]
+            },
+            {
+              "name": "SickLeaveInsurance",
+              "caseType": "Company",
+              "fields": [
+                {
+                  "name": "SickLeaveRate",
+                  "valueType": "Percent",
+                  "timeType": "CalendarPeriod"
+                }
+              ]
+            },
+            {
+              "name": "Location",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "Location",
+                  "valueType": "String",
+                  "lookupSettings": {
+                    "lookupName": "Location"
+                  },
+                  "timeType": "Period"
+                }
+              ]
+            },
+            {
+              "name": "MonthlyWage",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "MonthlyWage",
+                  "valueType": "Money",
+                  "timeType": "CalendarPeriod"
+                }
+              ]
+            },
+            {
+              "name": "EmploymentLevel",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "EmploymentLevel",
+                  "valueType": "Percent",
+                  "timeType": "Period"
+                }
+              ]
+            },
+            {
+              "name": "Department",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "Department",
+                  "valueType": "String",
+                  "timeType": "Period"
+                }
+              ]
+            },
+            {
+              "name": "HourlyWage",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "HourlyWage",
+                  "valueType": "Money",
+                  "timeType": "Period"
+                }
+              ]
+            },
+            {
+              "name": "NumberOfHours",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "NumberOfHours",
+                  "valueType": "Decimal",
+                  "timeType": "Moment"
+                }
+              ]
+            },
+            {
+              "name": "Bonus",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "Bonus",
+                  "valueType": "Money",
+                  "timeType": "Moment"
+                }
+              ]
+            },
+            {
+              "name": "BirthDate",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "BirthDate",
+                  "valueType": "Date",
+                  "timeType": "Timeless"
+                }
+              ]
+            }
+          ],
+          "collectors": [
+            {
+              "name": "SocialSecurityBase"
+            },
+            {
+              "name": "TaxBase"
+            },
+            {
+              "name": "GrossWage"
+            },
+            {
+              "name": "AccidentBase"
+            },
+            {
+              "name": "SickLeaveBase"
+            }
+          ],
+          "wageTypes": [
+            {
+              "wageTypeNumber": 101,
+              "name": "MonthlyWage",
+              "valueExpressionFile": "WageTypes.cs",
+              "collectors": [
+                "SocialSecurityBase",
+                "TaxBase",
+                "GrossWage",
+                "AccidentBase",
+                "SickLeaveBase"
+              ]
+            },
+            {
+              "wageTypeNumber": 200,
+              "name": "GrossWage",
+              "valueExpression": "Collector[\"GrossWage\"].RoundTwentieth()"
+            },
+            {
+              "wageTypeNumber": 208,
+              "name": "SocialSecurityContrib",
+              "valueExpression": "(Collector[\"SocialSecurityBase\"] *-1m * CaseValue[\"SocialSecurityRate\"]).RoundTwentieth()"
+            },
+            {
+              "wageTypeNumber": 209,
+              "name": "UnemploymentContrib",
+              "valueExpression": "(Collector[\"SocialSecurityBase\"] *-1m * CaseValue[\"UnemploymentRate\"]).RoundTwentieth()"
+            },
+            {
+              "wageTypeNumber": 210,
+              "name": "AccidentContrib",
+              "valueExpression": "(Collector[\"AccidentBase\"] *-1m * CaseValue[\"AccidentRate\"]).RoundTwentieth()"
+            },
+            {
+              "wageTypeNumber": 211,
+              "name": "SickLeaveContrib",
+              "valueExpression": "(Collector[\"SickLeaveBase\"] *-1m * CaseValue[\"SickLeaveRate\"]).RoundTwentieth()"
+            },
+            {
+              "wageTypeNumber": 300,
+              "name": "NetPay",
+              "valueExpression": "(WageType[200] + WageType[208] + WageType[209] + WageType[210] + WageType[211]).RoundTwentieth()"
+            }
+          ]
+        }
+      ],
+      "employees": [
+        {
+          "identifier": "johnson.bob@example.com",
+          "firstName": "Bob",
+          "lastName": "Johnson",
+          "culture": "en-US",
+          "divisions": [ "Report.Division" ]
+        },
+        {
+          "identifier": "miller.alice@example.com",
+          "firstName": "Alice",
+          "lastName": "Miller",
+          "culture": "en-US",
+          "divisions": [ "Report.Division" ]
+        },
+        {
+          "identifier": "garcia.carlos@example.com",
+          "firstName": "Carlos",
+          "lastName": "Garcia",
+          "divisions": [ "Report.Division" ]
+        },
+        {
+          "identifier": "future.employee@example.com",
+          "firstName": "Future",
+          "lastName": "Employee",
+          "divisions": [ "Report.Division" ]
+        }
+      ],
+      "payrolls": [
+        {
+          "name": "Report.Payroll",
+          "divisionName": "Report.Division",
+          "clusterSetCaseValue": "*",
+          "layers": [
+            {
+              "level": 1,
+              "priority": 1,
+              "regulationName": "Report.Regulation"
+            }
+          ],
+          "cases": [
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "divisionName": "Report.Division",
+              "reason": "Social security rate 2024",
+              "case": {
+                "caseName": "SocialSecurity",
+                "values": [
+                  {
+                    "caseFieldName": "SocialSecurityRate",
+                    "value": "0.05125",
+                    "start": "2024-01-01T00:00:00.0Z",
+                    "created": "2024-12-23T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "SocialSecurity",
+                "values": [
+                  {
+                    "caseFieldName": "SocialSecurityRate",
+                    "value": "0.05275",
+                    "start": "2026-01-01T00:00:00.0Z",
+                    "created": "2025-12-23T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "SocialSecurity",
+                "values": [
+                  {
+                    "caseFieldName": "SocialSecurityRate",
+                    "value": "0.05300",
+                    "start": "2027-01-01T00:00:00.0Z",
+                    "created": "2023-01-01T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "Unemployment",
+                "values": [
+                  {
+                    "caseFieldName": "UnemploymentRate",
+                    "value": "0.011",
+                    "start": "2024-01-01T00:00:00.0Z",
+                    "created": "2023-12-23T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "AccidentInsurance",
+                "values": [
+                  {
+                    "caseFieldName": "AccidentRate",
+                    "value": "0.5",
+                    "start": "2024-01-01T00:00:00.0Z",
+                    "created": "2024-01-01T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "AccidentInsurance",
+                "values": [
+                  {
+                    "caseFieldName": "AccidentRate",
+                    "value": "0.05",
+                    "start": "2025-03-01T00:00:00.0Z",
+                    "created": "2024-02-01T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "SickLeaveInsurance",
+                "values": [
+                  {
+                    "caseFieldName": "SickLeaveRate",
+                    "value": "0.0045",
+                    "start": "2025-03-01T00:00:00.0Z",
+                    "created": "2024-02-01T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "johnson.bob@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "MonthlyWage",
+                "values": [
+                  {
+                    "caseFieldName": "MonthlyWage",
+                    "value": "5000",
+                    "start": "2024-03-01T00:00:00.0Z",
+                    "created": "2024-02-15T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "johnson.bob@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "EmploymentLevel",
+                "values": [
+                  {
+                    "caseFieldName": "EmploymentLevel",
+                    "value": "0.5",
+                    "start": "2025-04-24T00:00:00.0Z",
+                    "created": "2025-04-22T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "johnson.bob@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "BirthDate",
+                "values": [
+                  {
+                    "caseFieldName": "BirthDate",
+                    "value": "1969-05-18T00:00:00.0Z",
+                    "created": "2024-12-31T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "miller.alice@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "MonthlyWage",
+                "values": [
+                  {
+                    "caseFieldName": "MonthlyWage",
+                    "value": "7000",
+                    "start": "2024-01-01T00:00:00.0Z",
+                    "created": "2023-12-15T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "miller.alice@example.com",
+              "divisionName": "Report.Division",
+              "reason": "Retroactive wage correction Jan/Feb 2025",
+              "case": {
+                "caseName": "MonthlyWage",
+                "values": [
+                  {
+                    "caseFieldName": "MonthlyWage",
+                    "value": "6000",
+                    "start": "2025-01-01T00:00:00.0Z",
+                    "end": "2025-02-28T00:00:00.0Z",
+                    "created": "2025-03-15T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "miller.alice@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "EmploymentLevel",
+                "values": [
+                  {
+                    "caseFieldName": "EmploymentLevel",
+                    "value": "0.8",
+                    "start": "2025-01-01T00:00:00.0Z",
+                    "created": "2024-12-31T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "miller.alice@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "Location",
+                "values": [
+                  {
+                    "caseFieldName": "Location",
+                    "value": "1000",
+                    "start": "2025-01-01T00:00:00.0Z",
+                    "created": "2024-04-14T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "miller.alice@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "BirthDate",
+                "values": [
+                  {
+                    "caseFieldName": "BirthDate",
+                    "value": "1969-05-18T00:00:00.0Z",
+                    "created": "2024-12-31T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "garcia.carlos@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "MonthlyWage",
+                "values": [
+                  {
+                    "caseFieldName": "MonthlyWage",
+                    "value": "9000",
+                    "start": "2024-01-01T00:00:00.0Z",
+                    "created": "2023-12-15T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "garcia.carlos@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "EmploymentLevel",
+                "values": [
+                  {
+                    "caseFieldName": "EmploymentLevel",
+                    "value": "1.0",
+                    "start": "2025-01-01T00:00:00.0Z",
+                    "created": "2024-12-31T00:00:00.0Z"
+                  }
+                ]
+              }
+            },
+            {
+              "userIdentifier": "lucy.smith@foo.com",
+              "employeeIdentifier": "garcia.carlos@example.com",
+              "divisionName": "Report.Division",
+              "case": {
+                "caseName": "BirthDate",
+                "values": [
+                  {
+                    "caseFieldName": "BirthDate",
+                    "value": "1969-05-18T00:00:00.0Z",
+                    "created": "2024-12-31T00:00:00.0Z"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "payruns": [
+        {
+          "payrollName": "Report.Payroll",
+          "name": "Report.Payrun"
+        }
+      ],
+      "payrunJobInvocations": [
+        {
+          "name": "Report.PayrunJob.Jan25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-01-01T00:00:00.0Z",
+          "evaluationDate": "2025-02-01T00:00:00.0Z",
+          "reason": "Demo Payrun Jan 25"
+        },
+        {
+          "name": "Report.PayrunJob.Feb25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-02-01T00:00:00.0Z",
+          "evaluationDate": "2025-03-01T00:00:00.0Z",
+          "reason": "Demo Payrun Feb 25"
+        },
+        {
+          "name": "Report.PayrunJob.Mar25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-03-01T00:00:00.0Z",
+          "evaluationDate": "2025-04-01T00:00:00.0Z",
+          "reason": "Demo Payrun Mar 25"
+        },
+        {
+          "name": "Report.PayrunJob.Apr25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-04-01T00:00:00.0Z",
+          "evaluationDate": "2025-05-01T00:00:00.0Z",
+          "reason": "Demo Payrun Apr 25"
+        },
+        {
+          "name": "Report.PayrunJob.May25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-05-01T00:00:00.0Z",
+          "evaluationDate": "2025-06-01T00:00:00.0Z",
+          "reason": "Demo Payrun May 25"
+        },
+        {
+          "name": "Report.PayrunJob.Jun25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-06-01T00:00:00.0Z",
+          "evaluationDate": "2025-07-01T00:00:00.0Z",
+          "reason": "Demo Payrun Jun 25"
+        },
+        {
+          "name": "Report.PayrunJob.Jul25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-07-01T00:00:00.0Z",
+          "evaluationDate": "2025-08-01T00:00:00.0Z",
+          "reason": "Demo Payrun Jul 25"
+        },
+        {
+          "name": "Report.PayrunJob.Aug25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-08-01T00:00:00.0Z",
+          "evaluationDate": "2025-09-01T00:00:00.0Z",
+          "reason": "Demo Payrun Aug 25"
+        },
+        {
+          "name": "Report.PayrunJob.Sep25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-09-01T00:00:00.0Z",
+          "evaluationDate": "2025-10-01T00:00:00.0Z",
+          "reason": "Demo Payrun Sep 25"
+        },
+        {
+          "name": "Report.PayrunJob.Oct25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-10-01T00:00:00.0Z",
+          "evaluationDate": "2025-11-01T00:00:00.0Z",
+          "reason": "Demo Payrun Oct 25"
+        },
+        {
+          "name": "Report.PayrunJob.Nov25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-11-01T00:00:00.0Z",
+          "evaluationDate": "2025-12-01T00:00:00.0Z",
+          "reason": "Demo Payrun Nov 25"
+        },
+        {
+          "name": "Report.PayrunJob.Dec25",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2025-12-01T00:00:00.0Z",
+          "evaluationDate": "2026-01-01T00:00:00.0Z",
+          "reason": "Demo Payrun Dec 25"
+        },
+        {
+          "name": "Report.PayrunJob.Jan26",
+          "payrunName": "Report.Payrun",
+          "userIdentifier": "lucy.smith@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2026-01-01T00:00:00.0Z",
+          "evaluationDate": "2026-02-01T00:00:00.0Z",
+          "reason": "Demo Payrun Jan 26"
+        }
+      ]
+    }
+  ]
+}

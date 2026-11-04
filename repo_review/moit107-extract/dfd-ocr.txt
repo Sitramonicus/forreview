@@ -1,0 +1,415 @@
+--- page-1.png ---
+ras" BM APUA MALAYAN
+WD DIGITAL COLLEGE
+
+A college under Mapua Malayan Colleges Laguna
+
+MO-IT107: Information Management
+
+Week No. 11
+Topic: Data Flow Diagrams
+
+Worksheet No. 6 Data Flow Diagram of MotorPH Payroll System
+
+Project Manager:
+
+Business Analyst: Jether Daniel A. Torres
+
+Database Designer:
+
+Program and Year Level: | BSIT - Software Development; AY. 2024 - 2025
+
+A data flow diagram is an effective tool for simulating and understanding the movement of
+data inside a system or process. It plays a crucial role in the analysis, design, and
+documentation of systems, assisting in ensuring the swift and correct processing and sharing
+of data. Your task this week is to create a data flow diagram for the MotorPH Payroll System
+Database. To carry out this activity, follow the steps below:
+
+Instructions:
+1. Access the following business information:
+a. Business Requirement Specification Document for Payroll System
+
+b. MotorPH Existing Business Processes - Payroll
+2. Read and examine the information found within the materials.
+
+3. In DrawlO, make a data flow diagram that illustrates how the data flows in the
+MotorPH payroll system using the Gene & Sarson notation style.
+a. Create the data flow diagram at least until Level 2.
+4. Once completed, insert a snapshot of the diagram, fill in the required information in the
+template provided below, and delete this section prior to submission.
+--- page-2.png ---
+ras" BM APUA MALAYAN
+WD DIGITAL COLLEGE
+
+A college under Mapua Malayan Colleges Laguna
+
+5. You refer to this context level and level 1 data flow diagram as a guide.
+
+Data Flow Diagram for MotorPH Payroll System
+Jether Daniel A. Torres
+(Bachelor of Science in Information Technology,
+Major in Software Development)
+
+| Human Resources |
+
+ry
+
+View Pll View Employee
+(On Approval) and Payroll
+Details
+Update Update Pll
+Employee (On Approval) Pll Access
+Details Approval
+LVO: Context Diagram
+‘Attendance and Time In/Out————_>} 0.0 |“-Configuration & User Management:
+Employee |<————view Employee Information. View All Employee Information —
+}<t———————-view Payslip-
+|<—————View Team Payslips-——————_+ System
+|+}—Adjust Team Attendance MotorPH Payroll System Admin
+Supervisor Handle Leave Requests and Monetisation—P|
+}—Handling Team Member Benefits / Deductions >| ‘Archival Handling: a
+|<j——View Team Members’ Employee Info- |}<———PIl Access Approval
+
+View Employees'
+Government Pll
+
+(On Approval)
+View and Verify Update Payroll, Payslip,
+Employee and Payroll and Benefits/Deductibles
+
+Details
+
+Payroll Staff
+
+--- page-3.png ---
+Employee
+
+A
+
+ras" BM APUA MALAYAN
+y DIGITAL COLLEGE
+
+A college under Mapua Malayan Colleges Laguna
+
+D1 Ei mployee
+Repository
+av Retrieve
+Employee
+Append/Modify Information
+
+Employee Info
+fl
+
+[
+
+1.0 ]
+
+|<-PIl Access Appro.
+
+[Attendance and Time In/Out——_ |
+
+ry
+
+View and Verify
+
+Payroll Staff
+
+Update Payroll
+and Benefits/Dé
+
+Payroll Details
+
+Configurations & User Management
+
+|—View All Employee Informatio
+
+t—View Leave and Attendance Details
+|<—View Employee Changelog:
+
+D2
+
+Logs
+
+1, Payslip,
+jeductibles
+
+Handle Leave Monetisation ——>| _
+
+View Payroll Detail
+
+<tt
+
+‘Derive work hour!
+
+View Team Payslip:
+Handling Team Member Wage and Adjustments—B>|
+
+View Payslip
+
+Payroll Processing
+
+D3
+
+Retrieve (2YO) Payroll Details:
+|< configurations & User Manat
+
+‘Append/Modify Leave Monetisation History —
+
+Payroll for later
+compression
+
+|< iew Employee Int |——Append/Modify Leave and Attendance ——>}
+Append Employee Info Changes >|
+<—View Team Members' Employee Info] Employee Management _ | «Update Employee Detail Retrieve (1¥0) Attendance,
+. [— View Employee Info—i>| ‘
+‘Adjust Team Attendance —>| [= View Pil (On Approval| Human Update, and Leave
+. Mc tisation L
+Supervisor ;}———Handle Leave Requests > |<—Update Pll (On Approval) Resources oneusat ee
+|<t—PIl Access Approval F Backu
+< Ip and
+L_<o_| Archival
+Archival
+View and Verity View Employees! A
+'Y Government Pil
+Employee Details “(On approval)
+Y v Store Old Logs and
+
+Cold Storage
+
+eae
+
+System
+Admin
+
+1
+Update Wage, Payroll, Payslip,
+
+and Benefits/Deductibles
+
+Retrieve Wage, Payroll, Payslip,
+and Benefits/Deductibles
+
+Payroll
+--- page-4.png ---
+Supervisor
+
+Payroll
+Staff
+
+|View Team Members' Employee Info+
+
+View and Verify
+Employee Details
+View Employees’
+<@i—— Government Pll
+(On Approval)
+
+Employee
+
+al _View Employee Inf
+
+ot OMAPUA MALAYAN
+y DIGITAL COLLEGE
+
+A college under Mapua Malayan Colleges Laguna
+
+Employee Inormation
+Handling
+
+—Retrieve Employee Address- Ba
+—Append/Modify Employee Address B>|
+
+‘Append/Modify Employee Job Profil
+
+Retrieve Employee Job Profile:
+
+Employee
+Address
+
+D1.2) Job Profile
+
+Personally Identifiable
+
+D1.3 A
+Information
+rd ry
+View Append/Modify
+
+Government Info
+Access
+
+i EL
+
+| <-Update Employee Detail:
+
+Append on Employee Info Updat
+
+|~al—Access Appro\
+
+View Pll (On Approval)
+|“@-Record Modification:
+|~—Access Approval-
+
+onfigurations & User Management
+‘View All Employee Information >}
+
+D2.3)
+
+Update Pll (On Approval):
+
+Changelog
+
+en
+
+System
+
+‘Handle Leave Requests]
+
+‘Adjust Team AttendanceB>|
+
+Schedule and Time
+Tracking
+
+View Employee Info:
+
+LAppend/Modi
+
+‘Attendance and Time In/O1 D241
+
+Attendance
+
+Leave
+
+|<t—Vvier
+LAppend/Modify 3D 2.2
+
+Human
+
+Resources
+
+--- page-5.png ---
+Supervisor
+
+A
+
+‘Send Team Member Wage and Adjustments ————————>
+
+ot OMAPUA MALAYAN
+
+y DIGITAL COLLEGE
+
+A college under Mapua Malayan Colleges Laguna
+
+Utilise Rates to
+Compute
+Contributions
+
+Tax Table & Rates
+
+Wage and Adjustments
+Update Values
+a (opt*)
+rocess Approved Leave Monetisation >| Leave Monewsation ‘Add to Benefit
+Append
+Update Wage
+(opt*) Append Sysen
+coat min
+| D2.4 | Leave Monetisation Logs Adjustments
+| D2.1 Attendance Logs | D3.1 Wage
+Vv Update Values
+: i - 5 (opt*)
+Derive wank laure foe D3.2 | Benefits & Deductibles
+and other attendance jamuneratve: Nook
+data Values Apply
+Adjustments 4
+Append
+. i to
+Get Time Activity View, Validate, Deductibles
+Timesheet Validation Payroll Computation and Verify
+Payroll Details Y v
+Get Net Pay Payroll
+Derive aetals for and Constituents ae
+REIS CANES: Government Deductibles
+D2.2 Leave Logs
+View, Nolate: Update Rates
+and Verify (opt*)
+Human "I Payslip Generation & Monthly Report Sallate
+Resources “ Distribution
+| D3.3
+Employee |~¢ View Personat Monthly Summary
+Compilation
+
+View Team:
+
+Collate
+
+Generate
+
+D3.4 Payslip
+
+Monthly Summary Report
+
+| D3.5
+
+--- page-6.png ---
+[> |
+
+Store Old Logs and
+Cold Storage ~<@— Payroll for later
+compression
+
+References:
+
+MAPUA MALAYAN
+
+WD DIGITAL COLLEGE
+
+A college under Mapua Malayan Colleges Laguna
+
+[
+
+34
+
+Trigger on Finistr
+
+v
+
+‘Appending
+
+| A
+Trigger
+
+on Annual
+Prompt
+
+System
+Admin
+
+ae
+<@i-Compile (1¥0) Record: D21 Attendance Logs a
+Deleting
+A Remove Relevant Records
+t— D2.2 Leave Logs
+t— 02.3 Changelogs
+
+—— D2.4 | Leave Monetisation Logs
+
+‘
+
+‘Compile (2Y0) Records: D3.4
+
+Payslip
+
+Bs
+
+List down the resources that served as the basis of this document. Include the link to scaffold
+
+activities used in the accomplishment of this activity.
+
+Reference No.
+
+Reference Document
+
+1 Business Requirement Specification Document for Payroll System
+2 MotorPH Existing Business Processes - Payroll
+

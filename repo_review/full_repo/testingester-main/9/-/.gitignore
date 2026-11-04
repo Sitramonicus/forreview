@@ -1,0 +1,23 @@
+# Build output (NetBeans/Ant + Eclipse)
+build/
+bin/
+dist/
+*.class
+*.jar
+
+# NetBeans private/IDE state
+nbproject/private/
+nbbuild/
+nbdist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local credential/session files — never commit these
+*gh-creds*
+*gh-token*
+*.credentials

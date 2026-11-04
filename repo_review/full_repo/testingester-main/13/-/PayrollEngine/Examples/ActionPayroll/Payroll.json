@@ -1,0 +1,105 @@
+{
+  "$schema": "../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2023-01-01T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "ActionTenant",
+      "culture": "en-US",
+      "users": [
+        {
+          "identifier": "lucy.smith@foo.com",
+          "firstName": "Lucy",
+          "lastName": "Smith",
+          "culture": "en-US",
+          "userType": "TenantAdministrator"
+        }
+      ],
+      "divisions": [
+        {
+          "name": "ActionDivision"
+        }
+      ],
+      "employees": [
+        {
+          "identifier": "mario.nuñez@foo.com",
+          "firstName": "Mario",
+          "lastName": "Nuñez",
+          "divisions": [
+            "ActionDivision"
+          ]
+        }
+      ],
+      "regulations": [
+        {
+          "name": "ActionRegulation",
+          "lookups": [
+            {
+              "name": "MyActions.Action",
+              "values": [
+                {
+                  "key": "InvalidRegistrationNumber",
+                  "value": "(0) is invalid: (1)",
+                  "valueLocalizations": {
+                    "de": "(0) ist ungültig: (1)"
+                  }
+                }
+              ]
+            }
+          ],
+          "cases": [
+            {
+              "name": "EmployeeRegistration",
+              "caseType": "Employee",
+              "defaultReason": "Test employee registration number",
+              "validateActions": [
+                "? CheckRegistrationNumber('RegistrationNumber', ^:RegistrationNumber)"
+              ],
+              "fields": [
+                {
+                  "name": "Mandatory",
+                  "valueType": "String",
+                  "timeType": "Period",
+                  "attributes": {
+                    "input.endPickerOpen": "month"
+                  }
+                },
+                {
+                  "name": "RegistrationNumber",
+                  "valueType": "String",
+                  "timeType": "Period",
+                  "valueMandatory": true,
+                  "defaultStart": "today",
+                  "attributes": {
+                    "input.valueMask": "REG-000.000.000",
+                    "input.valueHelp": "Format REG-000.000.000"
+                  }
+                }
+              ]
+            }
+          ],
+          "scripts": [
+            {
+              "name": "MyActions",
+              "functionTypes": [
+                "CaseValidate"
+              ],
+              "valueFile": "Scripts/CaseValidateFunction.cs"
+            }
+          ]
+        }
+      ],
+      "payrolls": [
+        {
+          "name": "ActionPayroll",
+          "divisionName": "ActionDivision",
+          "layers": [
+            {
+              "level": 1,
+              "regulationName": "ActionRegulation"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

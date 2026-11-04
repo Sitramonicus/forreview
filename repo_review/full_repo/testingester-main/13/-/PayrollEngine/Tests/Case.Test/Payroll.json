@@ -1,0 +1,84 @@
+{
+  "$schema": "../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2019-01-01T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "CaseTest",
+      "users": [
+        {
+          "identifier": "peter.schmid@foo.com",
+          "firstName": "Peter",
+          "lastName": "Schmid"
+        }
+      ],
+      "divisions": [
+        {
+          "name": "CaseTestDivision",
+          "culture": "de-CH"
+        }
+      ],
+      "employees": [
+        {
+          "identifier": "višnja.müller@foo.com",
+          "firstName": "Višnja",
+          "lastName": "Müller",
+          "divisions": [
+            "CaseTestDivision"
+          ]
+        }
+      ],
+      "regulations": [
+        {
+          "name": "CaseTest",
+          "description": "The base of all payrolls",
+          "cases": [
+            {
+              "name": "AHV Local",
+              "caseType": "National",
+              "defaultReason": "Change AHV AN Local",
+              "fields": [
+                {
+                  "name": "AHV AN Local",
+                  "valueType": "Percent",
+                  "timeType": "Period"
+                }
+              ]
+            },
+            {
+              "name": "MonthlyWage",
+              "caseType": "Employee",
+              "defaultReason": "Change monthly wage",
+              "availableExpression": "false",
+              "buildExpression": "var monthlyWage = GetValue<decimal?>(\"MonthlyWage\"); SetValue(\"SpecialDeduction\", monthlyWage.HasValue && monthlyWage > 5000M ? monthlyWage * 0.085M : 0); return true",
+              "fields": [
+                {
+                  "name": "MonthlyWage",
+                  "valueType": "Money",
+                  "timeType": "CalendarPeriod"
+                },
+                {
+                  "name": "SpecialDeduction",
+                  "valueType": "Money",
+                  "timeType": "CalendarPeriod"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "payrolls": [
+        {
+          "name": "CaseTestPayroll",
+          "divisionName": "CaseTestDivision",
+          "layers": [
+            {
+              "level": 1,
+              "priority": 1,
+              "regulationName": "CaseTest"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

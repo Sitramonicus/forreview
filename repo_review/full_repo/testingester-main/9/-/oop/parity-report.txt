@@ -1,0 +1,53 @@
+CP2 baseline vs OOP backend - payroll formula parity (EVIDENCE)
+============================================================================================
+DECISION B (2026-10-27, Paul): the OOP calculators follow the OFFICIAL government matrices,
+not CP2. CP2 was verified against those matrices in oop/matrix-verification.md and is
+WRONG in 4 places, so a MISMATCH row here is EXPECTED, not a defect:
+
+  1. PhilHealth  - CP2 deducts 100% of the premium; official employee share is 50% (Issue 2)
+  2. Pag-IBIG    - CP2 adds the employer share; official employee share is 1%/2%, cap 100 (Issue 3)
+  3. Withholding - CP2 bracket 1 uses 20,832; official is 20,833 (Issue 4, +PHP 0.20)
+  4. SSS         - CP2 brackets are upper-inclusive; official is lower-inclusive (Issue 5, PHP 22.50)
+
+Proof that the OOP numbers are the CORRECT ones is not this file - it is section H of
+ConsoleBackendTest ("Official matrix conformance"), where every expected value is copied
+from the matrix itself (SAMPLE B10 = 375, SAMPLE B20 = 513.40, SSS 3,250 = 157.50, ...).
+This file is the audit trail that shows exactly which inputs changed and by how much.
+
+Impact on the real 34-employee sample (basic salary as the proxy for gross):
+  PhilHealth 34/34 affected, PHP 18,676.80 over-deducted per month in CP2
+  Pag-IBIG   0/34 (all salaries are above PHP 5,000, where the cap flattens the difference)
+  Withheld   18/34, PHP 0.20 each  (PHP 3.60 total)
+  SSS        4/34,  PHP 22.50 each UNDER-deducted by CP2 (PHP 90.00 total)
+
+CP2 vs OOP payroll parity
+gross                  SSS    PhilHealth      Pag-IBIG    Withholding
+900.00          135.000000    150.000000      0.000000       0.000000  MISMATCH
+1000.00         135.000000    150.000000     10.000000       0.000000  MISMATCH
+1500.00         135.000000    150.000000     15.000000       0.000000  MISMATCH
+1500.01         135.000000    150.000000     30.000200       0.000000  MISMATCH
+2400.00         135.000000    150.000000     48.000000       0.000000  MISMATCH
+3250.00         157.500000    150.000000     65.000000       0.000000  MISMATCH
+3250.01         157.500000    150.000000     65.000200       0.000000  MISMATCH
+4000.00         180.000000    150.000000     80.000000       0.000000  MISMATCH
+8000.00         360.000000    150.000000    100.000000       0.000000  MISMATCH
+10000.00        450.000000    150.000000    100.000000       0.000000  MISMATCH
+10000.01        450.000000    150.000150    100.000000       0.000000  MISMATCH
+12345.67        562.500000    185.185050    100.000000       0.000000  MISMATCH
+15000.00        675.000000    225.000000    100.000000       0.000000  MISMATCH
+20832.00        945.000000    312.480000    100.000000       0.000000  MISMATCH
+20832.01        945.000000    312.480150    100.000000       0.000000  MISMATCH
+25000.00       1125.000000    375.000000    100.000000     513.400000  MISMATCH
+33333.00       1125.000000    499.995000    100.000000    2155.001000  MISMATCH
+45000.00       1125.000000    675.000000    100.000000    4941.750000  MISMATCH
+59999.99       1125.000000    899.999850    100.000000    8635.497538  MISMATCH
+60000.00       1125.000000    900.000000    100.000000    8635.500000  MISMATCH
+66667.00       1125.000000    900.000000    100.000000   10302.250000  MISMATCH
+100000.00      1125.000000    900.000000    100.000000   20195.400000  MISMATCH
+166667.00      1125.000000    900.000000    100.000000   40195.500000  MISMATCH
+666667.67      1125.000000    900.000000    100.000000  200153.544400  MISMATCH
+1000000.00     1125.000000    900.000000    100.000000  316756.130000  MISMATCH
+0.00                     -             -             -              -  OOP REFUSED/ABSENT
+0.00            135.000000    150.000000      0.000000              -  OOP REFUSED: reason=negative taxable income -285.00
+
+inputs oop=25 cp2=26 compared=25 mismatches=25 refused=2

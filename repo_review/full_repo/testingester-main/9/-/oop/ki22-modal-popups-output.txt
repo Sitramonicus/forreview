@@ -1,0 +1,101 @@
+KI-22 verification: popup windows are modal dialogs now (2026-10-31)
+
+Environment: javac 21.0.12.1 · Windows · branch fix/ki22-modal-popups (based on main @ 4e40acc)
+
+WHAT WAS WRONG
+The five popup screens were javax.swing.JFrame instances created with
+setDefaultCloseOperation(EXIT_ON_CLOSE), none of them modal, and every parent built a
+brand-new instance on each button click. A close request aimed at a child window therefore
+called System.exit() on the JVM that also hosts the main window, and nothing stopped the user
+from opening the same screen eight times.
+
+BEFORE (main @ 4e40acc, probe: CloseBugProbe.java)
+    LeaveForm: class=LeaveForm extends=JFrame resizable=false modal=false
+    LeaveForm.getDefaultCloseOperation() = 3  (3 = EXIT_ON_CLOSE, 1 = HIDE_ON_CLOSE, 2 = DISPOSE_ON_CLOSE)
+    Dashboard.getDefaultCloseOperation() = 3
+    frames created from 3 button clicks: 4 (same object? false)
+    now dispatching WINDOW_CLOSING on ONE child LeaveForm (the main window stays open)...
+    >>> JVM EXIT: something called System.exit(), so the whole app is gone
+    exit code: 0
+
+The probe never made a window visible: the exit came from Frame.processWindowEvent, not from a
+human clicking anything. That is why the defect reproduces identically in Eclipse, in VS Code
+and from the terminal - the IDE is not part of the cause. (In a VS Code debug session the JVM
+dying just looks like "debug session ended"; Eclipse prints the same thing as "terminated".)
+
+WHAT CHANGED
+  LeaveForm.java          extends javax.swing.JDialog, ctor (Frame owner, String employeeNumber), DISPOSE_ON_CLOSE
+  ChangeCredentials.java  extends javax.swing.JDialog, ctor (Frame owner, String employeeNumber), DISPOSE_ON_CLOSE
+  Form.java               extends javax.swing.JDialog, ctor (Frame owner), DISPOSE_ON_CLOSE
+  LeaveManagement.java    extends javax.swing.JDialog, ctor (Frame owner), DISPOSE_ON_CLOSE, navigation swap
+  LeaveApproval.java      extends javax.swing.JDialog, ctor (Frame owner), DISPOSE_ON_CLOSE, navigation swap
+  Dashboard.java          LeaveForm and ChangeCredentials are built with the dashboard as owner
+  MainMenu.java           LeaveManagement and Form are built with the main menu as owner
+  each <screen>.form      JFrameFormInfo -> JDialogFormInfo, defaultCloseOperation 3 -> 2
+
+Modal dialogs also settle the duplicate-window complaint without a singleton field: while one
+is open the parent window is blocked, so the button that opens it cannot be clicked again.
+Leave Management and Pending Leaves replace each other, so they now hand the owner up one level
+and dispose themselves BEFORE opening the modal child - a modal child blocks inside
+setVisible(), which would otherwise leave the old screen open behind it.
+
+AFTER (same probe family: ModalProbe.java)
+    screen             extends  modal   close  verdict
+    LeaveForm          JDialog  true    2      PASS
+    ChangeCredentials  JDialog  true    2      PASS
+    Form               JDialog  true    2      PASS
+    LeaveManagement    JDialog  true    2      PASS
+    LeaveApproval      JDialog  true    2      PASS
+    dispatching WINDOW_CLOSING on all five popups (taskbar close / system menu)...
+    <<< STILL ALIVE after closing every popup: the app did not exit
+    Summary: all popups modal + DISPOSE_ON_CLOSE
+    exit code: 0
+
+EXIT_ON_CLOSE is now set only on the top-level windows that are supposed to end the app:
+LoadingScreen, LandingPage, Login, LoginHR, Dashboard, MainMenu.
+
+REGRESSION
+    javac -encoding UTF-8 -Xlint:all -d <build> $(find src oop/src -name '*.java') test/*.java   -> 0 errors
+    ConsoleBackendTest        91 passed, 0 failed
+    LeaveServiceTest          44 passed, 0 failed
+    AttendanceRepositoryTest  33 passed, 0 failed
+
+HOW TO RE-RUN
+    export JAVA_HOME="/c/Users/Paul/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.12.1+1"
+    export PATH="$JAVA_HOME/bin:$PATH"
+    B=".../motorph-build"; P=".../motorph-probe"
+    javac -encoding UTF-8 -cp "$B" -d "$P" "$P/ModalProbe.java"
+    java -cp "$B;$P;src" ModalProbe        # cwd = repo root; ;src is needed for the icon resources
+(The probes live in the session scratch dir, not in the repo: they construct the real screens
+and dispatch close events without showing a window, so they are diagnostics, not product code.)
+
+NOT YET VERIFIED
+GUI click-through. Still to do by hand: open each popup, confirm it takes focus, click the
+opening button repeatedly (should stay one window, the parent blocked), and close one via the
+taskbar to confirm the app survives. Until that run happens, MS2 Known Issues r22 stays
+Unresolved.
+
+MOUSE-FREE CLOSE TEST ON THE RUNNING APP (the third symptom, after the fix)
+Date: 2026-10-31 22:47 Asia/Taipei
+App: launched from Eclipse (javaw.exe pid 7272), Dashboard open as employee 1
+Why: the Cancel button calls dispose() directly and therefore proves nothing - the defect
+     lived in the window-manager close path (WM_CLOSE -> WINDOW_CLOSING -> default close
+     operation). Alt+F4 does nothing on an undecorated dialog, so the close request was sent
+     straight to the popup's HWND, which is exactly what the taskbar's "Close window" sends.
+
+    WATCHING pid=7272 for class=SunAwtDialog (up to 240s)
+    POPUP FOUND hwnd=1246678
+    POSTED WM_CLOSE ok=True
+    APP_ALIVE=YES
+    POPUP_GONE=True
+
+Reading: the popup accepted the close request and disappeared (POPUP_GONE), and the JVM that
+hosts the main window kept running (APP_ALIVE=YES). Before the fix the same message reached
+EXIT_ON_CLOSE and took the whole application down.
+
+HUMAN CONFIRMATION OF THE FIRST TWO SYMPTOMS
+The tester who filed the issue (Ethan, Eclipse, 2026-10-31) after pulling main @ a29fd2b:
+    "The window focus is now stolen by the popups, so hindi na possible yung duplicates."
+
+So all three reported symptoms are now covered: focus (tester), duplicates (tester), and
+closing a popup no longer ending the app (WM_CLOSE test above).

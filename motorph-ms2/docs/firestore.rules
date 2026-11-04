@@ -1,0 +1,133 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function validDemoEmployee(employeeId) {
+      let d = request.resource.data;
+      return d.keys().hasAll(['id', 'name', 'department', 'role', 'location', 'status'])
+        && d.keys().hasOnly(['id', 'name', 'department', 'role', 'location', 'status'])
+        && d.id is string && d.id == employeeId && d.id.size() <= 40
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 100
+        && d.department is string && d.department.size() > 0 && d.department.size() <= 100
+        && d.role is string && d.role.size() > 0 && d.role.size() <= 100
+        && d.location is string && d.location.size() > 0 && d.location.size() <= 100
+        && d.status in ['Active', 'On leave'];
+    }
+
+    function validDemoAttendance() {
+      let d = request.resource.data;
+      return d.keys().hasAll(['attendanceId', 'scheduleId', 'date', 'timeIn', 'timeOut', 'dayType'])
+        && d.keys().hasOnly(['attendanceId', 'scheduleId', 'date', 'timeIn', 'timeOut', 'dayType'])
+        && d.attendanceId is int && d.attendanceId > 0
+        && d.scheduleId is int && d.scheduleId > 0
+        && d.date is string && d.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && d.timeIn is string && d.timeIn.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
+        && d.timeOut is string && d.timeOut.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$')
+        && d.dayType == 'DEMO';
+    }
+
+    function ownsDemoEmployee(uid, employeeId, employeeName) {
+      let employeePath = /databases/$(database)/documents/users/$(uid)/demoEmployees/$(employeeId);
+      return employeeId is string
+        && (employeeId.matches('^DEMO-[0-9]{3}$') || employeeId.matches('^DEMO-[A-F0-9]{12}$'))
+        && employeeName is string
+        && exists(employeePath)
+        && get(employeePath).data.name == employeeName;
+    }
+
+    function validDemoLeaveRequest(uid, requestId) {
+      let d = request.resource.data;
+      return d.keys().hasAll(['id', 'employeeId', 'employeeName', 'leaveType', 'startDate', 'endDate', 'note', 'status', 'submittedAt'])
+        && d.keys().hasOnly(['id', 'employeeId', 'employeeName', 'leaveType', 'startDate', 'endDate', 'note', 'status', 'submittedAt'])
+        && d.id is string && d.id == requestId && d.id.matches('^LV-[A-F0-9]{12}$')
+        && ownsDemoEmployee(uid, d.employeeId, d.employeeName)
+        && d.leaveType in ['Vacation', 'Medical', 'Personal', 'Unpaid']
+        && d.startDate is string && d.startDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && d.endDate is string && d.endDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && d.startDate <= d.endDate
+        && d.note is string && d.note.size() <= 240
+        && d.status == 'Pending review'
+        && d.submittedAt is timestamp;
+    }
+
+    function validDemoLeaveCancellation(uid, requestId) {
+      let previous = resource.data;
+      let next = request.resource.data;
+      return signedInAs(uid)
+        && previous.id == requestId
+        && previous.status == 'Pending review'
+        && next.id == previous.id
+        && next.diff(previous).affectedKeys().hasAll(['status', 'cancelledAt'])
+        && next.diff(previous).affectedKeys().hasOnly(['status', 'cancelledAt'])
+        && next.status == 'Cancelled'
+        && next.cancelledAt is timestamp;
+    }
+
+    function validTicketQueue(ticketType, queue) {
+      return (ticketType in ['Overtime request', 'Leave request', 'Timesheet correction'] && queue == 'Team Lead')
+        || (ticketType == 'Payroll inquiry' && queue == 'Payroll Staff')
+        || (ticketType == 'HR inquiry' && queue == 'HR')
+        || (ticketType == 'Technical support' && queue == 'IT Admin');
+    }
+
+    function validDemoTicket(uid, ticketId) {
+      let d = request.resource.data;
+      return d.keys().hasAll(['id', 'employeeId', 'employeeName', 'ticketType', 'queue', 'summary', 'status', 'submittedAt'])
+        && d.keys().hasOnly(['id', 'employeeId', 'employeeName', 'ticketType', 'queue', 'summary', 'status', 'submittedAt'])
+        && d.id is string && d.id == ticketId && d.id.matches('^TK-[A-F0-9]{12}$')
+        && ownsDemoEmployee(uid, d.employeeId, d.employeeName)
+        && validTicketQueue(d.ticketType, d.queue)
+        && d.summary is string && d.summary.size() > 0 && d.summary.size() <= 240
+        && d.status == 'Open'
+        && d.submittedAt is timestamp;
+    }
+
+    function validDemoTicketCancellation(uid, ticketId) {
+      let previous = resource.data;
+      let next = request.resource.data;
+      return signedInAs(uid)
+        && previous.id == ticketId
+        && previous.status == 'Open'
+        && next.id == previous.id
+        && next.diff(previous).affectedKeys().hasAll(['status', 'cancelledAt'])
+        && next.diff(previous).affectedKeys().hasOnly(['status', 'cancelledAt'])
+        && next.status == 'Cancelled'
+        && next.cancelledAt is timestamp;
+    }
+
+    match /users/{uid}/demoEmployees/{employeeId} {
+      allow read: if signedInAs(uid);
+      allow create, update: if signedInAs(uid) && validDemoEmployee(employeeId);
+      allow delete: if signedInAs(uid);
+    }
+
+    match /users/{uid}/demoAttendance/{attendanceId} {
+      allow read: if signedInAs(uid);
+      allow create, update: if signedInAs(uid) && validDemoAttendance();
+      allow delete: if signedInAs(uid);
+    }
+
+    // Owner-only demo requests. There are deliberately no reviewer, approval, or delete permissions.
+    match /users/{uid}/demoLeaveRequests/{requestId} {
+      allow read: if signedInAs(uid);
+      allow create: if signedInAs(uid) && validDemoLeaveRequest(uid, requestId);
+      allow update: if validDemoLeaveCancellation(uid, requestId);
+      allow delete: if false;
+    }
+
+    match /users/{uid}/demoTickets/{ticketId} {
+      allow read: if signedInAs(uid);
+      allow create: if signedInAs(uid) && validDemoTicket(uid, ticketId);
+      allow update: if validDemoTicketCancellation(uid, ticketId);
+      allow delete: if false;
+    }
+
+    // Default-deny: no other Firestore document paths are available to clients.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

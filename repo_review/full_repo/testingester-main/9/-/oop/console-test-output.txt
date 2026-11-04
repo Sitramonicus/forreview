@@ -1,0 +1,176 @@
+=== MotorPH OOP backend console test (Waves 1-3) ===
+java.version = 21.0.12.1
+
+--- A. Inheritance + polymorphism (Employee reference, two real types)
+  [RegularEmployee #10001] Pore, Paul - Software Engineer (Regular)
+    getRiceSubsidy()          = 1,500.00
+    getPhoneAllowance()       = 2,000.00
+    getAnnualLeaveCredits()   = 12
+    isEligibleForPromotion()  = true
+    getFullName()             = Pore, Paul  (inherited from Person)
+    getAge()                  = 36  (inherited from Person)
+  [ProbationaryEmployee #10034] Racimo, Ana - Junior Developer (Probationary)
+    getRiceSubsidy()          = 1,000.00
+    getPhoneAllowance()       = 500.00
+    getAnnualLeaveCredits()   = 6
+    isEligibleForPromotion()  = false
+    getFullName()             = Racimo, Ana  (inherited from Person)
+    getAge()                  = 28  (inherited from Person)
+  PASS  RegularEmployee.getRiceSubsidy() == 1500 via Employee reference
+  PASS  RegularEmployee.getPhoneAllowance() == 2000
+  PASS  RegularEmployee.getAnnualLeaveCredits() == 12
+  PASS  RegularEmployee(3 yrs).isEligibleForPromotion() == true
+  PASS  ProbationaryEmployee.getRiceSubsidy() == 1000
+  PASS  ProbationaryEmployee.getPhoneAllowance() == 500
+  PASS  ProbationaryEmployee.getAnnualLeaveCredits() == 6
+  PASS  ProbationaryEmployee.isEligibleForPromotion() == false
+  PASS  Same call, different result - no if/else on employee type
+--- B. Encapsulation / validation (the CP2 holes)
+  PASS  setBasicSalary(-5000) rejected (CP2 accepted it - Employee.java:186)  -> IllegalArgumentException: basicSalary must be greater than zero: -5000.0
+  PASS  setBasicSalary(0) rejected  -> IllegalArgumentException: basicSalary must be greater than zero: 0.0
+  PASS  setHourlyRate(0) rejected  -> IllegalArgumentException: hourlyRate must be greater than zero: 0.0
+  PASS  setHourlyRate(-120) rejected  -> IllegalArgumentException: hourlyRate must be greater than zero: -120.0
+  PASS  setFirstName("  ") rejected  -> IllegalArgumentException: firstName cannot be null or empty
+  PASS  setLastName(null) rejected  -> IllegalArgumentException: lastName cannot be null or empty
+  PASS  setPhoneNumber("abc") rejected (format check)  -> IllegalArgumentException: phoneNumber has an invalid format: abc
+  PASS  setId(0) rejected  -> IllegalArgumentException: employee id must be positive: 0
+  PASS  setBirthday(future date) rejected  -> IllegalArgumentException: birthday cannot be in the future: 2099-01-01
+  PASS  setGrossSemiMonthlyRate(-1) rejected  -> IllegalArgumentException: grossSemiMonthlyRate must be greater than zero: -1.0
+  PASS  setClothingAllowance(-1) rejected  -> IllegalArgumentException: clothingAllowance cannot be negative: -1.0
+  PASS  no setter exists for SSS/PhilHealth/TIN/Pag-IBIG numbers
+  PASS  state intact, valid setBasicSalary(36000) accepted
+--- C. Government contribution calculators through the abstract type
+  Calculators registered through the abstract type:
+    - SSS Contribution (SSS, active)
+    - PhilHealth Contribution (PH, active)
+    - Pag-IBIG Contribution (PAGIBIG, active)
+    - Withholding Tax (TAX, active)   (applied after the three above)
+
+  PARITY|<gross>|<sss>|<philhealth>|<pagibig>|<tax on (gross - sss-ph-ibig)>
+  PARITY_SKIPPED|0.00|135.000000|150.000000|0.000000|reason=negative taxable income -285.00
+  PARITY|900.00|135.000000|150.000000|0.000000|0.000000
+  PARITY|1000.00|135.000000|150.000000|10.000000|0.000000
+  PARITY|1500.00|135.000000|150.000000|15.000000|0.000000
+  PARITY|1500.01|135.000000|150.000000|30.000200|0.000000
+  PARITY|2400.00|135.000000|150.000000|48.000000|0.000000
+  PARITY|3250.00|157.500000|150.000000|65.000000|0.000000
+  PARITY|3250.01|157.500000|150.000000|65.000200|0.000000
+  PARITY|4000.00|180.000000|150.000000|80.000000|0.000000
+  PARITY|8000.00|360.000000|150.000000|100.000000|0.000000
+  PARITY|10000.00|450.000000|150.000000|100.000000|0.000000
+  PARITY|10000.01|450.000000|150.000150|100.000000|0.000000
+  PARITY|12345.67|562.500000|185.185050|100.000000|0.000000
+  PARITY|15000.00|675.000000|225.000000|100.000000|0.000000
+  PARITY|20832.00|945.000000|312.480000|100.000000|0.000000
+  PARITY|20832.01|945.000000|312.480150|100.000000|0.000000
+  PARITY|25000.00|1125.000000|375.000000|100.000000|513.400000
+  PARITY|33333.00|1125.000000|499.995000|100.000000|2155.001000
+  PARITY|45000.00|1125.000000|675.000000|100.000000|4941.750000
+  PARITY|59999.99|1125.000000|899.999850|100.000000|8635.497538
+  PARITY|60000.00|1125.000000|900.000000|100.000000|8635.500000
+  PARITY|66667.00|1125.000000|900.000000|100.000000|10302.250000
+  PARITY|100000.00|1125.000000|900.000000|100.000000|20195.400000
+  PARITY|166667.00|1125.000000|900.000000|100.000000|40195.500000
+  PARITY|666667.67|1125.000000|900.000000|100.000000|200153.544400
+  PARITY|1000000.00|1125.000000|900.000000|100.000000|316756.130000
+  PASS  SSSCalculator caps at 1125.00
+  PASS  SSSCalculator bracket count == 45
+  PASS  PhilHealthCalculator employee-share floor 150.00
+  PASS  PhilHealthCalculator employee-share cap 900.00
+  PASS  PagIbigCalculator cap 100.00
+  PASS  PagIbigCalculator 0 below 1000 salary (matrix silent -> UNVERIFIED)
+  PASS  PagIbigCalculator charges the employee share only (2,500 -> 50.00)
+  PASS  WithholdingTaxCalculator 0 at/below 20832
+  PASS  WithholdingTaxCalculator never negative in the 20,832-20,833 gap
+  PASS  calculate(-1) rejected by every calculator  -> IllegalArgumentException: SSS Contribution: invalid salary -1.0
+  PASS  negative taxable income refused instead of paying a negative net  -> IllegalArgumentException: Withholding Tax: invalid salary -435.0
+--- D. AttendanceLog integrity
+  daily hours 2024-06-03 = 9.0
+  daily hours 2024-06-04 = 8.5
+  daily hours 2024-06-05 = 0.0 (no clock-out yet)
+  worked days 2024-06-01..2024-06-30 = 2
+  PASS  getDailyHours(2024-06-03) == 9.0
+  PASS  getDailyHours(2024-06-04) == 8.5
+  PASS  incomplete day counts as 0 hours
+  PASS  getWorkedDays(June) == 2
+  PASS  duplicate clock-in rejected  -> IllegalArgumentException: duplicate clock-in for employee 10001 on 2024-06-03
+  PASS  clock-out before clock-in rejected  -> IllegalArgumentException: clock-out must be after clock-in: 09:00:00 -> 08:00:00
+  PASS  clock-out without clock-in rejected  -> IllegalArgumentException: cannot clock out without a clock-in: employee 10001 on 2024-06-06
+  PASS  future-dated clock-in rejected  -> IllegalArgumentException: cannot clock in on a future date: 2099-01-01
+  PASS  unknown employee rejected  -> IllegalArgumentException: employeeId must be positive: 0
+--- E. PayrollRecord immutability + internal consistency
+  PayrollRecord{employee=10001, period=2026-10-15..2026-10-30, gross=35000.00, sss=1125.00, philhealth=750.00, pagibig=100.00, tax=2025.00, net=31000.00}
+  PASS  PayrollRecord keeps netIncome
+  PASS  getTotalDeductions() == 4000
+  PASS  PayrollRecord has no setters (immutable)
+  PASS  inconsistent netIncome rejected at construction  -> IllegalArgumentException: netIncome 999999.0 does not match grossIncome - deductions (31000.0)
+  PASS  negative deduction rejected at construction  -> IllegalArgumentException: sssContribution cannot be negative: -1125.0
+  PASS  periodEnd before periodStart rejected  -> IllegalArgumentException: periodEnd cannot be before periodStart
+--- F. Attendance -> gross -> deductions -> net (end-to-end backend run)
+  SSS Contribution = 135.00
+  PhilHealth Contribution = 150.00
+  Pag-IBIG Contribution = 38.40
+  worked days      = 20
+  hourly rate      = 12.00
+  gross pay        = 1,920.00
+  total deductions = 323.40
+  withholding tax  = 0.00
+  net pay          = 1,596.60
+  PASS  worked days == 20
+  PASS  gross == 20 * 12 * 8
+  PASS  net pay == gross - all deductions
+  PASS  net pay is positive and lower than gross
+--- G. Known issue surfaced by this run: negative net pay
+  At gross pay 0.00 the statutory minimums are still charged:
+    SSS = 135.00 + PhilHealth = 150.00 + Pag-IBIG = 0.00  ->  285.00 of deductions
+  CP2 behaviour : tax on -285.00 = 0.00, so net pay = -285.00 (a negative payslip)
+  OOP behaviour : the calculators refuse a negative taxable income instead
+  -> logged as an open issue; the fix is a non-positive gross rejected by
+     PayrollCalculator.calculatePayroll before any deduction is applied.
+--- H. Official matrix conformance (2026-10-27)
+  PASS  SSS below the table (3,249.99)  = 135.00
+  PASS  SSS first bracket is LOWER-bound inclusive (3,250)  = 157.50
+  PASS  SSS 5,000  = 225.00
+  PASS  SSS 10,000  = 450.00
+  PASS  SSS 20,000  = 900.00
+  PASS  SSS 24,750 (over the table)  = 1,125.00
+  PASS  PhilHealth 9,000 (premium floor 300 -> employee 150)  = 150.00
+  PASS  PhilHealth 15,000  = 225.00
+  PASS  PhilHealth 25,000 matches SAMPLE B10 = 375  = 375.00
+  PASS  PhilHealth 60,000 (ceiling 1,800 -> employee 900)  = 900.00
+  PASS  Pag-IBIG 1,000 (1% employee)  = 10.00
+  PASS  Pag-IBIG 1,500 (1% employee)  = 15.00
+  PASS  Pag-IBIG 2,500 (2% employee, no employer share)  = 50.00
+  PASS  Pag-IBIG 5,000 (cap 100 reached by the employee share)  = 100.00
+  PASS  WHT 20,832 (exempt ceiling)  = 0.00
+  PASS  WHT 23,400 matches SAMPLE B20 = 513.40  = 513.40
+  PASS  WHT 25,000 (20,833 excess base)  = 833.40
+  PASS  WHT 33,333 (bracket 2 floor)  = 2,500.00
+  PASS  WHT 40,000  = 4,166.75
+  PASS  WHT 90,000  = 17,832.90
+--- I. PayrollCalculator orchestrator - attendance in, immutable PayrollRecord out
+  PayrollCalculator{statutory=[SSS Contribution (SSS, active), PhilHealth Contribution (PH, active), Pag-IBIG Contribution (PAGIBIG, active)], tax=Withholding Tax (TAX, active)}
+  PayrollRecord{employee=10001, period=2024-06-01..2024-06-30, gross=32857.60, sss=1125.00, philhealth=492.86, pagibig=100.00, tax=2061.35, net=29078.39}
+    hoursWorked = 160.00  totalDeductions = 3,779.21
+  PASS  gross = 20 days * 205.36 * 8 (single implementation now)  = 32,857.60
+  PASS  hoursWorked = 20 days * 8  = 160.00
+  PASS  phase 1 SSS at the official cap  = 1,125.00
+  PASS  phase 1 PhilHealth employee share (985.728 premium / 2)  = 492.86
+  PASS  phase 1 Pag-IBIG employee share at the official cap  = 100.00
+  PASS  phase 2 withholding tax on the taxable income (not on gross)  = 2,061.35
+  PASS  net = gross - (sss + philhealth + pagibig + tax)  = 29,078.39
+  PASS  getTotalDeductions() = the four amounts  = 3,779.21
+  PASS  the returned PayrollRecord has no setters (immutable result)
+  PASS  two employee types through ONE Employee parameter give different benefits
+  PASS  each record is priced with its own hourly rate (205.36 vs 129.08)
+  PASS  injected calculator list changes only the amounts it contains (SSS only)
+  PASS  zero attendance is rejected (no -285.00 payslip)  -> IllegalArgumentException: cannot compute payroll for employee 10001: gross pay is 0.0 because 0 day(s) of attendance were found in 2024-06-01..2024-06-30
+  PASS  periodStart after periodEnd rejected  -> IllegalArgumentException: periodEnd cannot be before periodStart: 2024-06-30 -> 2024-06-01
+  PASS  malformed period date rejected  -> IllegalArgumentException: periodStart must be yyyy-MM-dd: 06/01/2024
+  PASS  null attendance rejected  -> IllegalArgumentException: attendance is required
+  PASS  empty calculator list rejected  -> IllegalArgumentException: at least one statutory calculator is required
+  PASS  overload without dates prices today's 8 hours  = 1,642.88
+  PASS  the default period ends today
+
+=== SUMMARY: 91 passed, 0 failed ===
+RESULT: PASS

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="06/20/2009 22:40:42" ReportInfo.Modified="07/13/2023 12:42:28" ReportInfo.CreatorVersion="2023.2.0.0">
+  <Dictionary>
+    <TableDataSource Name="Regulations" ReferenceName="Data.Regulations" DataType="System.Int32" Enabled="true">
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Status" DataType="System.String"/>
+      <Column Name="Created" DataType="System.DateTime"/>
+      <Column Name="Updated" DataType="System.DateTime"/>
+      <Column Name="Name" DataType="System.String"/>
+      <Column Name="Version" DataType="System.Int32"/>
+      <Column Name="Description" DataType="System.String"/>
+      <Column Name="Attributes" DataType="System.String"/>
+    </TableDataSource>
+    <TableDataSource Name="Collectors" ReferenceName="Data.Collectors" DataType="System.Int32" Enabled="true">
+      <Column Name="RegulationId" DataType="System.Int32"/>
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Status" DataType="System.String"/>
+      <Column Name="Created" DataType="System.DateTime"/>
+      <Column Name="Updated" DataType="System.DateTime"/>
+      <Column Name="Name" DataType="System.String"/>
+      <Column Name="OverrideType" DataType="System.Int32"/>
+      <Column Name="ValueType" DataType="System.Int32"/>
+      <Column Name="Attributes" DataType="System.String"/>
+    </TableDataSource>
+    <TableDataSource Name="WageTypes" ReferenceName="Data.WageTypes" DataType="System.Int32" Enabled="true">
+      <Column Name="RegulationId" DataType="System.Int32"/>
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Status" DataType="System.String"/>
+      <Column Name="Created" DataType="System.DateTime"/>
+      <Column Name="Updated" DataType="System.DateTime"/>
+      <Column Name="Name" DataType="System.String"/>
+      <Column Name="WageTypeNumber" DataType="System.Decimal"/>
+      <Column Name="OverrideType" DataType="System.Int32"/>
+      <Column Name="ValueType" DataType="System.Int32"/>
+      <Column Name="Attributes" DataType="System.String"/>
+    </TableDataSource>
+    <Relation Name="RegulationCollectors" ParentDataSource="Regulations" ChildDataSource="Collectors" ParentColumns="Id" ChildColumns="RegulationId" Enabled="true"/>
+    <Relation Name="RegulationWageTypes" ParentDataSource="Regulations" ChildDataSource="WageTypes" ParentColumns="Id" ChildColumns="RegulationId" Enabled="true"/>
+  </Dictionary>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Layout — "Clean Lines" — A4 Portrait, content width 718.4 units
+
+       Design philosophy:
+         · Regulation card: teal top-stripe accent + light card bg
+         · Gold underline on section headers (Collectors / Wage Types)
+         · No vertical cell borders in data rows — horizontal separator only
+         · Muted blue for WageTypeNumber (technical identifier)
+
+       Column layout — WageTypes:
+         No.       : Left=0,  Width=90   → right 90
+         Wage Type : Left=90, Width=628.4 → right 718.4
+
+       Column layout — Collectors (single column):
+         Name      : Left=0,  Width=718.4
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <ReportPage Name="Page1" PaperWidth="210" PaperHeight="297" RawPaperSize="9" Watermark.Font="Arial, 60pt" LastPageSource="15" FirstPageSource="15">
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Report Title Band — dark navy, logo left · report title right
+         ──────────────────────────────────────────────────────────────────── -->
+    <ReportTitleBand Name="ReportTitle1" Width="718.4" Height="60" Fill.Color="13, 34, 64">
+      <PictureObject Name="PicLogoMark" Left="18.9" Top="16" Width="28" Height="28" ImageFormat="Png" Image="iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHhe7dvBTQNBEAVRx0EopEAC5EAKnIiGUMgKtJbW0pZX/O3p20yN9G72l7oOvvl2u/BeXj9+Z8Q7y4+Ds+Ld8XFgFexw+vil1bDH4fHDq2KX++OHVsc+BgLjXGCgwDgXGCgwUGCgwEBBO9DP91sL9+jr872Fe1WtQDx2FHd3PHYUdyuGA/HILu7zyC7uX2WgwECBgQIDBQYKDBQYKDBQYKDAQIGBAgMFBgoMFBgoGA604ZGjuLvjkaO4W9EKtOGxVdwjHlvFvap2oNkZKDBQYKCgHYg/ilXcI/6oV3GvqhWIx47i7o7HjuJuxXAgHtnFfR7Zxf2rDBQYKDBQYKDAQIGBAgMFBgoMFBgoMFBgoMBAgYECAwXDgTY8chR3dzxyFHcrWoE2PLaKe8Rjq7hX1Q40OwMFBgoMFBgo8J/P//B/88EjkJGeHeIY6Bn73B8/tCp2OTx+eDXscfr4pVWwQ3wcmBXvLj8OzoJ3nr0/Sf4icliT3SsAAAAASUVORK5CYII="/>
+      <TextObject Name="TextLogoName" Left="54" Top="16" Width="180" Height="28" Text="Acme Corp" VertAlign="Center" Font="Arial, 11pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="TextReportTitle" Left="234" Top="16" Width="465.4" Height="28" Text="Regulation" HorzAlign="Right" VertAlign="Center" Font="Arial, 13pt, style=Bold" TextFill.Color="White"/>
+    </ReportTitleBand>
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Page Header Band — breathing space only
+         ──────────────────────────────────────────────────────────────────── -->
+    <PageHeaderBand Name="PageHeader1" Top="63.15" Width="718.4" Height="37.8"/>
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Data Band — one Regulation (filtered by parameter)
+         Contains two nested child DataBands: Collectors + WageTypes
+         ──────────────────────────────────────────────────────────────────── -->
+    <DataBand Name="Data1" Top="103.28" Width="718.4" Height="74" CanGrow="true" DataSource="Regulations">
+
+      <!-- Teal top accent stripe (h=4) -->
+      <TextObject Name="TextGroupAccent" Left="0" Top="0" Width="718.4" Height="4" Fill.Color="45, 130, 140" Border.Lines="None" Text=""/>
+
+      <!-- Regulation card background (h=44) -->
+      <TextObject Name="TextGroupCardBg" Left="0" Top="4" Width="718.4" Height="44" Fill.Color="245, 248, 252" Border.Lines="All" Border.Color="215, 225, 240" Border.Width="0.5" Text=""/>
+
+      <!-- Regulation name -->
+      <TextObject Name="TextName" Left="10" Top="12" Width="698.4" Height="28" Text="[Regulations.Name]" VertAlign="Center" Font="Arial, 11pt, style=Bold" TextFill.Color="13, 34, 64"/>
+
+      <!-- Description (below card, grows with content) -->
+      <TextObject Name="TextDescription" Left="0" Top="52" Width="718.4" Height="22" CanGrow="true" Text="[Regulations.Description]" Font="Arial, 9pt" TextFill.Color="40, 55, 75" Padding="8, 4, 0, 4"/>
+
+      <!-- ─────────────────────────────────────────────────────────────────
+           Child DataBand — Collectors (via RegulationCollectors relation)
+           DataHeaderBand renders the "Collectors" section header with gold
+           underline before the first collector row.
+           ──────────────────────────────────────────────────────────────── -->
+      <DataBand Name="Data2" Width="718.4" Height="20" DataSource="Collectors" Relation="RegulationCollectors">
+        <DataHeaderBand Name="DataHeader1" Width="718.4" Height="28">
+          <TextObject Name="TextHdrCollectors" Left="0" Top="6" Width="718.4" Height="22" Text="Collectors" VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+        </DataHeaderBand>
+        <TextObject Name="TextCollectorName" Left="0" Top="1" Width="718.4" Height="18" Text="[Collectors.Name]" VertAlign="Center" Font="Arial, 9pt" TextFill.Color="40, 55, 75" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+      </DataBand>
+
+      <!-- ─────────────────────────────────────────────────────────────────
+           Child DataBand — WageTypes (via RegulationWageTypes relation)
+           DataHeaderBand renders the "Wage Types" section with two-column
+           gold-underline headers before the first wage type row.
+           ──────────────────────────────────────────────────────────────── -->
+      <DataBand Name="Data3" Width="718.4" Height="20" DataSource="WageTypes" Relation="RegulationWageTypes">
+        <DataHeaderBand Name="DataHeader2" Width="718.4" Height="46">
+          <TextObject Name="TextHdrWTName" Left="0"     Top="24" Width="628.4" Height="22" Text="Wage Type" VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+          <TextObject Name="TextHdrWTNo"   Left="628.4" Top="24" Width="90"    Height="22" Text="No."       VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+        </DataHeaderBand>
+        <TextObject Name="TextWTName"   Left="0"     Top="1" Width="628.4" Height="18" Text="[WageTypes.Name]"           VertAlign="Center" Font="Arial, 9pt" TextFill.Color="40, 55, 75"   Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+        <TextObject Name="TextWTNumber" Left="628.4" Top="1" Width="90"    Height="18" Text="[WageTypes.WageTypeNumber]" Format="Custom" Format.Format="##.####" WordWrap="false" Trimming="EllipsisCharacter" HorzAlign="Right" VertAlign="Center" Font="Arial, 9pt" TextFill.Color="120, 148, 185" Padding="0, 0, 8, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+      </DataBand>
+
+    </DataBand>
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Page Footer Band — dark navy, date left · page right
+         ──────────────────────────────────────────────────────────────────── -->
+    <PageFooterBand Name="PageFooter1" Top="750" Width="718.4" Height="28.35" Fill.Color="13, 34, 64">
+      <TextObject Name="TextDate" Left="18.9"   Top="5" Width="200"   Height="18" Text="[Date]"                         VertAlign="Center" Font="Arial, 8pt" TextFill.Color="122, 153, 191"/>
+      <TextObject Name="TextPage" Left="540.74" Top="5" Width="158.76" Height="18" Text="Page [Page#] of [TotalPages#]" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt" TextFill.Color="122, 153, 191"/>
+    </PageFooterBand>
+
+  </ReportPage>
+</Report>

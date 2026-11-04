@@ -1,0 +1,1210 @@
+Database Design for
+the MotorPH
+Payroll System
+Prepared and Presented by:
+
+
+Torres, Jether Daniel A.
+Bachelor of Science in information Technology
+2nd Term - A.Y. 2024 - 2025
+                                      TABLE OF CONTENTS
+
+
+Section
+    1​   ​   Database Overview
+    2​   ​   Tables
+​        ​   ​        Employee
+​        ​   ​        Address
+                      Department
+                      Position
+                      Supervisor
+                      Schedule
+                      Rest Day
+                      Leave Balance
+                      Changelog
+                      Attendance
+                      Leave
+                      Leave Accrual History
+                      Government
+                      Government Deductibles
+                      Contributions
+                      Payroll
+                      Payslip
+                      Leave Monetisation
+                      Earnings
+                      Deductibles
+                      Other Transactions
+                      Government Tally
+                      Summary
+                      Regions
+                      Cities
+                      Holiday
+                      Months
+                      Rates
+                      Tax Table
+                      Leave Type
+    3​   ​   Relationships
+    4​   ​   References​
+
+
+
+                                                          2
+1.​   Database Overview
+      The MotorPH Payroll System database is built in a way to allow users to automate,
+      organise, and streamline MotorPH payroll processes systematically to provide the
+      prerogative of having minimal struggle in handling the payroll operations so that users
+      may allocate efforts unto more substantially demanding tasks. Through the
+      centralisation of most payroll-related data into a singular, secure, and scalable
+      repository, the system facilitates rapid data retrieval and processing, which becomes
+      indispensable for timely salary computations, tax management, and adherence to legal
+      contributions and compliance. Thus, for this instance, we deliver an expectation that
+      this database will not just bring about changes in improvement with data derivation
+      and the alleviation of unnecessary exertion but also an effective means through which
+      future growth of the organisation may be facilitated at incorporation through adaptive
+      mechanisms for data expansion.
+         1.​ Employee Management – Captures, updates, and maintains employee records,
+             including employment status, department affiliation, salary structure, and
+             personal information; this module serves as the primary reference for all
+             modules, with nearly every module being eventually tied back to this module’s
+             unique identifier.
+         2.​ Payroll Processing – Automates payroll computation, taking into account
+             attendance records, salary adjustments, overtime hours, tax deductions, and
+             government-mandated contributions (SSS, PhilHealth, Pag-IBIG, Withholding
+             Tax). The system ensures accuracy in salary computation as it does so
+             simultaneously       with   the   updating     data,   and furthermore, provides a
+             semi-monthly payslip for each employee and a monthly summary for each
+             payroll processing cycle.
+         3.​ Attendance and Leave Tracking – Integrates with an employee attendance
+             logging system to automatically fetch clock-in and clock-out data, whilst
+             recording and cataloguing leave applications, ensuring that payroll calculations
+             incorporate approved absences, accounts for your active work presence during
+             holidays and rest days, and determine applicable leave benefits.
+         4.​ Government Contributions and Compliance – Calculates and maintains records
+             of   statutory   government-related          organisational   contributions,   including
+             employer-employee deductions for government agencies, as mentioned prior.
+             The system automatically generates tax reports and government contribution
+             summaries to assist in compliance with regulatory bodies.
+         5.​ Security and Access Control - Among the features are that the system ensures
+             role-based access control (RBAC) for different user levels, restricting
+
+
+                                                                                                   3
+modifications to authorised personnel only, with System administrators, HR
+personnel, payroll staff, and employees having hierarchical/tiered access to
+sensitive information, reducing the risk of unauthorised modifications, and
+should such modifications exist, the medium account responsible for this act is
+easily traceable through audit logs. Furthermore, access to an employee’s
+personally identifiable information is barred, needing the approval of two
+authorised personnel, and only their corresponding contribution values are
+normally visible and accessible.
+
+
+
+
+                                                                             4
+2.​   Schema Diagram
+
+
+
+
+                       5
+ 3.​     Tables
+
+         3.1.​     Employee
+                 3.1.1.​   Columns
+   Column Name                        Data Type                              Description
+employeeID                 SmallInt                    Unique employee identifier
+
+addressID                  SmallInt                    Linked address identifier
+
+positionID                 TinyInt                     Identifier for the position
+
+supervisorID               SmallInt                    Employee’s immediate supervisor identifier
+
+firstName                  Varchar(255)                Employee’s given name
+
+lastName                   Varchar(255)                Employee’s surname
+
+contactNumber              Varchar(15)                 Employee’s phone number
+
+birthdate                  Date                        Employee’s date of birth
+
+employmentStatus           Enum                        Current employment status
+
+
+                 3.1.2.​   Constraints
+
+Primary Key                                       employeeID
+
+Foreign Key                                       addressID, positionID, supervisorID
+
+Unique Constraint                                 employeeID uniquely identifies each employee
+
+                                                  birthdate must not be NULL and must be less than the
+Check Constraint
+                                                  current date
+
+
+         3.2.​     Address
+                 3.2.1.​   Columns
+   Column Name                        Data Type                              Description
+addressID                  SmallInt                     Unique address record identifier
+
+cityID                     SmallInt                     Linked city identifier
+
+building                   Varchar(100)                 Building name or number
+
+street                     Varchar(150)                 Street name
+
+postalCode                 Varchar(5)                   Postal or zip code
+
+
+
+
+                                                                                                    6
+               3.2.2.​   Constraints
+
+Primary Key                                    addressID
+
+Foreign Key                                    cityID
+
+Unique Constraint                              addressID uniquely identifies each address record
+
+Check Constraint                               None
+
+
+       3.3.​     Department
+               3.3.1.​   Columns
+   Column Name                     Data Type                              Description
+departmentID             TinyInt                      Unique department identifier
+
+departmentName           Varchar(100)                 Name of the department
+
+
+               3.3.2.​   Constraints
+
+Primary Key                                    departmentID
+
+Foreign Key                                    None
+
+Unique Constraint                              departmentID uniquely identifies each department
+
+Check Constraint                               None
+
+
+       3.4.​     Position
+               3.4.1.​   Columns
+   Column Name                     Data Type                              Description
+positionID               TinyInt                      Unique position identifier
+
+departmentID             TinyInt                      Linked department identifier
+
+positionName             Varchar(100)                 Name of the position
+
+
+               3.4.2.​   Constraints
+
+Primary Key                                    positionID
+
+Foreign Key                                    departmentID
+
+Unique Constraint                              positionID uniquely identifies each position
+
+
+
+                                                                                              7
+Check Constraint                                None
+
+
+      3.5.​      Supervisor
+               3.5.1.​   Columns
+   Column Name                      Data Type                             Description
+supervisorID             SmallInt                      Unique supervisor record identifier
+
+employeeID               SmallInt                      Linked employee identifier
+
+
+               3.5.2.​   Constraints
+
+Primary Key                                     supervisorID
+
+Foreign Key                                     employeeID
+
+                                                supervisorID uniquely identifies each supervisor
+Unique Constraint
+                                                record
+
+Check Constraint                                None
+
+
+      3.6.​      Schedule
+               3.6.1.​   Columns
+   Column Name                      Data Type                             Description
+scheduleID               SmallInt                      Unique schedule identifier
+
+employeeID               SmallInt                      Linked employee identifier
+
+startTime                Time                          Scheduled work start time
+
+requiredDailyHours       TinyInt                       Number of work hours required per day
+
+restDay                  SET                           Assigned weekly rest day
+
+
+               3.6.2.​   Constraints
+
+Primary Key                                     scheduleID
+
+Foreign Key                                     employeeID
+
+                                                scheduleID uniquely represents each unique
+Unique Constraint
+                                                employeeID record
+
+Check Constraint                                startTime and restDay must be provided (NOT
+
+
+
+                                                                                                   8
+                                                   NULL)
+                                                   requiredDailyHours must be between 1 and 24
+
+
+         3.7.​     Rest Day
+                 3.7.1.​   Columns
+   Column Name                       Data Type                             Description
+restDayID                  SmallInt(5)             Unique identifier for the rest day record
+
+sunday                     Boolean                 Indicates whether Sunday is designated as a rest day
+
+monday                     Boolean                 Indicates whether Monday is designated as a rest day
+
+tuesday                    Boolean                 Indicates whether Tuesday is designated as a rest day
+
+wednesday                  Boolean                 Indicates whether Wednesday is designated as a rest day
+
+thursday                   Boolean                 Indicates whether Thursday is designated as a rest day
+
+friday                     Boolean                 Indicates whether Friday is designated as a rest day
+
+saturday                   Boolean                 Indicates whether Saturday is designated as a rest day
+
+
+                 3.7.2.​   Constraints
+
+Primary Key                                        restDayID
+
+Foreign Key                                        None
+
+                                                   restDayID uniquely identifies each record in the
+Unique Constraint
+                                                   RestDay table.
+
+Check Constraint                                   None
+
+
+         3.8.​     Leave Balance
+                 3.8.1.​   Columns
+   Column Name                         Data Type                              Description
+balanceID                  Integer                        Unique leave balance identifier
+
+leaveType                  Enum                           Linked leave type identifier
+
+scheduleID                 SmallInt                       Linked schedule identifier for the employee
+
+currentBalance             Decimal(4,2)                   Balance of leave type available for the employee
+
+lastUpdated                DateTime                       Update timestamp of the leave balance record
+
+
+
+
+                                                                                                          9
+               3.8.2.​   Constraints
+
+Primary Key                                     balanceID
+
+Foreign Key                                     leaveType, scheduleID
+
+                                                balanceID uniquely identifies each leaveType with
+                                                balance for each scheduleID​
+Unique Constraint
+                                                Combination of (leaveType, scheduleID) must be
+                                                unique
+
+Check Constraint                                currentBalance must be greater than or equal to 0
+
+
+       3.9.​     Changelog
+               3.9.1.​   Columns
+   Column Name                      Data Type                             Description
+changelogNo              Integer                     Unique changelog entry identifier
+
+employeeID               SmallInt                    Linked employee identifier
+
+createdAt                DateTime                    Record creation timestamp
+
+appenderID               SmallInt                    Identifier for the entry creator
+
+updatedAt                DateTime                    Timestamp of the last update
+
+editorID                 SmallInt                    Identifier for the entry editor
+
+fieldCode                Varchar(10)                 Shortened identifier for Table & Column
+
+dataType                 Enum                        Defines the type of old and new values
+
+oldValue                 Varchar(255)                Previous value before the change
+
+newValue                 Varchar(255)                Updated value after the change
+
+
+               3.9.2.​   Constraints
+
+Primary Key                                     changelogNo
+
+Foreign Key                                     employeeID
+
+                                                changelogNo uniquely identifies each logged
+Unique Constraint
+                                                changes to employee-tied info
+
+                                                createdAt and updatedAt must be NOT NULL and
+Check Constraint                                have have the CURRENT_TIMESTAMP assigned if
+                                                empty
+
+
+
+                                                                                               10
+       3.10.​    Attendance
+              3.10.1.​   Columns
+   Column Name                      Data Type                            Description
+attendanceID             Integer                     Unique attendance record identifier
+
+scheduleID               SmallInt                    Linked schedule identifier
+
+date                     Date                        Attendance date
+
+timeIn                   Time                        Time when the employee clocked in
+
+timeOut                  Time                        Time when the employee clocked out
+
+dayType                  Enum                        Type of day
+
+
+              3.10.2.​   Constraints
+
+Primary Key                                     attendanceID
+
+Foreign Key                                     scheduleID
+
+Unique Constraint                               Combination of (scheduleID, date) must be unique
+
+Check Constraint                                timeIn must be less than or equal to timeOut
+
+
+       3.11.​    Leave
+              3.11.1.​   Columns
+   Column Name                      Data Type                            Description
+leaveID                  Integer                     Unique leave record identifier
+
+balanceID                Integer                     Linked leave balance record identifier
+
+leaveType                Enum                        Category of leave
+
+dateStart                Date                        Leave start date
+
+hourDuration             SmallInt                    Duration of leave in hours
+
+leaveReason              Varchar(150)                Justification for the leave request
+
+leaveStatus              Enum                        Approval status
+
+requestLeaveCredit       Decimal(4,2)                Credits that will be consumed
+
+remainingLeaveCredit Decimal(4,2)                    Credits remaining after usage
+
+dateRequested            DateTime                    Timestamp when the leave request was submitted
+
+
+
+
+                                                                                               11
+                                                    Date when the request was approved (NULL
+dateApproved            DateTime                    allowed until approved)
+
+approverID              SmallInt                    Identifier for the supervisor who approved the leave
+
+
+             3.11.2.​   Constraints
+
+Primary Key                                    leaveID
+
+Foreign Key                                    balanceID, leaveType
+
+Unique Constraint                              leaveID uniquely identifies each leave request
+
+                                               dateStart must be provided (NOT NULL) and must
+Check Constraint
+                                               be on or after the current date
+
+
+     3.12.​     Leave Accrual History
+             3.12.1.​   Columns
+   Column Name                     Data Type                            Description
+accrualID               Integer                     Unique leave accrual record identifier
+
+balanceID               Integer                     Linked leave balance record identifier
+
+leaveType               Enum                        Category of leave for accrual purposes
+
+                                                    Date when the leave accrual is recorded and
+accrualDate             Date                        applied
+
+creditAccrued           Decimal(4,2)                Number of leave credits accrued until accrual date
+
+oldBalance              Decimal(4,2)                Leave balance prior to the accrual
+
+newBalance              Decimal(4,2)                Leave balance after the accrual
+
+
+             3.12.2.​   Constraints
+
+Primary Key                                    accrualID
+
+Foreign Key                                    balanceID
+
+                                               accrualID uniquely identifies each leave accrual
+Unique Constraint
+                                               instance
+
+                                               accrualDate must be provided (NOT NULL) and be
+Check Constraint                               on or before the current date
+
+
+
+
+                                                                                                  12
+                                              creditAccrued, oldBalance, and newBalance must
+                                              be greater than or equal to 0
+
+
+      3.13.​     Government
+            3.13.1.​   Columns
+  Column Name                     Data Type                              Description
+governmentID           SmallInt                      Unique government record identifier
+
+employeeID             SmallInt                      Linked employee identifier
+
+TIN                    Varchar(15)                   Taxpayer Identification Number
+
+sssNo                  Varchar(12)                   Social Security System number
+
+philHealthNo           Varchar(12)                   PhilHealth identifier
+
+pagIbigNo              Varchar(12)                   Pag-ibig fund identifier
+
+encryptedRef           Varbinary(Max)                Encrypted reference data
+
+
+            3.13.2.​   Constraints
+
+Primary Key                                   governmentID
+
+Foreign Key                                   employeeID
+
+                                              governmentID uniquely identifies each government
+Unique Constraint
+                                              record
+
+Check Constraint                              None
+
+
+      3.14.​     Government Deductibles
+            3.14.1.​   Columns
+  Column Name                     Data Type                              Description
+governmentID           SmallInt                      Linked government record identifier
+
+monthID                Enum                          Linked month identifier
+
+employerContribution Decimal(19,4)                   Employer contribution amount
+
+employeeContribution Decimal(19,4)                   Employee contribution amount
+
+withholdingTax         Decimal(19,4)                 Amount of tax withheld
+
+
+            3.14.2.​   Constraints
+
+
+
+                                                                                           13
+Primary Key                                       (governmentID, monthID)
+
+Foreign Key                                       governmentID, monthID
+
+                                                  (governmentID, monthID) uniquely identifies each
+Unique Constraint
+                                                  deductibles under each government record
+
+                                                  Contribution amounts must be greater than or equal
+Check Constraint
+                                                  to 0
+
+
+
+
+     3.15.​      Contributions
+              3.15.1.​   Columns
+    Column Name                       Data Type                             Description
+governmentID               SmallInt                    Linked government record identifier
+
+contributor                Enum                        Identifier for the contributor
+
+philHealthContributio
+n                          Decimal(19,4)               PhilHealth contribution amount
+
+pagIbigContribution        Decimal(19,4)               Pag-ibig contribution amount
+
+sssContribution            Decimal(19,4)               SSS contribution amount
+
+
+              3.15.2.​   Constraints
+
+Primary Key                                       (governmentID, contributor)
+
+Foreign Key                                       governmentID
+
+                                                  (governmentID, contributor) uniquely identifies each
+Unique Constraint                                 government contribution per employee and
+                                                  employer
+
+Check Constraint                                  All contribution amounts must be ≥ 0
+
+
+     3.16.​      Payroll
+              3.16.1.​   Columns
+    Column Name                       Data Type                             Description
+payrollID                  Integer                     Unique payroll record identifier
+
+employeeID                 SmallInt                    Linked employee identifier
+
+
+
+                                                                                                14
+rebateID                Integer                     Linked rebate record identifier
+
+wageID                  Integer                     Linked wage record identifier
+
+summaryID               Integer                     Linked summary record identifier
+
+monthID                 Enum                        Identifier for the payroll month
+
+ptoMax                  Integer                     Maximum allowed paid time off (PTO)
+
+hourlyRate              Decimal(19,4)               Pay rate per hour
+
+dailyRate               Decimal(19,4)               Fixed daily pay rate
+
+monthlyRate             Decimal(19,4)               Monthly salary rate
+
+netPay                  Decimal(19,4)               Final pay after deductions
+
+
+             3.16.2.​   Constraints
+
+Primary Key                                    payrollID
+
+Foreign Key                                    employeeID, rebateID, wageID, summaryID
+
+                                               payrollID uniquely identifies each payroll per
+Unique Constraint
+                                               employee per period
+
+                                               hourlyRate, dailyRate, netPay must be provided
+Check Constraint                               (NOT NULL)​
+                                               ptoMax must be greater than or equal to 0
+
+
+
+
+     3.17.​     Payslip
+             3.17.1.​   Columns
+   Column Name                     Data Type                               Description
+payslipID               Integer                     Unique payslip identifier
+
+payrollID               Integer                     Linked payroll record identifier
+
+periodStartDate         Date                        Start date of the pay period
+
+periodEndDate           Date                        End date of the pay period
+
+regularHours            SmallInt                    Standard work hours
+
+overtimeHours           SmallInt                    Overtime hours worked
+
+holidayOvertimeHours SmallInt                       Overtime during holidays
+
+ptoHours                SmallInt                    Total paid time off hours taken
+
+
+
+                                                                                                15
+undertimeHours          SmallInt                    Hours below expected work time
+
+daysWorked              TinyInt                     Total days worked
+
+holidaysWorked          TinyInt                     Number of holidays worked
+
+restDaysWorked          TinyInt                     Number of rest days worked
+
+grossIncome             Decimal(19,4)               Total earnings before deductions
+
+
+             3.17.2.​   Constraints
+
+Primary Key                                    payslipID
+
+Foreign Key                                    payrollID
+
+                                               payslipID uniquely identifies each payslip given to
+                                               employee per payroll​
+Unique Constraint
+                                               (payrollID, periodEndDate) combination must be
+                                               unique
+
+                                               Hours and days worked must be greater than or
+Check Constraint
+                                               equal to 0
+
+
+     3.18.​      Leave Monetisation
+             3.18.1.​   Columns
+   Column Name                     Data Type                            Description
+monetisationID          Integer                     Unique leave monetisation record identifier
+
+leaveType               Enum                        Type of leave being monetised
+
+                                                    Linked leave balance record identifier for
+balanceID               Integer                     monetisation
+
+                                                    Number of leave credits converted to monetary
+creditsMonetised        Decimal(4,2)                value
+
+monetaryValuePer        Decimal(19,4)               Monetary value assigned per leave credit
+
+totalConverted          Decimal(19,4)               Aggregate monetary value from conversion
+
+dateMonetised           Date                        Date when leave monetisation was effected
+
+                                                    Identifier for the approver validating the
+approverID              SmallInt                    monetisation
+
+
+             3.18.2.​   Constraints
+
+
+
+                                                                                                  16
+Primary Key                                    monetisationID
+
+Foreign Key                                    balanceID
+
+                                               monetisationID uniquely identifies each instance of
+Unique Constraint
+                                               a leave request monetisation
+
+                                               leaveType must be provided (NOT NULL)​
+Check Constraint                               creditsMonetised, monetaryValuePer, and
+                                               totalConverted must be ≥ 0
+
+
+     3.19.​      Earnings
+              3.19.1.​   Columns
+   Column Name                     Data Type                             Description
+wageID                   Integer                      Unique wage record identifier
+
+overtimePay              Decimal(19,4)                Payment for overtime hours
+
+ptoPay                   Decimal(19,4)                Paid time off compensation
+
+holidayPay               Decimal(19,4)                Payment for holiday work
+
+restDayPay               Decimal(19,4)                Payment for work on rest days
+
+riceSubsidy              Decimal(19,4)                Subsidy provided for rice
+
+phoneStipend             Decimal(19,4)                Stipend for phone expenses
+
+clothesStipend           Decimal(19,4)                Stipend for clothing expenses
+
+otherIncentTotal         Decimal(19,4)                Sum of other incentives
+
+totalBenefits            Decimal(19,4)                Total benefit amount
+
+
+              3.19.2.​   Constraints
+
+Primary Key                                    wageID
+
+Foreign Key                                    None
+
+                                               wageID uniquely identifies benefit calculations per
+Unique Constraint
+                                               payroll
+
+Check Constraint                               All monetary amounts must be ≥ 0
+
+
+     3.20.​      Deductibles
+              3.20.1.​   Columns
+
+
+                                                                                              17
+   Column Name                      Data Type                              Description
+rebateID                 Integer                     Unique rebate record identifier
+
+governmentID             SmallInt                    Linked government record identifier
+
+otherDeductTotal         Decimal(19,4)               Sum of other deductions
+
+totalDeductibles         Decimal(19,4)               Overall deductions sum
+
+
+              3.20.2.​   Constraints
+
+Primary Key                                     rebateID
+
+Foreign Key                                     governmentID
+
+                                                rebateID uniquely identifies deductible calculations
+Unique Constraint
+                                                per payroll (including government deductibles)
+
+Check Constraint                                Deduction amounts must be ≥ 0
+
+
+     3.21.​      Other Transactions
+              3.21.1.​   Columns
+   Column Name                      Data Type                              Description
+transactionID            Integer                     Unique transaction record identifier
+
+payrollID                Integer                     Payroll identifier for the transaction
+
+transactionType          Enum                        Type of transaction
+
+transactionAmount        Decimal(19,4)               Amount of the transaction
+
+description              Varchar(150)                Description of the transaction
+
+
+              3.21.2.​   Constraints
+
+Primary Key                                     transactionID
+
+Foreign Key                                     payrollID
+
+                                                transactionID uniquely identifies misc calculations
+Unique Constraint
+                                                per payroll
+
+Check Constraint                                transactionAmount must be ≥ 0
+
+
+
+
+                                                                                               18
+     3.22.​       Government Tally
+              3.22.1.​   Columns
+   Column Name                      Data Type                                   Description
+summaryID                Integer                           Linked summary record identifier
+
+contributor              Enum                              Identifier for the contributor
+
+overallPagIbig           Decimal(19,4)                     Overall Pag-ibig contribution
+
+overallPhilHealth        Decimal(19,4)                     Overall PhilHealth contribution
+
+overallSSS               Decimal(19,4)                     Overall SSS contribution
+
+
+              3.22.2.​   Constraints
+
+Primary Key                                           (summaryID, contributor)
+
+Foreign Key                                           summaryID
+
+                                                      (summaryID, contributor) uniquely identifies overall
+Unique Constraint                                     totals of each government contribution per
+                                                      employee and employer
+
+Check Constraint                                      All overall contribution amounts must be ≥ 0
+
+
+     3.23.​       Summary
+              3.23.1.​   Columns
+       Column Name                        Data Type                             Description
+summaryID                          Integer                 Unique summary record identifier
+
+monthID                            Enum                    Linked month identifier
+
+overallGrossIncome                 Decimal(19,4)           Total gross income summed
+
+overallBenefits                    Decimal(19,4)           Total benefits summed
+
+employeeDisbursementTotal          Decimal(19,4)           Total disbursements to employees
+
+employerDisbursementTotal          Decimal(19,4)           Total amount disbursed by the employer
+
+overallPITotal                     Decimal(19,4)           Combined Pag-ibig total
+
+overallPHTotal                     Decimal(19,4)           Combined PhilHealth total
+
+overallSSSTotal                    Decimal(19,4)           Combined SSS total
+
+overallTaxTotal                    Decimal(19,4)           Total tax withheld summed
+
+
+
+                                                                                                     19
+governmentDisbursementTota
+l                                    Decimal(19,4)          Total government disbursement summed
+
+
+              3.23.2.​     Constraints
+
+Primary Key                                          summaryID
+
+Foreign Key                                          monthID
+
+                                                     summaryID uniquely identifies monthly
+Unique Constraint
+                                                     enumerative reports
+
+Check Constraint                                     All monetary totals must be ≥ 0
+
+
+         3.24.​   Regions
+              3.24.1.​     Columns
+    Column Name                       Data Type                                  Description
+regionID                   TinyInt                          Unique region identifier
+
+regionName                 Varchar(100)                     Name of the region
+
+
+              3.24.2.​     Constraints
+
+Primary Key                                          regionID
+
+Foreign Key                                          None
+
+Unique Constraint                                    regionID uniquely identifies each region
+
+Check Constraint                                     None
+
+
+         3.25.​   Cities
+              3.25.1.​     Columns
+    Column Name                       Data Type                                  Description
+cityID                     SmallInt                         Unique city identifier
+
+regionID                   TinyInt                          Linked region identifier
+
+cityName                   Varchar(100)                     Name of the city
+
+
+              3.25.2.​     Constraints
+
+
+
+
+                                                                                                   20
+Primary Key                                  cityID
+
+Foreign Key                                  regionID
+
+                                             cityName must have only one instance between
+Unique Constraint
+                                             records
+
+Check Constraint                             None
+
+
+     3.26.​    Holiday
+            3.26.1.​   Columns
+   Column Name                   Data Type                                Description
+holidayID              TinyInt                      Unique holiday record identifier
+
+holidayName            Varchar(255)                 Name of the holiday
+
+holidayDate            Date                         Date of the holiday
+
+
+            3.26.2.​   Constraints
+
+Primary Key                                  holidayID
+
+Foreign Key                                  None
+
+                                             holidayID uniquely identifies each listed holiday​
+Unique Constraint                            (holidayName, holidayDate) combination must have
+                                             only one instance between records
+
+Check Constraint                             None
+
+
+     3.27.​    Months
+            3.27.1.​   Columns
+   Column Name                   Data Type                                Description
+monthID                Enum                         Unique month identifier
+
+monthlyWorkdays        Integer                      Number of workdays in the month
+
+
+            3.27.2.​   Constraints
+
+Primary Key                                  monthID
+
+Foreign Key                                  None
+
+
+
+                                                                                          21
+Unique Constraint                              None (month ID is already Enum)
+
+Check Constraint                               monthlyWorkdays must be between 1 and 31
+
+
+     3.28.​     Rates
+             3.28.1.​   Columns
+   Column Name                     Data Type                               Description
+implementationYear      SmallInt                      Year the rates were implemented
+
+piEmployerRate          Decimal(5,3)                  Global employer Pag-ibig rate
+
+piEmployeeRate          Decimal(5,3)                  Global employee Pag-ibig rate
+
+piMaxContribution       Decimal(5,3)                  Maximum Pag-ibig contribution
+
+phRate                  Decimal(5,3)                  Global PhilHealth rate
+
+sssRate                 Decimal(5,3)                  Global SSS rate
+
+
+             3.28.2.​   Constraints
+
+Primary Key                                    None
+
+Foreign Key                                    None
+
+Unique Constraint                              None
+
+                                               All fields must be provided (NOT NULL)
+Check Constraint
+                                               Rates must be greater than or equal to 0
+
+
+     3.29.​     Tax Table
+             3.29.1.​   Columns
+   Column Name                     Data Type                               Description
+taxBracket              Integer                       Identifier for the tax bracket
+
+minCompensation         Decimal(19,4)                 Minimum income for the bracket
+
+maxCompensation         Decimal(19,4)                 Maximum income for the bracket
+
+bracketWidth            Decimal(19,4)                 Income range width for the bracket
+
+taxRate                 Decimal(19,4)                 Tax rate for the bracket
+
+
+             3.29.2.​   Constraints
+
+
+
+
+                                                                                           22
+    Primary Key                                 taxBracket
+
+    Foreign Key                                 None
+
+                                                taxBracket uniquely identifies criteria and
+    Unique Constraint
+                                                consequent requirement for withholding tax
+
+                                                minCompensation, maxCompensation, and taxRate
+                                                must be provided (NOT NULL)​
+    Check Constraint                            taxBracket must be at least have and be greater
+                                                than 1
+                                                monetary values must be ≥ 0
+​
+
+
+          3.30.​   Leave Type
+               3.30.1.​   Columns
+      Column Name                   Data Type                              Description
+leaveType                 Enum                         Classification of leave
+
+mandatory                 Boolean                      Indicates whether the leave type is mandatory
+
+defaultAccrualRate        Decimal(4,2)                 Standard rate at which leave accrues
+
+accrualFrequency          Enum                         Frequency of leave accrual
+
+maxAccrual                Decimal(4,2)                 Maximum allowable accrual for the leave type
+
+
+               3.30.2.​   Constraints
+
+    Primary Key                                 leaveType
+
+    Foreign Key                                 None
+
+    Unique Constraint                           None (Leave Type is already Enum)
+
+                                                defaultAccrualRate and maxAccrual must be
+    Check Constraint
+                                                greater than or equal to 0
+
+
+
+
+    4.​    Relationships
+
+
+
+
+                                                                                                  23
+       Relationship        Cardinality        Foreign Keys                           Purpose
+Employee -> Address        1:1           (Employee - addressID)     Each employee is assigned an address.
+
+Employee -> Position       N:1           (Employee - positionID) Every employee holds a specific position.
+
+                                         (Employee -                References the supervisor of the
+Employee -> Supervisor N:1
+                                         supervisorID)              employee.
+
+                                                                    Each address entry is located within a
+Address -> Cities          N:1           (Address - cityID)
+                                                                    specific city.
+
+                                         (Position -                Positions are assigned within
+Position -> Department     N:1
+                                         departmentID)              departments.
+
+                                         (Supervisor -              Supervisors are employees themselves,
+Supervisor -> Employee 1:1
+                                         employeeID)                connecting both tables directly.
+
+Schedule -> Employee       1:1           (Schedule - employeeID) Each employee is assigned a schedule.
+
+                                         (Changelog -
+Changelog -> Employee N:1                                           Tracks changes made by the employee.
+                                         employeeID)
+
+LeaveBalance -> Leave                    (LeaveBalance -            Indicates the leave type applicable for
+                           N:1
+Type                                     leaveType)                 employee leave balance.
+
+LeaveBalance ->                          (LeaveBalance -            Leave balances are determined based on
+                           N:1
+Schedule                                 scheduleID)                an employee’s schedule.
+
+                                         (Attendance -              Attendance records are linked to the
+Attendance -> Schedule N:1
+                                         scheduleID)                schedule.
+
+Leave -> Leave Type        N:1           (Leave - leaveType)        Indicates the leave type used for request.
+
+                                                                    Leave requests are validated against
+Leave -> Leave Balance     N:1           (Leave - balanceID)
+                                                                    available leave balances.
+
+Leave Accrual History ->                 (Leave Accrual History - Accrual records adjust the leave balance
+                           N:1
+Leave Balance                            balanceID)                 over time.
+
+Leave Accrual History ->                 (Leave Accrual History -
+                           N:1                                      Indicates the leave type has been accrued.
+Leave Type                               leaveType)
+
+Leave Monetisation ->                    (Leave Monetisation -      Indicates the leave type is requested for
+                           N:1
+Leave Type                               leaveType)                 conversion.
+
+Leave Monetisation ->                    (Leave Monetisation -      Converts leave credits into monetary
+                           N:1
+Leave Balance                            balanceID)                 value based on the leave balance.
+
+Government ->                            (Government -              Links each government record with an
+                           1:1
+Employee                                 employeeID)                employee.
+
+
+
+
+                                                                                                        24
+       Relationship          Cardinality        Foreign Keys                            Purpose
+
+Payroll -> Employee          N:1           (Payroll - employeeID)      Links payroll records to employees.
+
+Payroll -> Deductibles       1:1           (Payroll - rebateID)        Deduction computations of payroll.
+
+Payroll -> Earnings          1:1           (Payroll - wageID)          Benefit computations of payroll.
+
+                                                                       Collates payroll data into a monthly
+Payroll -> Summary           N:1           (Payroll - summaryID)
+                                                                       summary record.
+
+                                                                       References payroll month and its
+Payroll -> Months            N:1           (Payroll - monthID)
+                                                                       corresponding working days.
+
+Government Deductibles                     (Government                 Reference the month these deductibles
+                             N:1
+-> Months                                  Deductibles - monthID)      are for.
+
+                                           (Government
+Government Deductibles                                                 Associates deductibles with a government
+                             1:1           Deductibles -
+-> Government                                                          record.
+                                           governmentID)
+
+Contributions ->                           (Contributions -            Reference location where computed
+                             N:1
+Government Deductibles                     governmentID)               contribution will be collated.
+
+Deductibles ->                             (Deductibles -              Needs government deductibles to
+                             1:1
+Government Deductibles                     governmentID)               compute total deductibles.
+
+                                                                       Each payslip is uniquely tied to a payroll
+Payslip -> Payroll           1:1           (Payslip - payrollID)
+                                                                       record.
+
+Other Transactions ->                      (Other Transactions -       Connects misc transactions to payroll
+                             N:1
+Payroll                                    payrollID)                  records.
+
+Government Tally ->                        (Government Tally -         Sums government-related disbursements
+                             N:1
+Summary                                    summaryID)                  within a summary.
+
+
+ 5.​      References
+
+
+
+                 Reference No.                                     Reference Document
+
+                         1                 Entity-Relationship Diagram
+
+                         2                 Data Dictionary
+
+                         3                 Schema Diagram
+
+
+
+
+                                                                                                             25
+

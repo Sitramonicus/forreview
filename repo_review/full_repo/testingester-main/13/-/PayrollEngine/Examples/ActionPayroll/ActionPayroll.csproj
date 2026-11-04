@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<AssemblyName>ActionPayroll</AssemblyName>
+		<RootNamespace>ActionPayroll</RootNamespace>
+		<Product>Payroll Engine Action Payroll</Product>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PayrollEngine.Client.Services" Version="$(PayrollEngineVersion)" />
+		<PackageReference Include="PayrollEngine.Serilog" Version="$(PayrollEngineVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

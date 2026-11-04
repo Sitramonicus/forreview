@@ -1,0 +1,78 @@
+KI-20 - Add Employee form: buttons cropped at the bottom, no visible exit
+run at   : 2026-11-01 23:26:39 TST
+javac    : javac 21.0.12.1
+command  : java -cp <build>;src motorphemployee.Ki20ScreenFitProbe
+probe    : test/motorphemployee/Ki20ScreenFitProbe.java (package motorphemployee; in Eclipse: Run As -> Java Application)
+form     : src/motorphemployee/Form.java -> fitToScreen(), fitSize(), needsScrollPane()
+screen   : 1920x1080 logical, work area 1920x1032, 100% scaling (AppliedDPI=96)
+-------------------------------------------------------------------------------
+KI-20 Add Employee form - screen-fit probe
+run at : Sun Nov 01 23:26:39 CST 2026
+java   : 21.0.12.1
+
+-- 1. the old fixed 1012 x 734 dialog on five displays (window centred on the screen) --
+ok     1920x1080 @100%    buttons at screen y 829-855, work area ends at 1032 -> fully visible
+       fixed: size 1034x714, scrollPane=false
+PASS  fixed dialog fits 1920x1080 @100%     [1034x714]
+PASS  fixed form keeps every control reachable on 1920x1080 @100%     [scroll=false]
+ok     1680x1050 @100%    buttons at screen y 814-840, work area ends at 1002 -> fully visible
+       fixed: size 1034x714, scrollPane=false
+PASS  fixed dialog fits 1680x1050 @100%     [1034x714]
+PASS  fixed form keeps every control reachable on 1680x1050 @100%     [scroll=false]
+ok     1366x768  @100%    buttons at screen y 673-699, work area ends at 728 -> fully visible
+       fixed: size 1034x714, scrollPane=false
+PASS  fixed dialog fits 1366x768  @100%     [1034x714]
+PASS  fixed form keeps every control reachable on 1366x768  @100%     [scroll=false]
+BROKEN 1366x768  @125%    buttons at screen y 596-622, work area ends at 574 -> 48px of the button row below the usable screen
+       fixed: size 1034x574, scrollPane=true
+PASS  fixed dialog fits 1366x768  @125%     [1034x574]
+PASS  fixed form keeps every control reachable on 1366x768  @125%     [scroll=true]
+BROKEN 1024x600  netbook  buttons at screen y 589-615, work area ends at 560 -> 55px of the button row below the usable screen
+       fixed: size 1024x560, scrollPane=true
+PASS  fixed dialog fits 1024x600  netbook   [1024x560]
+PASS  fixed form keeps every control reachable on 1024x600  netbook   [scroll=true]
+
+-- 2. live form on this machine --
+work area   : 1920x1032
+dialog size : 1034x714 (old hard-coded size 1012x734)
+content pane: javax.swing.JPanel
+undecorated=true resizable=false modal=true defaultClose=2
+PASS  dialog fits the work area  [java.awt.Rectangle[x=443,y=159,width=1034,height=714]]
+PASS  no scroll pane needed on this screen  [JPanel]
+PASS  button 'Cancel' exists
+     'Cancel' screen rect = java.awt.Rectangle[x=1189,y=815,width=93,height=26]
+PASS  button 'Cancel' fully inside the work area  [java.awt.Rectangle[x=1189,y=815,width=93,height=26]]
+PASS  button 'Add Employee' exists
+     'Add Employee' screen rect = java.awt.Rectangle[x=1300,y=815,width=134,height=26]
+PASS  button 'Add Employee' fully inside the work area  [java.awt.Rectangle[x=1300,y=815,width=134,height=26]]
+PASS  Escape closed the form  [displayable=false]
+
+-- 3. simulated small display: the same content in an 800 x 500 window --
+     vertical scrollbar visible=true max=714 extent=482
+PASS  content becomes scrollable when the window is too small
+     horizontal scrollbar visible=true max=1034
+PASS  Cancel button still exists after wrapping
+     after scrolling: Cancel at java.awt.Rectangle[x=1055,y=691,width=93,height=26], viewport java.awt.Rectangle[x=561,y=267,width=782,height=482]
+PASS  Cancel fully reachable after scrolling  [java.awt.Rectangle[x=1055,y=691,width=93,height=26]]
+PASS  Escape closed the small form too
+PASS  application still alive after both closes  [probe reached the summary]
+
+Summary: 22 passed, 0 failed
+-------------------------------------------------------------------------------
+exit code: 0
+
+regression: java -cp <build> motorphemployee.oop.ConsoleBackendTest -> 91 passed, 0 failed (RESULT: PASS)
+not verified: GUI click-through on a display that really needs the scroll pane; the probe forces the window size instead of running on a 1366x768 @125% machine
+source: src/motorphemployee/Form.java (fitToScreen / fitSize / needsScrollPane)
+
+-------------------------------------------------------------------------------
+Eclipse compatibility - ECJ 3.46.100 (the compiler Eclipse 2026-09 uses)
+command : java -jar <eclipse>/.p2/pool/plugins/org.eclipse.jdt.core.compiler.batch_3.46.100.v20260826-1225.jar \
+          -encoding UTF-8 --release 21 -d <out> $(find src oop/src test -name '*.java')
+build   : 107 class files, 0 errors, 39 warnings (all 39 are the pre-existing unused locals in MainMenu and the
+          unused constant in AttendanceRepositoryTest; the KI-20 probe adds no new warning)
+run     : java -cp <out>;src motorphemployee.Ki20ScreenFitProbe -> Summary: 22 passed, 0 failed, exit code 0
+note    : src/image must be on the classpath for the form's icons; Eclipse copies that folder into bin/ itself,
+          so Run As -> Java Application in the IDE works without extra setup
+-------------------------------------------------------------------------------
+exit code: 0

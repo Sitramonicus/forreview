@@ -1,0 +1,238 @@
+﻿{
+  "$schema": "../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2018-11-05T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "WeekCalendar.Test",
+      "users": [
+        {
+          "identifier": "peter.schmid@foo.com",
+          "firstName": "Peter",
+          "lastName": "Schmid"
+        }
+      ],
+      "calendars": [
+        {
+          "name": "WeekSalary",
+          "cycleTimeUnit": "Year",
+          "periodTimeUnit": "Week",
+          "timeMap": "Cycle"
+        },
+        {
+          "name": "BiWeekSalary",
+          "cycleTimeUnit": "Year",
+          "periodTimeUnit": "BiWeek",
+          "timeMap": "Cycle"
+        }
+      ],
+      "culture": "en-US",
+      "calendar": "WeekSalary",
+      "divisions": [
+        {
+          "name": "WeekCalendar.Week",
+          "culture": "en-US",
+          "calendar": "WeekSalary"
+        },
+        {
+          "name": "WeekCalendar.BiWeek",
+          "culture": "en-US",
+          "calendar": "BiWeekSalary"
+        }
+      ],
+      "regulations": [
+        {
+          "name": "WeekCalendar.Test",
+          "description": "The testing payroll",
+          "cases": [
+            {
+              "name": "Salary",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "Salary",
+                  "valueType": "Money",
+                  "timeType": "CalendarPeriod"
+                }
+              ]
+            }
+          ],
+          "wageTypes": [
+            {
+              "wageTypeNumber": 100,
+              "name": "Salary",
+              "valueExpression": "CaseValue[\"Salary\"]"
+            }
+          ]
+        }
+      ],
+      "employees": [
+        {
+          "identifier": "višnja.müller@foo.com",
+          "firstName": "Višnja",
+          "lastName": "Müller",
+          "divisions": [
+            "WeekCalendar.Week"
+          ]
+        },
+        {
+          "identifier": "remo.meier@foo.com",
+          "firstName": "Remo",
+          "lastName": "Meier",
+          "divisions": [
+            "WeekCalendar.BiWeek"
+          ]
+        }
+      ],
+      "payrolls": [
+        {
+          "name": "WeekCalendar.Week",
+          "divisionName": "WeekCalendar.Week",
+          "layers": [
+            {
+              "level": 1,
+              "regulationName": "WeekCalendar.Test"
+            }
+          ],
+          "cases": [
+            {
+              "userIdentifier": "peter.schmid@foo.com",
+              "employeeIdentifier": "višnja.müller@foo.com",
+              "divisionName": "WeekCalendar.Week",
+              "case": {
+                "caseName": "Salary",
+                "values": [
+                  {
+                    "caseFieldName": "Salary",
+                    "value": "59800",
+                    "start": "2018-11-05T00:00:00.0Z"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "WeekCalendar.BiWeek",
+          "divisionName": "WeekCalendar.BiWeek",
+          "layers": [
+            {
+              "level": 1,
+              "regulationName": "WeekCalendar.Test"
+            }
+          ],
+          "cases": [
+            {
+              "userIdentifier": "peter.schmid@foo.com",
+              "employeeIdentifier": "remo.meier@foo.com",
+              "divisionName": "WeekCalendar.BiWeek",
+              "case": {
+                "caseName": "Salary",
+                "values": [
+                  {
+                    "caseFieldName": "Salary",
+                    "value": "59800",
+                    "start": "2018-11-05T00:00:00.0Z"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "payruns": [
+        {
+          "payrollName": "WeekCalendar.Week",
+          "name": "WeekCalendar.Week.Payrun"
+        },
+        {
+          "payrollName": "WeekCalendar.BiWeek",
+          "name": "WeekCalendar.BiWeek.Payrun"
+        }
+      ],
+      "payrunJobInvocations": [
+        {
+          "name": "WeekCalendar.Week.Payrun.Jan19",
+          "payrunName": "WeekCalendar.Week.Payrun",
+          "payrollName": "WeekCalendar.Week",
+          "userIdentifier": "peter.schmid@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2019-01-01T00:00:00.0Z",
+          "evaluationDate": "2019-02-01T00:00:00.0Z",
+          "reason": "Demo Payrun First Week Jan 19"
+        },
+        {
+          "name": "WeekCalendar.Week.Payrun.Dez19",
+          "payrunName": "WeekCalendar.Week.Payrun",
+          "payrollName": "WeekCalendar.Week",
+          "userIdentifier": "peter.schmid@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2019-12-31T00:00:00.0Z",
+          "evaluationDate": "2020-01-15T00:00:00.0Z",
+          "reason": "Demo Payrun Last Week Dez 19"
+        },
+        {
+          "name": "WeekCalendar.BiWeek.Payrun.Jan19",
+          "payrunName": "WeekCalendar.BiWeek.Payrun",
+          "payrollName": "WeekCalendar.BiWeek",
+          "userIdentifier": "peter.schmid@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2019-01-01T00:00:00.0Z",
+          "evaluationDate": "2019-02-01T00:00:00.0Z",
+          "reason": "Demo Payrun First BiWeek Jan 19"
+        },
+        {
+          "name": "WeekCalendar.BiWeek.Payrun.Dez19",
+          "payrunName": "WeekCalendar.BiWeek.Payrun",
+          "payrollName": "WeekCalendar.BiWeek",
+          "userIdentifier": "peter.schmid@foo.com",
+          "completedJobStatus": "Complete",
+          "periodStart": "2019-12-31T00:00:00.0Z",
+          "evaluationDate": "2020-01-15T00:00:00.0Z",
+          "reason": "Demo Payrun Last BiWeek Dez 19"
+        }
+      ],
+      "payrollResults": [
+        {
+          "payrunJobName": "WeekCalendar.Week.Payrun.Jan19",
+          "employeeIdentifier": "višnja.müller@foo.com",
+          "wageTypeResults": [
+            {
+              "wageTypeNumber": 100,
+              "value": 1150
+            }
+          ]
+        },
+        {
+          "payrunJobName": "WeekCalendar.Week.Payrun.Dez19",
+          "employeeIdentifier": "višnja.müller@foo.com",
+          "wageTypeResults": [
+            {
+              "wageTypeNumber": 100,
+              "value": 1150
+            }
+          ]
+        },
+        {
+          "payrunJobName": "WeekCalendar.BiWeek.Payrun.Jan19",
+          "employeeIdentifier": "remo.meier@foo.com",
+          "wageTypeResults": [
+            {
+              "wageTypeNumber": 100,
+              "value": 2300
+            }
+          ]
+        },
+        {
+          "payrunJobName": "WeekCalendar.BiWeek.Payrun.Dez19",
+          "employeeIdentifier": "remo.meier@foo.com",
+          "wageTypeResults": [
+            {
+              "wageTypeNumber": 100,
+              "value": 2300
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

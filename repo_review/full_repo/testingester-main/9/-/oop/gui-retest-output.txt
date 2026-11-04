@@ -1,0 +1,63 @@
+GUI retest of the leave fixes (KI-18, KI-19)
+Date: 2026-10-31 ~21:15 Asia/Taipei
+App: run from VS Code, F5 -> "2. Run LandingPage (skip splash)", logged in as HR
+Screens used: Leave Management -> Pending Leaves (LeaveApproval), then back to Leave Management
+
+WHAT THE SCREEN DID
+Two pending requests were processed in Pending Leaves (one approve, one reject).
+No Save button was pressed (it no longer exists).
+
+pendingleaves.csv BEFORE (committed state)
+  23,Sick Leave,2,Sick
+  13,Emergency Leave,2,Emergency
+
+pendingleaves.csv AFTER
+  (empty)
+
+leaves.csv BEFORE (committed state)
+  1,Vacation Leave,3,Going to Boracay,Yes
+  23,Sick Leave,2,Sick,Yes
+
+leaves.csv AFTER (the two new rows are what the GUI wrote)
+  1,Vacation Leave,3,Going to Boracay,Yes
+  23,Sick Leave,2,Sick,Yes
+  13,Emergency Leave,2,Emergency,Yes      <- approve: reason in column 4, Yes in column 5
+  23,Sick Leave,2,Sick,No                 <- reject:  reason in column 4, No in column 5
+
+data.csv AFTER (columns 21-23: leave credits | approved | rejected)
+  employee 13: 12,0,0 -> 11,1,0   (approved: credit -1, approved +1)
+  employee 23: 11,1,0 -> 11,1,1   (rejected: credit unchanged, rejected +1)
+
+WHAT THIS PROVES
+1. KI-19 is now correct on both paths - the reject row lands as
+   Reason="Sick", Approved?="No" (before the fix it was Reason="No",
+   Approved?=<reason>).
+2. KI-18 is fixed - the processed requests disappeared from
+   pendingleaves.csv in the same click, without any Save, so the same
+   request cannot be approved a second time.
+3. The credit bookkeeping is right: approve deducts 1 credit and counts
+   +1 approved; reject leaves the credit alone and counts +1 rejected.
+
+RAW git diff of that run
+------------------------
+diff --git a/src/motorphemployee/leaves.csv b/src/motorphemployee/leaves.csv
+@@ -1,2 +1,4 @@
+ 1,Vacation Leave,3,Going to Boracay,Yes
+ 23,Sick Leave,2,Sick,Yes
++13,Emergency Leave,2,Emergency,Yes
++23,Sick Leave,2,Sick,No
+
+diff --git a/src/motorphemployee/pendingleaves.csv b/src/motorphemployee/pendingleaves.csv
+@@ -1,2 +0,0 @@
+-23,Sick Leave,2,Sick
+-13,Emergency Leave,2,Emergency
+
+diff --git a/src/motorphemployee/data.csv b/src/motorphemployee/data.csv
+(only the last three columns of employees 13 and 23 changed)
+-13,Farala,Martha,...,admin,password,12,0,0      -> ...,11,1,0
+-23,Santos,Vella,...,admin,password,11,1,0       -> ...,11,1,1
+
+NOTE FOR THE NEXT RUN
+These three CSVs are test data. Capture this evidence, then restore the
+committed state so the demo data stays stable for the team:
+  git checkout -- src/motorphemployee/data.csv src/motorphemployee/leaves.csv src/motorphemployee/pendingleaves.csv

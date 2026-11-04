@@ -1,0 +1,23 @@
+{
+  "name": "motorph-ms2-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "test:web": "node --test test/web/*.test.js",
+    "test:e2e": "node test/e2e/local-workflows.e2e.js",
+    "test:firebase-auth": "node test/e2e/firebase-auth-lifecycle.e2e.js",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "firebase": "12.9.0"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.64.1",
+    "vite": "8.3.5"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "1.13.6"
+  }
+}

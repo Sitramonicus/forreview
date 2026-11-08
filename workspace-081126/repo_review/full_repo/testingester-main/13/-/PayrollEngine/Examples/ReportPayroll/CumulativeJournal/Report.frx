@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/13/2026 00:00:00" ReportInfo.Modified="03/13/2026 06:28:09" ReportInfo.CreatorVersion="2023.2.0.0">
+  <Dictionary>
+    <TableDataSource Name="Employees" ReferenceName="Data.Employees" DataType="System.Int32" Enabled="true">
+      <Column Name="TenantId" DataType="System.Int32"/>
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Status" DataType="System.String"/>
+      <Column Name="Created" DataType="System.DateTime"/>
+      <Column Name="Updated" DataType="System.DateTime"/>
+      <Column Name="Identifier" DataType="System.String"/>
+      <Column Name="FirstName" DataType="System.String"/>
+      <Column Name="LastName" DataType="System.String"/>
+      <Column Name="Language" DataType="System.String"/>
+      <Column Name="Culture" DataType="System.String"/>
+      <Column Name="Divisions" DataType="System.String"/>
+      <Column Name="Attributes" DataType="System.String"/>
+    </TableDataSource>
+    <TableDataSource Name="WageTypeResults" ReferenceName="Data.WageTypeResults" DataType="System.Int32" Enabled="true">
+      <Column Name="TenantId" DataType="System.Int32"/>
+      <Column Name="EmployeeId" DataType="System.Int32"/>
+      <Column Name="WageTypeId" DataType="System.Int32"/>
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Status" DataType="System.String"/>
+      <Column Name="Created" DataType="System.DateTime"/>
+      <Column Name="Updated" DataType="System.DateTime"/>
+      <Column Name="WageTypeName" DataType="System.String"/>
+      <Column Name="WageTypeNumber" DataType="System.Decimal"/>
+      <Column Name="Start" DataType="System.DateTime"/>
+      <Column Name="End" DataType="System.DateTime"/>
+      <Column Name="Tags" DataType="System.String"/>
+      <Column Name="Attributes" DataType="System.String"/>
+      <Column Name="M1" DataType="System.Decimal"/>
+      <Column Name="M2" DataType="System.Decimal"/>
+      <Column Name="M3" DataType="System.Decimal"/>
+      <Column Name="M4" DataType="System.Decimal"/>
+      <Column Name="M5" DataType="System.Decimal"/>
+      <Column Name="M6" DataType="System.Decimal"/>
+      <Column Name="M7" DataType="System.Decimal"/>
+      <Column Name="M8" DataType="System.Decimal"/>
+      <Column Name="M9" DataType="System.Decimal"/>
+      <Column Name="M10" DataType="System.Decimal"/>
+      <Column Name="M11" DataType="System.Decimal"/>
+      <Column Name="M12" DataType="System.Decimal"/>
+      <Column Name="Total" DataType="System.Decimal"/>
+      <Column Name="IsSummary" DataType="System.Int32"/>
+      <Column Name="HasM1" DataType="System.Int32"/>
+      <Column Name="HasM2" DataType="System.Int32"/>
+      <Column Name="HasM3" DataType="System.Int32"/>
+      <Column Name="HasM4" DataType="System.Int32"/>
+      <Column Name="HasM5" DataType="System.Int32"/>
+      <Column Name="HasM6" DataType="System.Int32"/>
+      <Column Name="HasM7" DataType="System.Int32"/>
+      <Column Name="HasM8" DataType="System.Int32"/>
+      <Column Name="HasM9" DataType="System.Int32"/>
+      <Column Name="HasM10" DataType="System.Int32"/>
+      <Column Name="HasM11" DataType="System.Int32"/>
+      <Column Name="HasM12" DataType="System.Int32"/>
+    </TableDataSource>
+    <TableDataSource Name="CollectorResults" ReferenceName="Data.CollectorResults" DataType="System.Int32" Enabled="true">
+      <Column Name="TenantId" DataType="System.Int32"/>
+      <Column Name="EmployeeId" DataType="System.Int32"/>
+      <Column Name="CollectorId" DataType="System.Int32"/>
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Status" DataType="System.String"/>
+      <Column Name="Created" DataType="System.DateTime"/>
+      <Column Name="Updated" DataType="System.DateTime"/>
+      <Column Name="CollectorName" DataType="System.String"/>
+      <Column Name="Start" DataType="System.DateTime"/>
+      <Column Name="End" DataType="System.DateTime"/>
+      <Column Name="Tags" DataType="System.String"/>
+      <Column Name="Attributes" DataType="System.String"/>
+      <Column Name="M1" DataType="System.Decimal"/>
+      <Column Name="M2" DataType="System.Decimal"/>
+      <Column Name="M3" DataType="System.Decimal"/>
+      <Column Name="M4" DataType="System.Decimal"/>
+      <Column Name="M5" DataType="System.Decimal"/>
+      <Column Name="M6" DataType="System.Decimal"/>
+      <Column Name="M7" DataType="System.Decimal"/>
+      <Column Name="M8" DataType="System.Decimal"/>
+      <Column Name="M9" DataType="System.Decimal"/>
+      <Column Name="M10" DataType="System.Decimal"/>
+      <Column Name="M11" DataType="System.Decimal"/>
+      <Column Name="M12" DataType="System.Decimal"/>
+      <Column Name="Total" DataType="System.Decimal"/>
+      <Column Name="HasM1" DataType="System.Int32"/>
+      <Column Name="HasM2" DataType="System.Int32"/>
+      <Column Name="HasM3" DataType="System.Int32"/>
+      <Column Name="HasM4" DataType="System.Int32"/>
+      <Column Name="HasM5" DataType="System.Int32"/>
+      <Column Name="HasM6" DataType="System.Int32"/>
+      <Column Name="HasM7" DataType="System.Int32"/>
+      <Column Name="HasM8" DataType="System.Int32"/>
+      <Column Name="HasM9" DataType="System.Int32"/>
+      <Column Name="HasM10" DataType="System.Int32"/>
+      <Column Name="HasM11" DataType="System.Int32"/>
+      <Column Name="HasM12" DataType="System.Int32"/>
+    </TableDataSource>
+    <Relation Name="EmployeeCollectorResults" ParentDataSource="Employees" ChildDataSource="CollectorResults" ParentColumns="Id" ChildColumns="EmployeeId" Enabled="true"/>
+    <Relation Name="EmployeeWageTypeResults" ParentDataSource="Employees" ChildDataSource="WageTypeResults" ParentColumns="Id" ChildColumns="EmployeeId" Enabled="true"/>
+    <Parameter Name="JournalYear" DataType="System.String" AsString=""/>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210" RawPaperSize="9" Watermark.Font="Arial, 60pt" LastPageSource="15" FirstPageSource="15">
+    <ReportTitleBand Name="ReportTitle1" Width="1047.06" Height="47.25" Fill.Color="13, 34, 64">
+      <PictureObject Name="PicLogoMark" Left="18.9" Top="9.45" Width="28.35" Height="28.35" ImageFormat="Png" Image="iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHhe7dvBTQNBEAVRx0EopEAC5EAKnIiGUMgKtJbW0pZX/O3p20yN9G72l7oOvvl2u/BeXj9+Z8Q7y4+Ds+Ld8XFgFexw+vil1bDH4fHDq2KX++OHVsc+BgLjXGCgwDgXGCgwUGCgwEBBO9DP91sL9+jr872Fe1WtQDx2FHd3PHYUdyuGA/HILu7zyC7uX2WgwECBgQIDBQYKDBQYKDBQYKDAQIGBAgMFBgoMFBgoGA604ZGjuLvjkaO4W9EKtOGxVdwjHlvFvap2oNkZKDBQYKCgHYg/ilXcI/6oV3GvqhWIx47i7o7HjuJuxXAgHtnFfR7Zxf2rDBQYKDBQYKDAQIGBAgMFBgoMFBgoMFBgoMBAgYECAwXDgTY8chR3dzxyFHcrWoE2PLaKe8Rjq7hX1Q40OwMFBgoMFBgo8J/P//B/88EjkJGeHeIY6Bn73B8/tCp2OTx+eDXscfr4pVWwQ3wcmBXvLj8OzoJ3nr0/Sf4icliT3SsAAAAASUVORK5CYII="/>
+      <TextObject Name="TextLogoName" Left="52.5" Top="9.45" Width="200" Height="28.35" Text="Acme Corp" VertAlign="Center" Font="Arial, 11pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text49" Left="252.5" Top="9.45" Width="775.66" Height="28.35" Text="Employee Cumulative Journal [JournalYear]" HorzAlign="Right" VertAlign="Center" Font="Arial, 13pt, style=Bold" TextFill.Color="White"/>
+      <TextObject Name="Text48" Left="-9450" Top="-9450" Width="982.8" Height="28.35" Text="Employee Case Values" HorzAlign="Center" VertAlign="Center" Font="Arial, 14pt, style=Bold"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="49" Width="1047.06"/>
+    <DataBand Name="Employee" Top="50.74" Width="1047.06" Height="66.15" CanGrow="true" DataSource="Employees">
+      <TextObject Name="Text18" Top="23.62" Width="756" Height="23.62" Text="[Employees.FirstName] [Employees.LastName]" VertAlign="Center" Font="Arial, 11pt, style=Bold" TextFill.Color="13, 34, 64"/>
+      <TextObject Name="Text19" Left="756" Top="23.62" Width="291.06" Height="23.62" Text="[Employees.Identifier]" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt" TextFill.Color="122, 153, 191"/>
+      <TextObject Name="Text47" Top="47.25" Width="245.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Wage Type" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text2" Left="245.7" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Jan" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text3" Left="302.4" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Feb" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text4" Left="359.1" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Mar" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text6" Left="415.8" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Apr" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text7" Left="472.5" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="May" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text8" Left="529.2" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Jun" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text9" Left="585.9" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Jul" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text10" Left="642.6" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Aug" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text11" Left="699.3" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Sep" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text14" Left="756" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Oct" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text15" Left="812.7" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Nov" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text16" Left="869.4" Top="47.25" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Dec" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="Text33" Left="926.1" Top="47.25" Width="120.96" Height="18.9" Border.Lines="All" Border.Color="26, 58, 106" Border.Width="0.5" Fill.Color="26, 58, 107" Text="Total" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <DataBand Name="WageTypeResult" Top="118.64" Width="1047.06" Height="18.9" DataSource="WageTypeResults">
+        <TextObject Name="Text17" Width="245.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Text="[FormatNumber([WageTypeResults.WageTypeNumber], 0)] - [WageTypeResults.WageTypeName]" VertAlign="Center" Font="Arial, 7pt"/>
+        <!-- M1 -->
+        <TextObject Name="Text20_B" Left="245.7" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text20" Left="245.7" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M1]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M1] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M1] == 0 &amp;&amp; [WageTypeResults.HasM1] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M2 -->
+        <TextObject Name="Text21_B" Left="302.4" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text21" Left="302.4" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M2]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M2] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M2] == 0 &amp;&amp; [WageTypeResults.HasM2] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M3 -->
+        <TextObject Name="Text22_B" Left="359.1" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text22" Left="359.1" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M3]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M3] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M3] == 0 &amp;&amp; [WageTypeResults.HasM3] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M4 -->
+        <TextObject Name="Text23_B" Left="415.8" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text23" Left="415.8" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M4]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M4] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M4] == 0 &amp;&amp; [WageTypeResults.HasM4] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M5 -->
+        <TextObject Name="Text24_B" Left="472.5" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text24" Left="472.5" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M5]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M5] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M5] == 0 &amp;&amp; [WageTypeResults.HasM5] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M6 -->
+        <TextObject Name="Text25_B" Left="529.2" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text25" Left="529.2" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M6]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M6] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M6] == 0 &amp;&amp; [WageTypeResults.HasM6] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M7 -->
+        <TextObject Name="Text26_B" Left="585.9" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text26" Left="585.9" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M7]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M7] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M7] == 0 &amp;&amp; [WageTypeResults.HasM7] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M8 -->
+        <TextObject Name="Text27_B" Left="642.6" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text27" Left="642.6" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M8]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M8] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M8] == 0 &amp;&amp; [WageTypeResults.HasM8] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M9 -->
+        <TextObject Name="Text28_B" Left="699.3" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text28" Left="699.3" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M9]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M9] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M9] == 0 &amp;&amp; [WageTypeResults.HasM9] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M10 -->
+        <TextObject Name="Text29_B" Left="756" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text29" Left="756" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M10]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M10] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M10] == 0 &amp;&amp; [WageTypeResults.HasM10] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M11 -->
+        <TextObject Name="Text30_B" Left="812.7" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text30" Left="812.7" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M11]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M11] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M11] == 0 &amp;&amp; [WageTypeResults.HasM11] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M12 -->
+        <TextObject Name="Text31_B" Left="869.4" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5"/>
+        <TextObject Name="Text31" Left="869.4" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[WageTypeResults.M12]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.M12] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[WageTypeResults.M12] == 0 &amp;&amp; [WageTypeResults.HasM12] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- Total -->
+        <TextObject Name="Text32" Left="926.1" Width="120.96" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Text="[WageTypeResults.Total]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt, style=Bold" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[WageTypeResults.Total] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt, style=Bold"/>
+          </Highlight>
+        </TextObject>
+      </DataBand>
+      <DataBand Name="CollectorResult" Top="139.29" Width="1047.06" Height="18.9" DataSource="CollectorResults">
+        <TextObject Name="Text1" Width="245.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248" Text="[CollectorResults.CollectorName]" VertAlign="Center" Font="Arial, 7pt"/>
+        <!-- M1 -->
+        <TextObject Name="Text34_B" Left="245.7" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text34" Left="245.7" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M1]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M1] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M1] == 0 &amp;&amp; [CollectorResults.HasM1] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M2 -->
+        <TextObject Name="Text35_B" Left="302.4" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text35" Left="302.4" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M2]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M2] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M2] == 0 &amp;&amp; [CollectorResults.HasM2] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M3 -->
+        <TextObject Name="Text36_B" Left="359.1" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text36" Left="359.1" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M3]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M3] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M3] == 0 &amp;&amp; [CollectorResults.HasM3] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M4 -->
+        <TextObject Name="Text37_B" Left="415.8" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text37" Left="415.8" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M4]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M4] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M4] == 0 &amp;&amp; [CollectorResults.HasM4] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M5 -->
+        <TextObject Name="Text38_B" Left="472.5" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text38" Left="472.5" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M5]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M5] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M5] == 0 &amp;&amp; [CollectorResults.HasM5] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M6 -->
+        <TextObject Name="Text39_B" Left="529.2" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text39" Left="529.2" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M6]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M6] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M6] == 0 &amp;&amp; [CollectorResults.HasM6] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M7 -->
+        <TextObject Name="Text40_B" Left="585.9" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text40" Left="585.9" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M7]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M7] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M7] == 0 &amp;&amp; [CollectorResults.HasM7] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M8 -->
+        <TextObject Name="Text41_B" Left="642.6" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text41" Left="642.6" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M8]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M8] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M8] == 0 &amp;&amp; [CollectorResults.HasM8] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M9 -->
+        <TextObject Name="Text42_B" Left="699.3" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text42" Left="699.3" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M9]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M9] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M9] == 0 &amp;&amp; [CollectorResults.HasM9] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M10 -->
+        <TextObject Name="Text43_B" Left="756" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text43" Left="756" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M10]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M10] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M10] == 0 &amp;&amp; [CollectorResults.HasM10] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M11 -->
+        <TextObject Name="Text44_B" Left="812.7" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text44" Left="812.7" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M11]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M11] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M11] == 0 &amp;&amp; [CollectorResults.HasM11] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- M12 -->
+        <TextObject Name="Text45_B" Left="869.4" Width="56.7" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248"/>
+        <TextObject Name="Text45" Left="869.4" Width="56.7" Height="18.9" Fill.Color="Transparent" Text="[CollectorResults.M12]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.M12] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt"/>
+            <Condition Expression="[CollectorResults.M12] == 0 &amp;&amp; [CollectorResults.HasM12] == 0" Visible="false" Font="Arial, 7pt"/>
+          </Highlight>
+        </TextObject>
+        <!-- Total -->
+        <TextObject Name="Text46" Left="926.1" Width="120.96" Height="18.9" Border.Lines="All" Border.Color="DimGray" Border.Width="0.5" Fill.Color="235, 240, 248" Text="[CollectorResults.Total]" Format="Number" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 7pt, style=Bold" Trimming="EllipsisCharacter">
+          <Highlight>
+            <Condition Expression="[CollectorResults.Total] &lt; 0" TextFill.Color="Red" Font="Arial, 7pt, style=Bold"/>
+          </Highlight>
+        </TextObject>
+      </DataBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="159.93" Width="1047.06" Height="28.35" Fill.Color="13, 34, 64">
+      <TextObject Name="Text12" Left="18.9" Top="0" Width="200" Height="28.35" Text="[Date]" VertAlign="Center" Font="Arial, 8pt" TextFill.Color="122, 153, 191"/>
+      <TextObject Name="Text13" Left="850.5" Top="0" Width="177.66" Height="28.35" Text="Page [Page#] of [TotalPages#]" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt" TextFill.Color="122, 153, 191"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

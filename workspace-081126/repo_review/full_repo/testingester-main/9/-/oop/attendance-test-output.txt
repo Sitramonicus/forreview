@@ -1,0 +1,48 @@
+AttendanceRepository console evidence — real timecard feeds the payslip
+File: src/motorphemployee/attendance.csv (5,168 rows)
+Source: Copy of MotorPH_Employee Data.xlsx, tab 'Attendance Record' (10001-10034 mapped to data.csv 1-34)
+Run: 2026-10-31 20:43 TST  ·  javac 21.0.12.1
+
+AttendanceRepository console evidence - real timecard feeds the payslip
+
+[the timecard file loads at all]
+    PASS  5,168 rows
+    PASS  34 employees
+    PASS  every row has a clock-in and a clock-out
+    PASS  no duplicate employee/day rows
+    PASS  first row is employee 1 on 2025-06-03
+    PASS  last row is employee 34 on 2025-12-31
+[each employee gets the seven timecard months, oldest first]
+    PASS  7 months
+    PASS  June 2025 first
+    PASS  December 2025 last
+    PASS  picker label
+    PASS  period start
+    PASS  period end
+    PASS  152 timecard days in total
+[worked days per month match the timecard (not a 2024 calendar table)]
+    PASS  worked days in June 2025
+    PASS  worked days in July 2025
+    PASS  worked days in August 2025
+    PASS  worked days in September 2025
+    PASS  worked days in October 2025
+    PASS  worked days in November 2025
+    PASS  worked days in December 2025
+    PASS  2025-06-03 has the recorded hours
+    PASS  a day with no timecard row has 0 hours
+[the payslip is priced from the timecard days (July 2025 = 23 days)]
+    PASS  gross = 23 timecard days x hourly rate x 8
+    PASS  gross differs from a 20-day month
+    PASS  payroll hours = 23 days x 8
+    PASS  payslip period starts on the timecard month
+    PASS  net pay is positive
+[a corrupt timecard row stops the payslip instead of shrinking it]
+    PASS  refused
+    PASS  the message names the line and the expected format
+    PASS  a duplicate clock-in is refused by AttendanceLog
+[an employee with no timecard rows is reported, not priced from an assumption]
+    PASS  no months offered
+    PASS  hasRecords is false
+    PASS  empty log has 0 worked days
+
+Summary: 33 passed, 0 failed

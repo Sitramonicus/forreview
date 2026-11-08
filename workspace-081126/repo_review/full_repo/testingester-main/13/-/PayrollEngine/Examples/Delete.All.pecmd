@@ -1,0 +1,16 @@
+ActionPayroll/Delete.pecmd
+CaseDefPayroll/Delete.pecmd
+ExtendedPayroll/Delete.pecmd
+ForecastPayroll/Delete.pecmd
+GlobalPayroll/Delete.pecmd
+MarchClausePayroll/Delete.pecmd
+MinWagePayroll/Delete.pecmd
+MultiCountryPayroll/Delete.pecmd
+PartTimePayroll/Delete.pecmd
+ReportPayroll/Delete.pecmd
+RetroPayroll/Delete.pecmd
+StartPayroll.Json/Delete.pecmd
+StartPayroll.Yaml/Delete.pecmd
+TaxTablePayroll/Delete.pecmd
+TemporalPayroll/Delete.pecmd
+TimesheetPayroll/Delete.pecmd

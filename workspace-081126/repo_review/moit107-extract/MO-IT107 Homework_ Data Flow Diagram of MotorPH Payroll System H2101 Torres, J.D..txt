@@ -1,0 +1,58 @@
+ MO-IT107: Information Management
+
+ Week No.                       11
+
+ Topic:                         Data Flow Diagrams
+
+ Worksheet No. 6                Data Flow Diagram of MotorPH Payroll System
+
+
+
+ Project Manager:
+
+ Business Analyst:              Jether Daniel A. Torres
+
+ Database Designer:
+
+ Program and Year Level:        BSIT - Software Development; A.Y. 2024 - 2025
+
+
+A data flow diagram is an effective tool for simulating and understanding the movement of
+data inside a system or process. It plays a crucial role in the analysis, design, and
+documentation of systems, assisting in ensuring the swift and correct processing and sharing
+of data. Your task this week is to create a data flow diagram for the MotorPH Payroll System
+Database. To carry out this activity, follow the steps below:
+
+
+Instructions:
+   1.​ Access the following business information:
+             a.​ Business Requirement Specification Document for Payroll System
+             b.​ MotorPH Existing Business Processes - Payroll
+   2.​ Read and examine the information found within the materials.
+   3.​ In DrawIO, make a data flow diagram that illustrates how the data flows in the
+          MotorPH payroll system using the Gene & Sarson notation style.
+             a.​ Create the data flow diagram at least until Level 2.
+   4.​ Once completed, insert a snapshot of the diagram, fill in the required information in the
+          template provided below, and delete this section prior to submission.
+  5.​ You refer to this context level and level 1 data flow diagram as a guide.
+======================================================================
+
+
+              Data Flow Diagram for MotorPH Payroll System
+                                  Jether Daniel A. Torres
+                      (Bachelor of Science in Information Technology,
+                             Major in Software Development)
+    ​
+​
+​
+References:
+     List down the resources that served as the basis of this document. Include the link to scaffold
+     activities used in the accomplishment of this activity.
+
+
+           Reference No.                                 Reference Document
+
+                  1              Business Requirement Specification Document for Payroll System
+
+                  2              MotorPH Existing Business Processes - Payroll
+

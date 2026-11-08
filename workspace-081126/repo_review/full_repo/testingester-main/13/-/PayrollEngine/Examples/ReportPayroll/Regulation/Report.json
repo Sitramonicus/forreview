@@ -1,0 +1,84 @@
+{
+  "$schema": "../../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2023-01-01T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "Report.Tenant",
+      "updateMode": "NoUpdate",
+      "regulations": [
+        {
+          "name": "Report.Regulation",
+          "updateMode": "NoUpdate",
+          "reports": [
+            {
+              "name": "Regulation",
+              "nameLocalizations": {
+                "en": "Regulation Report"
+              },
+              "category": "Regulations",
+              "clusters": [
+                "Payroll",
+                "WageType",
+                "Collector"
+              ],
+              "queries": {
+                "Regulations": "QueryRegulations",
+                "Collectors": "QueryCollectors",
+                "WageTypes": "QueryWageTypes"
+              },
+              "relations": [
+                {
+                  "name": "RegulationCollectors",
+                  "parentTable": "Regulations",
+                  "childTable": "Collectors",
+                  "childColumn": "RegulationId"
+                },
+                {
+                  "name": "RegulationWageTypes",
+                  "parentTable": "Regulations",
+                  "childTable": "WageTypes",
+                  "childColumn": "RegulationId"
+                }
+              ],
+              "parameters": [
+                {
+                  "name": "TenantId",
+                  "valueType": "Integer",
+                  "parameterType": "TenantId",
+                  "hidden": true
+                },
+                {
+                  "name": "RegulationId",
+                  "nameLocalizations": {
+                    "en": "Regulation"
+                  },
+                  "valueType": "String",
+                  "parameterType": "RegulationId",
+                  "mandatory": true
+                },
+                {
+                  "name": "Regulations.Filter",
+                  "value": "Id eq '$RegulationId$'",
+                  "valueType": "String",
+                  "hidden": true
+                }
+              ],
+              "templates": [
+                {
+                  "name": "DefaultGerman",
+                  "culture": "de",
+                  "contentFile": "Report.frx"
+                },
+                {
+                  "name": "DefaultEnglish",
+                  "culture": "en",
+                  "contentFile": "Report.frx"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

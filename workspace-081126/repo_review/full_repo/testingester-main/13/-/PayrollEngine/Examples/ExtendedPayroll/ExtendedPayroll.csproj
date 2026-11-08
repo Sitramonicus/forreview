@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<AssemblyName>ExtendedPayroll</AssemblyName>
+		<RootNamespace>ExtendedPayroll</RootNamespace>
+		<Product>Payroll Engine Extended Payroll</Product>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Scripts\WageTypeValueFunction.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Scripts\WageTypeValueFunction.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PayrollEngine.Client.Services" Version="$(PayrollEngineVersion)" />
+		<PackageReference Include="PayrollEngine.Serilog" Version="$(PayrollEngineVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

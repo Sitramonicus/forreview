@@ -1,0 +1,14 @@
+import { chromium } from 'playwright-core';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 760, height: 620 }, deviceScaleFactor: 2 });
+const errs = [];
+p.on('pageerror', e => errs.push(e.message));
+await p.goto('file:///home/user/codepen-receipt/index.html');
+await p.waitForTimeout(400);
+await p.screenshot({ path: '/home/user/codepen-receipt/shot-closed.png' });
+await p.click('button');
+await p.waitForTimeout(1500);
+await p.screenshot({ path: '/home/user/codepen-receipt/shot-open.png' });
+console.log('label after toggle:', await p.textContent('button'));
+console.log('errors:', errs.length ? errs : 'none');
+await b.close();

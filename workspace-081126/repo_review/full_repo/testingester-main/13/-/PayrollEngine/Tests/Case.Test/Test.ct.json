@@ -1,0 +1,199 @@
+{
+  "$schema": "../../Schemas/PayrollEngine.CaseTest.schema.json",
+  "testName": "EmployeeTest",
+  "tenantIdentifier": "CaseTest",
+  "userIdentifier": "peter.schmid@foo.com",
+  "payrollName": "CaseTestPayroll",
+  "employeeIdentifier": "višnja.müller@foo.com",
+  "customTestFiles": [
+    "EmployeeTest.cs"
+  ],
+  "initCases": [
+    {
+      "userIdentifier": "peter.schmid@foo.com",
+      "divisionName": "CaseTestDivision",
+      "case": {
+        "caseName": "AHV Local",
+        "values": [
+          {
+            "caseFieldName": "AHV AN Local",
+            "value": "0.04",
+            "start": "2018-01-01T00:00:00.0Z",
+            "created": "2017-12-23T00:00:00.0Z"
+          }
+        ]
+      }
+    }
+  ],
+  "availableTests": [
+    {
+      "testName": "EmployeeTest01",
+      "testDescription": "Test for available employee case monthly wage",
+      "caseName": "MonthlyWage",
+      "output": false
+    },
+    {
+      "testName": "EmployeeTest01Custom",
+      "caseName": "MonthlyWage",
+      "output": true
+    }
+  ],
+  "buildTests": [
+    {
+      "testName": "EmployeeTest02LimitLow",
+      "testDescription": "Test build of employee case monthly wage 1",
+      "input": {
+        "userIdentifier": "peter.schmid@foo.com",
+        "employeeIdentifier": "višnja.müller@foo.com",
+        "divisionName": "CaseTestDivision",
+        "reason": "Change monthly wage",
+        "case": {
+          "caseName": "MonthlyWage",
+          "values": [
+            {
+              "caseFieldName": "MonthlyWage",
+              "value": "5000",
+              "start": "2018-01-01T00:00:00.0Z",
+              "end": "2020-12-31T00:00:00.0Z",
+              "created": "2017-12-15T18:22:45.0Z"
+            }
+          ]
+        }
+      },
+      "output": {
+        "name": "MonthlyWage",
+        "caseType":"Employee",
+        "fields": [
+          {
+            "name": "MonthlyWage",
+            "value": "5000"
+          },
+          {
+            "name": "SpecialDeduction",
+            "value": "0"
+          }
+        ]
+      }
+    },
+    {
+      "testName": "EmployeeTest02LimitHigh",
+      "testDescription": "Test build of employee case monthly wage 2",
+      "input": {
+        "userIdentifier": "peter.schmid@foo.com",
+        "employeeIdentifier": "višnja.müller@foo.com",
+        "divisionName": "CaseTestDivision",
+        "reason": "Change monthly wage",
+        "case": {
+          "caseName": "MonthlyWage",
+          "values": [
+            {
+              "caseFieldName": "MonthlyWage",
+              "value": "5001",
+              "start": "2018-01-01T00:00:00.0Z",
+              "end": "2020-12-31T00:00:00.0Z",
+              "created": "2017-12-15T18:22:45.0Z"
+            }
+          ]
+        }
+      },
+      "output": {
+        "name": "MonthlyWage",
+        "caseType":"Employee",
+        "fields": [
+          {
+            "name": "MonthlyWage",
+            "value": "5001"
+          },
+          {
+            "name": "SpecialDeduction",
+            "valueComment": "5001 * 0.085",
+            "value": "425.085"
+          }
+        ]
+      }
+    },
+    {
+      "testName": "EmployeeTest02Custom",
+      "testDescription": "Test build of employee case monthly wage 3",
+      "input": {
+        "userIdentifier": "peter.schmid@foo.com",
+        "employeeIdentifier": "višnja.müller@foo.com",
+        "divisionName": "CaseTestDivision",
+        "reason": "Change monthly wage",
+        "case": {
+          "caseName": "MonthlyWage",
+          "values": [
+            {
+              "caseFieldName": "MonthlyWage",
+              "value": "5200",
+              "start": "2019-01-01T00:00:00.0Z",
+              "created": "2018-12-15T18:22:45.0Z"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "validateTests": [
+    {
+      "testName": "EmployeeTest03",
+      "testDescription": "Test valid employee case monthly wage 1",
+      "input": {
+        "userIdentifier": "peter.schmid@foo.com",
+        "employeeIdentifier": "višnja.müller@foo.com",
+        "divisionName": "CaseTestDivision",
+        "reason": "Change monthly wage",
+        "case": {
+          "caseName": "MonthlyWage",
+          "values": [
+            {
+              "caseFieldName": "MonthlyWage",
+              "value": "5200",
+              "start": "2018-01-01T00:00:00.0Z",
+              "end": "2020-12-31T00:00:00.0Z",
+              "created": "2017-12-15T18:22:45.0Z"
+            }
+          ]
+        }
+      },
+      "output": {
+        "userIdentifier": "peter.schmid@foo.com",
+        "employeeIdentifier": "višnja.müller@foo.com",
+        "divisionName": "CaseTestDivision",
+        "reason": "Change monthly wage",
+        "values": [
+          {
+            "caseFieldName": "MonthlyWage",
+            "value": "5200",
+            "start": "2018-01-01T00:00:00.0Z",
+            "end": "2020-12-31T00:00:00.0Z",
+            "created": "2017-12-15T18:22:45.0Z"
+          }
+        ],
+        "issues": []
+      }
+    },
+    {
+      "testName": "EmployeeTest03Custom",
+      "testDescription": "Test valid employee case monthly wage 2",
+      "input": {
+        "userIdentifier": "peter.schmid@foo.com",
+        "employeeIdentifier": "višnja.müller@foo.com",
+        "divisionName": "CaseTestDivision",
+        "reason": "Change monthly wage",
+        "case": {
+          "caseName": "MonthlyWage",
+          "values": [
+            {
+              "caseFieldName": "MonthlyWage",
+              "value": "5200",
+              "start": "2018-01-01T00:00:00.0Z",
+              "end": "2020-12-31T00:00:00.0Z",
+              "created": "2017-12-15T18:22:45.0Z"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

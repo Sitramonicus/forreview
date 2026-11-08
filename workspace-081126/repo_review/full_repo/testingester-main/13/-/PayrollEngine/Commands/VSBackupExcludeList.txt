@@ -1,0 +1,12 @@
+.bin
+.packages
+.git
+.vs
+bin
+obj
+help
+package
+packages
+release
+releases
+logs

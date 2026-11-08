@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b37">
+  <meta name="description" content="MotorPH payroll office prototype using synthetic demo data.">
+  <title>Employee Register — MotorPH Payroll Office</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/workflow.css">
+  <link rel="stylesheet" href="/employee-records.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main class="auth-gate" id="auth-gate" aria-labelledby="auth-title">
+    <section class="auth-card">
+      <a class="brand auth-brand" href="/" aria-label="MotorPH Payroll Office">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="brand-copy"><strong>MOTORPH</strong><small>PAYROLL OFFICE</small></span>
+      </a>
+      <div class="side-rule"></div>
+      <p class="eyebrow"><span class="eyebrow-line"></span> DEVELOPMENT / SIGN IN</p>
+      <h1 id="auth-title">Open the demo workspace</h1>
+      <p class="auth-intro">Sign in with your Firebase account and your MotorPH employee number. What you can see is decided by the role the payroll office has given that number.</p>
+      <form id="auth-form" class="auth-form">
+        <label for="auth-email">EMAIL ADDRESS</label>
+        <input id="auth-email" type="email" autocomplete="username" required>
+        <label for="auth-password">PASSWORD</label>
+        <input id="auth-password" type="password" autocomplete="current-password" minlength="6" required>
+        <label for="auth-employee-number">MOTORPH EMPLOYEE NUMBER</label>
+        <input id="auth-employee-number" type="text" inputmode="numeric" pattern="[0-9]{5}"
+               maxlength="5" placeholder="e.g. 10015" autocomplete="off">
+        <p class="auth-hint" id="auth-employee-hint">This is how the payroll office knows which person you
+          are, and therefore what you may see. Your role is decided by the system from your employee
+          number, not by anything you type here.</p>
+        <div class="auth-actions">
+          <button class="button button-dark" id="sign-in-button" type="submit">Sign in</button>
+          <button class="button button-quiet" id="create-account-button" type="button">Create dev account</button>
+        </div>
+        <button class="auth-reset-button" id="password-reset-button" type="button">Forgot password? Send a reset link</button>
+      </form>
+      <p id="auth-reset-status" class="auth-reset-status" role="status" aria-live="polite"></p>
+      <p class="auth-error" id="auth-error" role="alert" hidden></p>
+      <p class="auth-foot"><span class="status-dot"></span> No real staff data; payroll preview is synthetic-only.</p>
+    </section>
+  </main>
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="/" aria-label="MotorPH Payroll Office home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="brand-copy"><strong>MOTORPH</strong><small>PAYROLL OFFICE</small></span>
+      </a>
+      <div class="side-rule"></div>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="primary-nav">
+        <button class="nav-item" type="button" data-view="overview"><span class="nav-index">01</span><span>Overview</span></button>
+        <button class="nav-item active" type="button" data-view="employees" aria-current="page"><span class="nav-index">02</span><span>Employees</span><span class="nav-mark" aria-hidden="true"></span></button>
+        <button class="nav-item" type="button" data-view="attendance"><span class="nav-index">03</span><span>Attendance</span></button>
+        <button class="nav-item" type="button" data-view="requests"><span class="nav-index">04</span><span>Requests</span></button>
+        <button class="nav-item" type="button" data-view="team"><span class="nav-index">05</span><span>Team</span></button>
+        <button class="nav-item" type="button" data-view="hr"><span class="nav-index">06</span><span>HR desk</span></button>
+        <button class="nav-item" type="button" data-view="reports"><span class="nav-index">07</span><span>Reports</span></button>
+        <button class="nav-item" type="button" data-view="payroll"><span class="nav-index">08</span><span>Payroll</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="build-stamp"><span class="stamp-dot"></span><span>DEVELOPMENT BUILD</span></div>
+        <p>Prototype data only.<br>Payslips match MotorPH's sample.</p>
+        <div class="version-line"><span>MS2 / PAYROLL BUILD</span><span>0.3</span></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="breadcrumb"><span>MotorPH</span><span class="crumb-slash">/</span><span id="crumb-current">Employees</span></div>
+        <div class="topbar-right">
+          <span class="topbar-note"><span class="status-dot"></span> SYNTHETIC DATA</span>
+          <span class="topbar-divider" aria-hidden="true"></span>
+          <label class="seat-switcher" id="seat-switcher-wrap" hidden>
+            <span>ACTING AS</span>
+            <select id="seat-switcher" aria-label="Choose which seat to act under"></select>
+          </label>
+          <label class="fixture-actor" id="fixture-actor-wrap" hidden>
+            <span>PERSON</span>
+            <select id="fixture-actor" aria-label="Choose which seeded employee to act as">
+              <option value="">Select an employee number</option>
+            </select>
+          </label>
+          <span class="operator-label" id="operator-label">FIREBASE SANDBOX</span>
+          <span class="operator-avatar" id="operator-avatar" aria-hidden="true">D</span>
+          <button class="button button-quiet sign-out-button" id="sign-out-button" type="button">Sign out</button>
+        </div>
+      </header>
+
+      <p class="identity-banner" id="identity-banner" role="status" aria-live="polite" hidden></p>
+
+      <section class="page-content" id="page-content">
+      <section class="page-view" id="employees-view">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> PERSONNEL / RECORDS</p>
+            <h1>Employee register</h1>
+            <p class="page-intro">A clear view of the people in this payroll workspace.</p>
+          </div>
+          <div class="period-card">
+            <span class="field-label">PAY PERIOD</span>
+            <strong>Not selected</strong>
+            <span class="period-foot"><span class="small-square"></span> Configure after MS2 rules are confirmed</span>
+          </div>
+        </div>
+
+        <div class="notice" role="note">
+          <span class="notice-symbol" aria-hidden="true">i</span>
+          <p><strong>Foundation build.</strong> Employee records below are fictional demo data. Payroll calculates against the 2026 statutory ruleset, reproduces MotorPH's supplied payslip to the centavo, and saves each run as an immutable snapshot; attendance capture and automatic timecard-to-pay derivation are still out of scope.</p>
+          <span class="notice-code">NO LIVE EMPLOYEE DATA</span>
+        </div>
+
+        <section class="summary-grid" aria-label="Workspace summary">
+          <article class="summary-card summary-card-primary">
+            <div class="summary-top"><span>EMPLOYEE DIRECTORY</span><span class="summary-symbol">A—Z</span></div>
+            <div class="summary-value"><strong id="employee-count">—</strong><span>records loaded</span></div>
+            <div class="summary-bottom"><span class="mini-rule"></span> Synthetic development set</div>
+          </article>
+          <article class="summary-card">
+            <div class="summary-top"><span>PAY PERIOD</span><span class="summary-symbol">02</span></div>
+            <div class="summary-value"><strong class="summary-word">Not set</strong></div>
+            <div class="summary-bottom"><span class="mini-rule"></span> No period selected</div>
+          </article>
+          <article class="summary-card">
+            <div class="summary-top"><span>PAYROLL RUN</span><span class="summary-symbol">03</span></div>
+            <div class="summary-value"><strong class="summary-word">Ready</strong></div>
+            <div class="summary-bottom"><span class="mini-rule"></span> 2026 ruleset loaded</div>
+          </article>
+        </section>
+
+        <section class="register-panel" aria-labelledby="register-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow panel-eyebrow">DIRECTORY <span class="eyebrow-line"></span> 01</p>
+              <h2 id="register-title">People</h2>
+            </div>
+            <div class="panel-tools">
+              <label class="search-box">
+                <span class="search-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Search employees</span>
+                <input id="employee-search" type="search" placeholder="Find a person or ID" autocomplete="off">
+                <kbd>/</kbd>
+              </label>
+              <label class="employee-sort-select"><span class="visually-hidden">Sort employees by</span><select id="employee-sort" aria-label="Sort employees by"><option value="name">Name</option><option value="id">Employee ID</option><option value="department">Department</option><option value="role">Role</option><option value="location">Location</option><option value="status">Status</option></select></label>
+              <label class="employee-sort-select"><span class="visually-hidden">Employee sort order</span><select id="employee-order" aria-label="Employee sort order"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label>
+              <button class="button button-quiet" id="seed-demo-button" type="button" hidden>Add missing synthetic fixtures</button>
+              <button class="button button-quiet" id="employee-export-button" type="button" disabled>Export CSV</button>
+              <span id="employee-export-status" class="visually-hidden" role="status" aria-live="polite"></span>
+              <button class="button button-quiet" id="refresh-button" type="button"><span class="refresh-icon" aria-hidden="true">↻</span> Refresh</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th scope="col">EMPLOYEE</th><th scope="col">DEPARTMENT</th><th scope="col">ROLE</th><th scope="col">LOCATION</th><th scope="col">STATUS</th><th scope="col"><span class="visually-hidden">Open record</span></th></tr>
+              </thead>
+              <tbody id="employee-rows">
+                <tr><td colspan="6" class="table-message">Loading employee records…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel-foot"><span id="result-count" role="status" aria-live="polite" aria-atomic="true">Loading</span><span>Showing demo records only <span class="foot-separator">/</span> <span class="foot-ledger">REGISTER · A</span></span></div>
+        </section>
+
+        <footer class="page-footer"><span>MotorPH Payroll Office <span class="footer-dot">·</span> Foundation prototype</span><span>Built with Java + HTML/CSS <span class="footer-dot">·</span> Demo data only</span></footer>
+      </section>
+
+      <section class="page-view" id="overview-view" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow"><span class="eyebrow-line"></span> WORKSPACE / SUMMARY</p><h1>Operations overview</h1><p class="page-intro">Verified foundation plus safe, owner-scoped workflow demonstrations.</p></div>
+          <div class="period-card"><span class="field-label">CURRENT BUILD</span><strong>Payroll build / 0.3</strong><span class="period-foot"><span class="small-square"></span> Synthetic development mode</span></div>
+        </div>
+        <div class="notice" role="note"><span class="notice-symbol" aria-hidden="true">i</span><p><strong>Synthetic data only.</strong> Every employee, timecard and payslip here is fictional. Payroll runs against the 2026 statutory ruleset and reproduces MotorPH's sample payslip to the centavo.</p><span class="notice-code">DEVELOPMENT ONLY</span></div>
+        <section class="summary-grid overview-cards" aria-label="Implementation status">
+          <article class="summary-card summary-card-primary"><div class="summary-top"><span>EMPLOYEE REGISTER</span><span class="summary-symbol">01</span></div><div class="summary-value"><strong id="overview-employee-count">03</strong><span>demo records</span></div><div class="summary-bottom"><span class="mini-rule"></span> Java API connected</div></article>
+          <article class="summary-card"><div class="summary-top"><span>ATTENDANCE</span><span class="summary-symbol">02</span></div><div class="summary-value"><strong id="overview-attendance-count">00</strong><span>raw records selected</span></div><div class="summary-bottom"><span class="mini-rule"></span> No hours or pay derived</div></article>
+          <article class="summary-card"><div class="summary-top"><span>REQUEST WORKFLOWS</span><span class="summary-symbol">03</span></div><div class="summary-value"><strong id="overview-workflow-count">00</strong><span>records in sandbox</span></div><div class="summary-bottom"><span class="mini-rule"></span> No reviewer or approval</div></article>
+          <article class="summary-card"><div class="summary-top"><span>PAYROLL</span><span class="summary-symbol">04</span></div><div class="summary-value"><strong class="summary-word">Working</strong></div><div class="summary-bottom"><span class="mini-rule"></span> Matches MotorPH's sample payslip</div></article>
+        </section>
+        <section class="register-panel status-panel" aria-labelledby="build-status-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">BUILD TRACKER <span class="eyebrow-line"></span> 02</p><h2 id="build-status-title">Workstream status</h2></div><span class="status-summary">FOUNDATION + DEMO <span>/</span> PAYROLL GATED</span></div>
+          <div class="workstream-list">
+            <div class="workstream-row"><span class="workstream-number">01</span><div><strong>Employee directory</strong><small>Firebase sign-in, live synthetic list/search, and employee detail selection</small></div><span class="workstream-status ready">VERIFIED</span></div>
+            <div class="workstream-row"><span class="workstream-number">02</span><div><strong>Attendance inputs</strong><small>Selected employee + inclusive date range; raw synthetic rows only, no hours derived</small></div><span class="workstream-status ready">INPUT READY</span></div>
+            <div class="workstream-row"><span class="workstream-number">03</span><div><strong>Leave &amp; ticket demonstrations</strong><small>Validated forms, queue labels, and cancel actions; owner-scoped writes only, no reviewer notified</small></div><span class="workstream-status">OWNER ONLY</span></div>
+            <div class="workstream-row"><span class="workstream-number">04</span><div><strong>Team &amp; directory</strong><small>Team roster is read-only; limited synthetic directory edits have no HR-role authorization</small></div><span class="workstream-status">SANDBOX EDITS</span></div>
+            <div class="workstream-row"><span class="workstream-number">05</span><div><strong>Payroll and payslips</strong><small>Effective-dated statutory ruleset, saved immutable runs, reprintable payslips; days worked is entered, not derived from punches</small></div><span class="workstream-status ready">WORKING</span></div>
+            <div class="workstream-row"><span class="workstream-number">06</span><div><strong>Firebase development sandbox</strong><small>User-published rules; synthetic read/write and deny cases passed live</small></div><span class="workstream-status ready">VERIFIED</span></div>
+          </div>
+        </section>
+        <footer class="page-footer"><span>MotorPH Payroll Office <span class="footer-dot">·</span> Foundation prototype</span><span>Raw attendance only · calculation rules remain gated</span></footer>
+      </section>
+
+      <section class="page-view" id="attendance-view" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow"><span class="eyebrow-line"></span> TIME / RAW RECORDS</p><h1>Attendance register</h1><p class="page-intro">View recorded times by employee and date range. No hours are calculated.</p></div>
+          <div class="period-card"><span class="field-label">DATA MODEL</span><strong>MO-IT107 reference</strong><span class="period-foot"><span class="small-square"></span> Not confirmed as MS2 schema</span></div>
+        </div>
+        <div class="notice" role="note"><span class="notice-symbol" aria-hidden="true">i</span><p><strong>Stored timecards, read only.</strong> The signed-in workspace reads synthetic attendance records and coverage reports from Firestore. Attendance capture, correction, and schedule assignment are not available, and paid hours are only summarised from existing meal-punch data — never entered here.</p><span class="notice-code">READ ONLY</span></div>
+        <section class="register-panel" aria-labelledby="attendance-title">
+          <div class="panel-heading attendance-heading"><div><p class="eyebrow panel-eyebrow">ATTENDANCE LOG <span class="eyebrow-line"></span> 01</p><h2 id="attendance-title">Raw entries</h2></div>
+            <form class="attendance-controls" id="attendance-filter">
+              <label><span>EMPLOYEE</span><select id="attendance-employee" required aria-label="Employee"><option value="">Loading employees…</option></select></label>
+              <label><span>FROM</span><input id="attendance-from" type="date" aria-label="From date"></label>
+              <label><span>THROUGH</span><input id="attendance-to" type="date" aria-label="Through date"></label>
+              <label><span>SORT BY</span><select id="attendance-sort" aria-label="Sort raw attendance by"><option value="date">Date</option><option value="attendanceId">Attendance ID</option><option value="scheduleId">Schedule ID</option><option value="timeIn">Time in</option><option value="timeOut">Time out</option><option value="dayType">Day type</option></select></label>
+              <label><span>ORDER</span><select id="attendance-order" aria-label="Raw attendance sort direction"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label>
+              <button class="button button-dark" type="submit">Load records</button>
+              <button class="button button-quiet" id="attendance-export-button" type="button" disabled>Export raw CSV</button>
+              <span id="attendance-export-status" class="visually-hidden" role="status" aria-live="polite"></span>
+            </form>
+          </div>
+          <div class="attendance-explainer"><span class="small-square"></span> Defaults to all available records (earliest–latest); filters are inclusive, not a payroll period.</div>
+          <div class="raw-attendance-summary" aria-label="Raw attendance summary" aria-live="polite">
+            <div><span>ROWS IN SELECTION</span><strong id="attendance-summary-count">00</strong></div>
+            <div><span>EARLIEST RECORD DATE</span><strong id="attendance-summary-first">—</strong></div>
+            <div><span>LATEST RECORD DATE</span><strong id="attendance-summary-last">—</strong></div>
+            <p>Counts and dates describe raw rows only; they are not worked-day classifications, hours, or a pay-period summary.</p>
+          </div>
+          <section class="leave-calendar-panel attendance-calendar-panel" aria-labelledby="attendance-calendar-title">
+            <div class="calendar-heading">
+              <div><p class="eyebrow panel-eyebrow">RECORDED DATES <span class="eyebrow-line"></span> RAW VIEW</p><h3 id="attendance-calendar-title">Raw attendance calendar</h3></div>
+              <div class="calendar-controls"><button class="button button-quiet" id="attendance-calendar-prev" type="button" aria-label="Previous attendance calendar month">←</button><strong id="attendance-calendar-month" aria-live="polite">—</strong><button class="button button-quiet" id="attendance-calendar-next" type="button" aria-label="Next attendance calendar month">→</button></div>
+            </div>
+            <p class="calendar-note">Shows dates and raw times from the loaded query only. Pick two dates to apply an inclusive range to the raw list. Blank dates mean no row is loaded; they do not mean absent or unworked.</p><p id="attendance-calendar-selection-status" class="calendar-note" role="status" aria-live="polite">Choose a start and end date to filter raw rows.</p>
+            <div class="calendar-table-wrap"><table class="calendar-table"><thead><tr><th scope="col">MON</th><th scope="col">TUE</th><th scope="col">WED</th><th scope="col">THU</th><th scope="col">FRI</th><th scope="col">SAT</th><th scope="col">SUN</th></tr></thead><tbody id="attendance-calendar-grid"></tbody></table></div>
+          </section>
+          <div class="table-wrap">
+            <table class="attendance-table">
+              <thead><tr><th scope="col">DATE</th><th scope="col">ATTENDANCE ID</th><th scope="col">SCHEDULE ID</th><th scope="col">TIME IN</th><th scope="col">TIME OUT</th><th scope="col">DAY TYPE</th></tr></thead>
+              <tbody id="attendance-rows"><tr><td colspan="6" class="table-message">Choose an employee to load stored timecard rows.</td></tr></tbody>
+            </table>
+          </div>
+          <div class="panel-foot"><span id="attendance-result-count" role="status" aria-live="polite" aria-atomic="true">No records loaded</span><span>Raw entries only <span class="foot-separator">/</span> NO HOURS DERIVED</span></div>
+        </section>
+        <footer class="page-footer"><span>Schema fields and uniqueness rule are taken from the supplied MO-IT107 documents.</span><span>Real input source remains unconfirmed</span></footer>
+      </section>
+
+      <section class="page-view" id="requests-view" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow"><span class="eyebrow-line"></span> SELF-SERVICE / WORK QUEUE</p><h1>Requests &amp; tickets</h1><p class="page-intro">Submit a fictional demo request and track its status in the current sandbox.</p></div>
+          <div class="period-card"><span class="field-label">STORAGE</span><strong id="workflow-storage-mode">Checking sandbox…</strong><span class="period-foot"><span class="small-square"></span> Owner-scoped demo data; no reviewer actions</span></div>
+        </div>
+        <div class="notice" role="note"><span class="notice-symbol" aria-hidden="true">i</span><p><strong>Fictional workflow records only.</strong> Firebase mode stores requests under the signed-in user’s demo sandbox, with create/read/cancel only. Local preview uses process memory and clears when its Java server restarts. The account is not mapped to an employee; selected names are demo labels, not identity verification. Never enter real personal or payroll details. No reviewer, approval, or notification workflow exists.</p><span class="notice-code">NO APPROVAL ROLE</span></div>
+        <p class="workflow-load-status" id="workflow-load-status" role="status" aria-live="polite" hidden></p>
+
+        <section class="register-panel workflow-panel" aria-labelledby="leave-requests-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">TIME OFF <span class="eyebrow-line"></span> 01</p><h2 id="leave-requests-title">Leave requests</h2></div><div class="panel-tools"><span class="workstream-status">NO BALANCE RULES</span><button class="button button-quiet workflow-export" id="leave-export-button" type="button" disabled>Export all CSV</button><button class="button button-quiet workflow-export" id="leave-visible-export-button" type="button" disabled>Export visible CSV</button><span id="leave-export-status" class="visually-hidden" role="status" aria-live="polite"></span></div></div>
+          <form id="leave-request-form" class="workflow-form">
+            <label><span>FICTIONAL EMPLOYEE</span><select id="leave-employee" required><option value="">Load directory first</option></select></label>
+            <label><span>LEAVE TYPE</span><select id="leave-type" required><option value="">Choose type</option><option>Vacation</option><option>Medical</option><option>Personal</option><option>Unpaid</option></select></label>
+            <label><span>FROM</span><input id="leave-start" type="date" required></label>
+            <label><span>THROUGH</span><input id="leave-end" type="date" required></label>
+            <label class="workflow-wide"><span>NOTE <small>OPTIONAL · 240 CHARACTERS MAX</small></span><textarea id="leave-note" maxlength="240" rows="2" placeholder="Fictional demo note"></textarea></label>
+            <div class="workflow-actions"><button class="button button-dark" type="submit">Submit demo request</button><span id="leave-form-status" role="status" aria-live="polite"></span></div>
+          </form>
+          <section class="leave-calendar-panel" aria-labelledby="leave-calendar-title">
+            <div class="calendar-heading"><div><p class="eyebrow panel-eyebrow">REQUEST DATES <span class="eyebrow-line"></span> 02</p><h3 id="leave-calendar-title">Request-date calendar</h3></div><div class="calendar-controls"><button class="button button-quiet" id="leave-calendar-prev" type="button" aria-label="Previous month">←</button><span id="leave-calendar-month" aria-live="polite"></span><button class="button button-quiet" id="leave-calendar-next" type="button" aria-label="Next month">→</button></div></div>
+            <p class="calendar-note">Existing markers show submitted requests only, not approved time off. Click a date, then another date to draft the request bounds; this does not submit or calculate days.</p><p id="leave-calendar-selection-status" class="calendar-note" role="status" aria-live="polite">Choose the first date to draft a request range.</p>
+            <div class="calendar-table-wrap"><table class="calendar-table"><thead><tr><th scope="col">MON</th><th scope="col">TUE</th><th scope="col">WED</th><th scope="col">THU</th><th scope="col">FRI</th><th scope="col">SAT</th><th scope="col">SUN</th></tr></thead><tbody id="leave-calendar-grid"></tbody></table></div>
+          </section>
+          <div class="workflow-filters leave-history-filters" role="group" aria-label="Filter leave requests"><label><span>SEARCH THIS LIST</span><input id="leave-filter-search" type="search" autocomplete="off" placeholder="ID, employee, type, or date"></label><label><span>STATUS</span><select id="leave-filter-status"><option value="">Any status</option><option value="Pending review">Pending review</option><option value="Cancelled">Cancelled</option></select></label><label><span>TYPE</span><select id="leave-filter-type"><option value="">Any type</option><option>Vacation</option><option>Medical</option><option>Personal</option><option>Unpaid</option></select></label><label><span>REQUEST RANGE FROM</span><input id="leave-filter-from" type="date"></label><label><span>THROUGH</span><input id="leave-filter-to" type="date"></label><label><span>SORT BY</span><select id="leave-sort"><option value="submittedAt">Submitted time</option><option value="employeeName">Employee</option><option value="leaveType">Leave type</option><option value="startDate">Start date</option><option value="status">Status</option></select></label><label><span>ORDER</span><select id="leave-sort-order"><option value="desc">Newest / descending</option><option value="asc">Oldest / ascending</option></select></label><p>Dates match requests overlapping this inclusive range. Filters and sorting affect this table only; calendar shows all requests. Choose Export visible or Export all.</p></div>
+          <div class="table-wrap"><table class="workflow-table"><thead><tr><th scope="col">REQUEST</th><th scope="col">EMPLOYEE</th><th scope="col">TYPE</th><th scope="col">DATES</th><th scope="col">STATUS</th><th scope="col">ACTION</th></tr></thead><tbody id="leave-request-rows"><tr><td colspan="6" class="table-message">No session requests yet.</td></tr></tbody></table></div>
+          <div class="panel-foot"><span id="leave-request-count" role="status" aria-live="polite">0 requests</span><span>Submission only <span class="foot-separator">/</span> NO APPROVALS OR BALANCE CALCULATED</span></div>
+        </section>
+
+        <section class="register-panel workflow-panel" aria-labelledby="tickets-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">HELP DESK <span class="eyebrow-line"></span> 02</p><h2 id="tickets-title">Tickets &amp; disputes</h2></div><div class="panel-tools"><span class="workstream-status">QUEUE LABELS ONLY</span><button class="button button-quiet workflow-export" id="ticket-export-button" type="button" disabled>Export all CSV</button><button class="button button-quiet workflow-export" id="ticket-visible-export-button" type="button" disabled>Export visible CSV</button><span id="ticket-export-status" class="visually-hidden" role="status" aria-live="polite"></span></div></div>
+          <form id="ticket-form" class="workflow-form">
+            <label><span>FICTIONAL EMPLOYEE</span><select id="ticket-employee" required><option value="">Load directory first</option></select></label>
+            <label><span>REQUEST TYPE</span><select id="ticket-type" required><option value="">Choose type</option><option>Overtime request</option><option>Leave request</option><option>Timesheet correction</option><option>Payroll inquiry</option><option>HR inquiry</option><option>Technical support</option></select></label>
+            <label class="workflow-wide"><span>MESSAGE <small>240 CHARACTERS MAX</small></span><textarea id="ticket-summary" maxlength="240" rows="2" required placeholder="Describe a fictional demo issue"></textarea></label>
+            <div class="workflow-actions"><button class="button button-dark" type="submit">Create demo ticket</button><span id="ticket-form-status" role="status" aria-live="polite"></span></div>
+          </form>
+          <div class="workflow-filters" role="group" aria-label="Filter tickets"><label><span>SEARCH THIS LIST</span><input id="ticket-filter-search" type="search" autocomplete="off" placeholder="ID, employee, type, or queue"></label><label><span>STATUS</span><select id="ticket-filter-status"><option value="">Any status</option><option value="Open">Open</option><option value="Cancelled">Cancelled</option></select></label><label><span>TYPE</span><select id="ticket-filter-type"><option value="">Any type</option><option>Overtime request</option><option>Leave request</option><option>Timesheet correction</option><option>Payroll inquiry</option><option>HR inquiry</option><option>Technical support</option></select></label><label><span>SORT BY</span><select id="ticket-sort"><option value="submittedAt">Submitted time</option><option value="employeeName">Employee</option><option value="ticketType">Ticket type</option><option value="queue">Queue label</option><option value="status">Status</option></select></label><label><span>ORDER</span><select id="ticket-sort-order"><option value="desc">Newest / descending</option><option value="asc">Oldest / ascending</option></select></label><p>Filters and sorting affect this table only; choose Export visible or Export all.</p></div>
+          <div class="table-wrap"><table class="workflow-table"><thead><tr><th scope="col">TICKET</th><th scope="col">EMPLOYEE</th><th scope="col">TYPE</th><th scope="col">QUEUE LABEL</th><th scope="col">STATUS</th><th scope="col">ACTION</th></tr></thead><tbody id="ticket-rows"><tr><td colspan="6" class="table-message">No session tickets yet.</td></tr></tbody></table></div>
+          <div class="panel-foot"><span id="ticket-count" role="status" aria-live="polite">0 tickets</span><span>Owner sandbox only <span class="foot-separator">/</span> NO REVIEWER ACTIONS</span></div>
+        </section>
+        <footer class="page-footer"><span>Type labels only; no payroll calculation is available.</span><span>Requests are not sent to a reviewer.</span></footer>
+      </section>
+
+      <section class="page-view" id="team-view" hidden>
+        <div class="page-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> PEOPLE / DIRECTORY</p><h1>Team roster</h1><p class="page-intro">A read-only roster of the fictional employee records in this sandbox.</p></div><div class="period-card"><span class="field-label">TEAM MODEL</span><strong>Not configured</strong><span class="period-foot"><span class="small-square"></span> No reporting lines or team scopes inferred</span></div></div>
+        <div class="notice" role="note"><span class="notice-symbol" aria-hidden="true">i</span><p><strong>Directory view only.</strong> This screen does not define supervisor relationships, schedules, location-based access, or approval authority. Do not use it as an authorization model.</p><span class="notice-code">READ ONLY</span></div>
+        <section class="register-panel" aria-labelledby="team-roster-title"><div class="panel-heading"><div><p class="eyebrow panel-eyebrow">EMPLOYEE ROSTER <span class="eyebrow-line"></span> 01</p><h2 id="team-roster-title">People</h2></div><div class="panel-tools"><span class="workstream-status ready">EMPLOYEE FILE</span><button class="button button-quiet workflow-export" id="team-export-button" type="button" disabled>Export CSV</button><span id="team-export-status" class="visually-hidden" role="status" aria-live="polite"></span></div></div><div class="workflow-filters" role="group" aria-label="Filter read-only roster"><label><span>SEARCH THIS ROSTER</span><input id="team-directory-search" type="search" autocomplete="off" placeholder="ID, name, department, role, or location"></label><label><span>STATUS</span><select id="team-directory-status"><option value="">Any status</option><option value="Active">Active</option><option value="On leave">On leave</option></select></label><label><span>SORT BY</span><select id="team-directory-sort"><option value="name">Employee name</option><option value="id">Employee ID</option><option value="department">Department</option><option value="role">Role label</option><option value="location">Location</option><option value="status">Status</option></select></label><label><span>ORDER</span><select id="team-directory-order"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label><p>Filters and sorting affect this read-only directory only; no team membership or supervisor scope is inferred.</p></div><div class="table-wrap"><table><thead><tr><th scope="col">EMPLOYEE</th><th scope="col">DEPARTMENT</th><th scope="col">ROLE LABEL</th><th scope="col">LOCATION</th><th scope="col">STATUS</th></tr></thead><tbody id="team-rows"><tr><td colspan="5" class="table-message">Loading directory…</td></tr></tbody></table></div><div class="panel-foot"><span id="team-count" role="status" aria-live="polite">Loading</span><span>Read only <span class="foot-separator">/</span> NO TEAM ASSIGNMENTS</span></div></section>
+        <footer class="page-footer"><span>Directory values come from the signed-in user’s synthetic sandbox.</span><span>Team scopes remain undefined.</span></footer>
+      </section>
+
+      <section class="page-view" id="hr-view" hidden>
+        <div class="page-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> PEOPLE / OWNER SANDBOX</p><h1>Directory maintenance</h1><p class="page-intro">Create or edit employee records: directory fields and the pay amounts payroll reads.</p></div><div class="period-card"><span class="field-label">DIRECTORY STORAGE</span><strong id="employee-storage-mode">User-scoped Firestore</strong><span class="period-foot"><span class="small-square"></span> Your access is set by your role</span></div></div>
+        <div class="notice" role="note"><span class="notice-symbol" aria-hidden="true">i</span><p><strong>Directory editor, not an HR authorization role.</strong> Writes are scoped to the signed-in user's sandbox. Name, department, role label, location, employment status, monthly basic pay and the three allowances can be created or changed. No government ID, termination, delete, team, or schedule controls exist. A rate change here also changes past calculations, because there is no effective-dated salary history yet.</p><span class="notice-code">SANDBOX FIELDS</span></div>
+        <section class="register-panel employee-editor-panel" aria-labelledby="employee-editor-title"><div class="panel-heading"><div><p class="eyebrow panel-eyebrow">SANDBOX DIRECTORY <span class="eyebrow-line"></span> 01</p><h2 id="employee-editor-title">Create employee record</h2></div><span class="workstream-status">ID ISSUED BY SERVER</span></div>
+          <form id="employee-form" class="workflow-form">
+            <input id="employee-edit-id" type="hidden" value="">
+            <label><span>NAME</span><input id="employee-edit-name" type="text" maxlength="100" required></label>
+            <label><span>DEPARTMENT</span><input id="employee-edit-department" type="text" maxlength="100" required></label>
+            <label><span>ROLE LABEL</span><input id="employee-edit-role" type="text" maxlength="100" required></label>
+            <label><span>LOCATION</span><input id="employee-edit-location" type="text" maxlength="100" required></label>
+            <label><span>EMPLOYMENT STATUS</span><select id="employee-edit-status" required><option>Active</option><option>On leave</option></select></label>
+            <label><span>MONTHLY BASIC PAY</span><input id="employee-edit-basic" type="number" min="0" step="0.01" placeholder="e.g. 53500.00"></label>
+            <label><span>RICE SUBSIDY</span><input id="employee-edit-rice" type="number" min="0" step="0.01" value="0"></label>
+            <label><span>PHONE ALLOWANCE</span><input id="employee-edit-phone" type="number" min="0" step="0.01" value="0"></label>
+            <label><span>CLOTHING ALLOWANCE</span><input id="employee-edit-clothing" type="number" min="0" step="0.01" value="0"></label>
+            <div class="workflow-actions"><button class="button button-dark" id="employee-save-button" type="submit">Create employee record</button><button class="button button-quiet" id="employee-cancel-edit-button" type="button" hidden>Cancel edit</button><span id="employee-form-status" role="status" aria-live="polite"></span></div>
+          </form>
+          <div class="attendance-explainer"><span class="small-square"></span> New records have no assigned schedule, so raw attendance remains empty until an approved schedule mapping exists.</div>
+        </section>
+        <section class="register-panel" aria-labelledby="hr-register-title"><div class="panel-heading"><div><p class="eyebrow panel-eyebrow">HR REGISTER <span class="eyebrow-line"></span> 02</p><h2 id="hr-register-title">Employee records</h2></div><div class="panel-tools"><span class="workstream-status ready">OWNER SANDBOX</span><button class="button button-quiet workflow-export" id="hr-directory-export" type="button" disabled>Export filtered CSV</button><span id="hr-directory-export-status" class="visually-hidden" role="status" aria-live="polite"></span></div></div><div class="workflow-filters" role="group" aria-label="Filter employee records"><label><span>SEARCH THIS DIRECTORY</span><input id="hr-directory-search" type="search" autocomplete="off" placeholder="ID, name, department, role, or location"></label><label><span>STATUS</span><select id="hr-directory-status"><option value="">Any status</option><option value="Active">Active</option><option value="On leave">On leave</option></select></label><label><span>SORT BY</span><select id="hr-directory-sort"><option value="name">Employee name</option><option value="id">Employee ID</option><option value="department">Department</option><option value="role">Role label</option><option value="location">Location</option><option value="status">Status</option></select></label><label><span>ORDER</span><select id="hr-directory-order"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label><p>Filters and sorting affect this table only; values are records in your own user sandbox.</p></div><div class="table-wrap"><table><thead><tr><th scope="col">EMPLOYEE</th><th scope="col">DEPARTMENT</th><th scope="col">ROLE LABEL</th><th scope="col">LOCATION</th><th scope="col">STATUS</th><th scope="col">ACTIONS</th></tr></thead><tbody id="hr-rows"><tr><td colspan="6" class="table-message">Loading directory…</td></tr></tbody></table></div><div class="panel-foot"><span id="hr-count" role="status" aria-live="polite">Loading</span><span>Editable fields only <span class="foot-separator">/</span> NO DELETE</span></div></section>
+        <div class="workflow-shortcut"><span>Need to test a fictional inquiry?</span><button class="button button-quiet" type="button" data-open-requests>Open requests &amp; tickets</button></div>
+        <footer class="page-footer"><span>No real PII workflow or HR authorization is connected.</span><span>Directory access is not an HR role.</span></footer>
+      </section>
+
+      <section class="page-view" id="reports-view" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow"><span class="eyebrow-line"></span> REPORTS / RAW ATTENDANCE</p><h1>Attendance coverage</h1><p class="page-intro">Review raw attendance coverage, search linked employee records, or export the current sandbox without payroll calculations.</p></div>
+          <div class="period-card"><span class="field-label">REPORT TYPE</span><strong>Raw data only</strong><span class="period-foot"><span class="small-square"></span> No calculated hours or pay</span></div>
+        </div>
+        <div class="notice" role="note"><span class="notice-symbol" aria-hidden="true">i</span><p><strong>This is not an absence or worked-days report.</strong> It counts stored raw rows for employees with a configured synthetic schedule mapping. “No mapping” and a zero count do not mean absent or unworked. No hours, attendance classifications, or payroll periods are inferred.</p><span class="notice-code">RAW RECORDS ONLY</span></div>
+        <section class="register-panel sandbox-export-panel" aria-labelledby="sandbox-export-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">DATA PORTABILITY <span class="eyebrow-line"></span> OWNER SANDBOX</p><h2 id="sandbox-export-title">Export this demo workspace</h2></div><div class="panel-tools"><span class="workstream-status">SYNTHETIC DATA ONLY</span><button class="button button-quiet" id="sandbox-export-button" type="button">Download JSON</button></div></div>
+          <div class="attendance-explainer"><span class="small-square"></span> Creates a browser download of the current sandbox's synthetic directory, raw attendance rows, and stored requests/tickets. Uses reads only; no hours, pay, credentials, or Firebase writes are included.</div>
+          <p id="sandbox-export-status" class="workflow-load-status" role="status" aria-live="polite" hidden></p>
+        </section>
+        <section class="register-panel sandbox-search-panel" aria-labelledby="sandbox-search-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">CROSS-MODULE LOOKUP <span class="eyebrow-line"></span> OWNER SANDBOX</p><h2 id="sandbox-search-title">Search employee records</h2></div><span class="workstream-status">READ ONLY</span></div>
+          <form id="sandbox-search-form" class="workflow-filters sandbox-search-form"><label><span>SEARCH EMPLOYEES, RAW TIMES, REQUESTS, AND TICKETS</span><input id="sandbox-search-query" type="search" autocomplete="off" placeholder="Name, ID, date, time, type, or stored status"></label><button class="button button-dark" type="submit">Search sandbox</button></form>
+          <p id="sandbox-search-status" class="workflow-load-status" role="status" aria-live="polite" hidden></p>
+          <div id="sandbox-search-results" class="sandbox-search-results" aria-live="polite"><p>Search results appear here; no attendance or payroll calculations are performed.</p></div>
+        </section>
+        <section class="register-panel directory-report-panel" aria-labelledby="directory-report-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">DIRECTORY SNAPSHOT <span class="eyebrow-line"></span> 01</p><h2 id="directory-report-title">Synthetic directory summary</h2></div><div class="panel-tools"><span class="workstream-status">LABEL COUNTS ONLY</span><button class="button button-quiet workflow-export" id="directory-summary-export" type="button" disabled>Export CSV</button><span id="directory-summary-export-status" class="visually-hidden" role="status" aria-live="polite"></span></div></div>
+          <div class="directory-summary-grid">
+            <div><span>DIRECTORY ROWS</span><strong id="directory-report-total">00</strong></div>
+            <div><span>STATUS LABEL: ACTIVE</span><strong id="directory-report-active">00</strong></div>
+            <div><span>STATUS LABEL: ON LEAVE</span><strong id="directory-report-onleave">00</strong></div>
+            <div class="department-counts"><span>DEPARTMENT LABEL COUNTS</span><ul id="directory-department-counts"><li>No directory labels loaded.</li></ul></div>
+          </div>
+          <div class="attendance-explainer"><span class="small-square"></span> Counts reflect stored synthetic directory labels only; “On leave” is not an approval or leave-balance result.</div>
+        </section>
+        <section class="register-panel" aria-labelledby="workflow-summary-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">REQUESTS &amp; TICKETS <span class="eyebrow-line"></span> 02</p><h2 id="workflow-summary-title">Stored workflow labels</h2></div><div class="panel-tools"><span class="workstream-status">COUNT SUMMARY ONLY</span><button class="button button-quiet workflow-export" id="workflow-summary-export" type="button" disabled>Export CSV</button><span id="workflow-summary-export-status" class="visually-hidden" role="status" aria-live="polite"></span></div></div>
+          <div class="attendance-explainer"><span class="small-square"></span> Counts group stored synthetic status, type, and queue labels only; they do not imply approval, resolution, balances, or payroll treatment.</div>
+          <div class="table-wrap"><table class="workflow-table"><thead><tr><th scope="col">LABEL CATEGORY</th><th scope="col">STORED LABEL</th><th scope="col">RECORD COUNT</th></tr></thead><tbody id="workflow-summary-rows"><tr><td colspan="3" class="table-message">No synthetic workflow records are available for this summary.</td></tr></tbody></table></div>
+          <div class="panel-foot"><span id="workflow-summary-count" role="status" aria-live="polite">0 grouped labels</span><span>Stored records only <span class="foot-separator">/</span> NO APPROVAL SEMANTICS</span></div>
+        </section>
+        <section class="register-panel employee-record-summary-panel" aria-labelledby="employee-record-summary-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">EMPLOYEE RECORD COUNTS <span class="eyebrow-line"></span> STORED ONLY</p><h2 id="employee-record-summary-title">Linked records by employee</h2></div><div class="panel-tools"><span class="workstream-status">NO CLASSIFICATIONS</span><button class="button button-quiet" id="employee-record-summary-export" type="button" disabled>Export all CSV</button><button class="button button-quiet" id="employee-record-summary-visible-export" type="button" disabled>Export visible CSV</button><span id="employee-record-summary-export-status" class="visually-hidden" role="status" aria-live="polite"></span></div></div>
+          <form id="employee-record-summary-filter" class="workflow-filters"><label><span>SEARCH EMPLOYEE</span><input id="employee-record-summary-search" type="search" placeholder="Name, ID, or department"></label><label><span>SCHEDULE MAPPING</span><select id="employee-record-summary-mapping"><option value="all">All employees</option><option value="mapped">Mapped</option><option value="unmapped">Unmapped</option></select></label><label><span>SORT BY</span><select id="employee-record-summary-sort"><option value="employeeName">Employee name</option><option value="rawRecordCount">Raw rows</option><option value="firstRecordDate">First raw date</option><option value="lastRecordDate">Last raw date</option><option value="leaveRequestCount">Leave requests</option><option value="ticketCount">Tickets</option></select></label><label><span>ORDER</span><select id="employee-record-summary-order"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label><p>Filters affect the visible table/export only; all-record export remains available.</p></form>
+          <div class="attendance-explainer"><span class="small-square"></span> Row counts join existing directory IDs to stored raw attendance, leave requests, and tickets. Zero records or no schedule mapping does not mean absent, unworked, ineligible, or unapproved.</div>
+          <div class="table-wrap"><table class="workflow-table"><thead><tr><th scope="col">EMPLOYEE</th><th scope="col">MAPPING</th><th scope="col">RAW ROWS</th><th scope="col">FIRST DATE</th><th scope="col">LAST DATE</th><th scope="col">LEAVE REQUESTS</th><th scope="col">TICKETS</th></tr></thead><tbody id="employee-record-summary-rows"><tr><td colspan="7" class="table-message">Loading stored record counts…</td></tr></tbody></table></div>
+          <div class="panel-foot"><span id="employee-record-summary-count" role="status" aria-live="polite">No record summary loaded</span><span>Stored counts only <span class="foot-separator">/</span> NO HOURS OR PAY</span></div>
+        </section>
+        <p id="attendance-report-status" class="workflow-load-status" role="status" aria-live="polite" hidden></p>
+        <section class="register-panel" aria-labelledby="attendance-report-title">
+          <div class="panel-heading attendance-heading">
+            <div><p class="eyebrow panel-eyebrow">COVERAGE SUMMARY <span class="eyebrow-line"></span> 01</p><h2 id="attendance-report-title">By synthetic employee</h2></div>
+            <form class="attendance-controls" id="attendance-report-filter">
+              <label><span>FROM</span><input id="attendance-report-from" type="date" aria-label="Report from date"></label>
+              <label><span>THROUGH</span><input id="attendance-report-to" type="date" aria-label="Report through date"></label>
+              <label><span>FIND EMPLOYEE</span><input id="attendance-report-search" type="search" aria-label="Search report employees" placeholder="Name or ID"></label>
+              <label><span>MAPPING</span><select id="attendance-report-mapping" aria-label="Filter by schedule mapping"><option value="all">All employees</option><option value="mapped">Mapped</option><option value="unmapped">Unmapped</option></select></label>
+              <label><span>SORT BY</span><select id="attendance-report-sort" aria-label="Sort attendance coverage by"><option value="employeeId">Employee ID</option><option value="employeeName">Employee name</option><option value="scheduleId">Schedule ID</option><option value="rawRecordCount">Raw row count</option><option value="firstRecordDate">First date</option><option value="lastRecordDate">Last date</option></select></label>
+              <label><span>ORDER</span><select id="attendance-report-order" aria-label="Coverage sort direction"><option value="asc">Ascending</option><option value="desc">Descending</option></select></label>
+              <button class="button button-dark" type="submit">Load report</button>
+              <button class="button button-quiet" id="attendance-report-export" type="button" disabled>Export filtered CSV</button>
+              <span id="attendance-report-export-status" class="visually-hidden" role="status" aria-live="polite"></span>
+            </form>
+          </div>
+          <div class="attendance-explainer"><span class="small-square"></span> Blank dates include all available raw records; select bounds to filter inclusively. This is not a payroll period.</div>
+          <div class="table-wrap"><table class="workflow-table attendance-report-table"><thead><tr><th scope="col">EMPLOYEE</th><th scope="col">SCHEDULE MAPPING</th><th scope="col">RAW ROWS</th><th scope="col">FIRST RECORD DATE</th><th scope="col">LAST RECORD DATE</th><th scope="col">DETAILS</th></tr></thead><tbody id="attendance-report-rows"><tr><td colspan="6" class="table-message">Load report to view raw attendance coverage.</td></tr></tbody></table></div>
+          <div class="panel-foot"><span id="attendance-report-count" role="status" aria-live="polite">No report loaded</span><span>Rows and date bounds only <span class="foot-separator">/</span> NO HOURS DERIVED</span></div>
+        </section>
+        <footer class="page-footer"><span>Report is read-only and owner-sandbox scoped.</span><span>Raw records are not payroll inputs until rules are approved.</span></footer>
+      </section>
+
+      <section class="page-view" id="payroll-view" hidden>
+        <div class="page-heading">
+          <div><p class="eyebrow"><span class="eyebrow-line"></span> PAY / CALCULATION</p><h1>Payroll workspace</h1><p class="page-intro">Build a payslip from stored pay inputs, save the run, and reprint it later. Amounts follow the statutory tables MotorPH supplied and reproduce their sample payslip to the centavo.</p></div>
+          <div class="period-card"><span class="field-label">RULESET</span><strong id="payroll-ruleset-label">2026</strong><span class="period-foot"><span class="small-square"></span> <span id="payroll-ruleset-foot">Effective 2026-01-01 to 2026-12-31</span></span></div>
+        </div>
+
+        <div class="notice" role="note"><span class="notice-symbol" aria-hidden="true">i</span><p><strong>Verified against MotorPH's own payslip.</strong> Payslip 15-2026-01-15 (monthly basic ₱53,500, 10 days worked) reproduces SSS ₱1,750.00, PhilHealth ₱1,337.50, Pag-IBIG ₱200.00, withholding ₱5,250.83, total deductions ₱8,538.33 and take-home ₱22,711.67 exactly. Attendance-based automation is not in place: days worked is entered here, while the timesheet panel reads stored timecard rows and counts them.</p><span class="notice-code">GOLDEN CASE</span></div>
+
+        <section class="register-panel" aria-labelledby="payroll-run-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">NEW PAYSLIP <span class="eyebrow-line"></span> 01</p><h2 id="payroll-run-title">Compute a payslip</h2></div><span class="workstream-status">2026 RULESET</span></div>
+          <form id="payroll-form" class="payroll-form">
+            <div class="payroll-form-grid">
+              <label class="field-employee"><span>EMPLOYEE</span><select id="payroll-employee" required></select></label>
+              <label><span>PAY PERIOD</span><select id="payroll-period"><option value="MONTHLY">Monthly</option><option value="SEMI_MONTHLY" selected>Semi-monthly</option></select></label>
+              <label><span>PERIOD START</span><input id="payroll-start" type="date" required></label>
+              <label><span>PERIOD END</span><input id="payroll-end" type="date" required></label>
+              <label><span>DAYS WORKED</span><input id="payroll-days" type="number" min="0" max="20" step="0.5" required></label>
+              <label><span>OVERTIME HOURS</span><input id="payroll-ot-hours" type="number" min="0" step="0.25" value="0"></label>
+              <label><span>OVERTIME RATE %</span><input id="payroll-ot-rate" type="number" min="0" step="1" value="125"></label>
+              <label><span>NIGHT DIFF. HOURS</span><input id="payroll-nd-hours" type="number" min="0" step="0.25" value="0"></label>
+              <label><span>NIGHT DIFF. RATE %</span><input id="payroll-nd-rate" type="number" min="0" step="1" value="10"></label>
+              <label><span>TAXABLE ALLOWANCE</span><input id="payroll-taxable-allowance" type="number" min="0" step="0.01" value="0"></label>
+              <label><span>OTHER DEDUCTIONS</span><input id="payroll-other-deductions" type="number" min="0" step="0.01" value="0"></label>
+              <label class="field-wide"><span>WITHHOLDING BASIS</span><select id="payroll-tax-basis"><option value="BASIC_ONLY" selected>Monthly basic less statutory (MotorPH sample)</option><option value="BASIC_PLUS_TAXABLE_ALLOWANCE">Also include taxable allowance</option></select></label>
+              <label class="field-wide"><span>STATUTORY SPLIT</span><select id="payroll-statutory-basis"><option value="FULL_MONTHLY_EACH_PERIOD" selected>Full monthly each cutoff (MotorPH sample)</option><option value="SPLIT_EVENLY">Split evenly across two cutoffs</option></select></label>
+            </div>
+            <div class="workflow-actions">
+              <button class="button" type="submit" id="payroll-compute">Compute payslip</button>
+              <button class="button button-quiet" type="button" id="payroll-use-timesheet">Use stored timesheet days</button>
+              <button class="button button-quiet" type="button" id="payroll-save-run" disabled>Save as payroll run</button>
+              <label class="payroll-compare-toggle" title="Optional, read-only: asks sweldongpinoy.com for its own figures and shows them next to ours. Never affects the payslip."><input type="checkbox" id="payroll-compare"> Compare with sweldongpinoy.com</label>
+              <span class="form-status" id="payroll-status" role="status" aria-live="polite"></span>
+            </div>
+            <p class="attendance-explainer">Pay inputs come from the employee's stored salary record. Changing the employee reloads them; any override applies to this computation only until the record is edited.</p>
+            <p class="attendance-explainer" id="payroll-data-note" hidden></p>
+          </form>
+        </section>
+
+        <section class="register-panel" aria-labelledby="payslip-title" id="payslip-panel" hidden>
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">PAYSLIP <span class="eyebrow-line"></span> 02</p><h2 id="payslip-title">Employee payslip</h2></div><span class="workstream-status" id="payslip-badge">UNSAVED</span></div>
+          <div class="payslip" id="payslip-body"></div>
+          <div class="workflow-actions">
+            <button class="button button-quiet" type="button" id="payslip-export">Export payslip CSV</button>
+            <span class="form-status" id="payslip-export-status"></span>
+          </div>
+        </section>
+
+        <section class="register-panel" aria-labelledby="compare-title" id="compare-panel" hidden>
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">REFERENCE CHECK <span class="eyebrow-line"></span> 03</p><h2 id="compare-title">Independent calculator</h2></div><span class="workstream-status" id="compare-badge">CHECKING</span></div>
+          <p class="attendance-explainer" id="compare-note">These figures come from sweldongpinoy.com, a third-party calculator, and are shown for comparison only. The payslip above is computed and saved from our own ruleset.</p>
+          <div class="table-wrap"><table><thead><tr><th>Line</th><th>Our payroll</th><th>sweldongpinoy.com</th><th>Difference</th></tr></thead><tbody id="compare-rows"></tbody></table></div>
+        </section>
+
+        <section class="register-panel" aria-labelledby="payroll-runs-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">SAVED RUNS <span class="eyebrow-line"></span> 03</p><h2 id="payroll-runs-title">Payroll run history</h2></div><span class="workstream-status pending" id="payroll-runs-count">NO RUNS</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Run</th><th>Period</th><th>Ruleset</th><th>Employees</th><th>Total earnings</th><th>Deductions</th><th>Net paid</th><th>Employer cost</th><th></th></tr></thead><tbody id="payroll-run-rows"><tr><td colspan="9" class="table-message">No payroll runs saved yet.</td></tr></tbody></table></div>
+          <p class="attendance-explainer">A saved run is an immutable snapshot: it keeps its own inputs, ruleset version and computed lines, so it can be reprinted unchanged even after rates change.</p>
+        </section>
+
+        <section class="register-panel" aria-labelledby="remittance-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">STATUTORY <span class="eyebrow-line"></span> 04</p><h2 id="remittance-title">Remittance summary</h2></div><span class="workstream-status">BOTH SHARES</span></div>
+          <p class="attendance-explainer">Employee and employer shares combined per agency, for the current unsaved payslip. Figures are monthly statutory amounts; a cutoff-split run remits in instalments.</p>
+          <div class="table-wrap"><table><thead><tr><th>Agency</th><th>Amount to remit</th></tr></thead><tbody id="remittance-rows"><tr><td colspan="2" class="table-message">Compute a payslip to see the remittance split.</td></tr></tbody></table></div>
+        </section>
+
+        <section class="register-panel" aria-labelledby="payroll-rates-title">
+          <div class="panel-heading"><div><p class="eyebrow panel-eyebrow">RULESET <span class="eyebrow-line"></span> 05</p><h2 id="payroll-rates-title">Statutory rates in force</h2></div><span class="workstream-status">EFFECTIVE-DATED</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Component</th><th>Rule applied</th><th>Source</th></tr></thead><tbody id="payroll-rate-rows"><tr><td colspan="3" class="table-message">Loading ruleset…</td></tr></tbody></table></div>
+        </section>
+
+        <footer class="page-footer"><span>Fictional data only · rates effective-dated by ruleset</span><span>Golden case reproduces to ₱0.00</span></footer>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="employee-dialog" id="employee-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-head"><div><p class="eyebrow">EMPLOYEE RECORD <span class="eyebrow-line"></span> DEMO</p><h2 id="dialog-title">Employee</h2></div><button class="close-button" type="button" id="close-dialog" aria-label="Close details">×</button></div>
+    <div class="dialog-content" id="dialog-content"></div>
+    <div class="dialog-foot"><span class="demo-label"><span class="status-dot"></span> SYNTHETIC DATA</span><button class="button button-dark" type="button" id="dialog-done">Close record</button></div>
+  </dialog>
+</body>
+</html>

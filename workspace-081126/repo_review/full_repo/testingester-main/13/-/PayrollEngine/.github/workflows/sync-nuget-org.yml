@@ -1,0 +1,179 @@
+name: Sync NuGet.org
+
+on:
+  workflow_dispatch:
+    inputs:
+      lib_version:
+        description: 'Library version to sync (e.g. 0.10.0-beta.1)'
+        required: true
+      packages:
+        description: 'Packages to sync: all | Core | Serilog | Document | Client | Client.Core | Client.Scripting | Client.Test | Client.Services | Mcp.Core | Mcp.Tools | Mcp'
+        required: false
+        default: 'all'
+
+permissions:
+  contents: read
+  packages: read
+  id-token: write
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  ORG: Payroll-Engine
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Download and push packages
+        uses: actions/github-script@v8
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        with:
+          github-token: ${{ secrets.PAT_DISPATCH }}
+          script: |
+            const fs = require('fs');
+            const { spawnSync } = require('child_process');
+            const os = require('os');
+            const path = require('path');
+
+            const org = '${{ env.ORG }}';
+            const version = '${{ inputs.lib_version }}';
+            const filter = '${{ inputs.packages }}';
+            const nugetKey = process.env.NUGET_API_KEY;
+
+            const allPackages = [
+              'PayrollEngine.Core',
+              'PayrollEngine.Serilog',
+              'PayrollEngine.Document',
+              'PayrollEngine.Client.Core',
+              'PayrollEngine.Client.Scripting',
+              'PayrollEngine.Client.Test',
+              'PayrollEngine.Client.Services',
+              'PayrollEngine.Mcp.Core',
+              'PayrollEngine.Mcp.Tools'
+            ];
+
+            // Suffix-based filter: "Core" matches only PayrollEngine.Core (not Client.Core).
+            // "Client" matches all Client.* packages.
+            // "Client.Core" matches only PayrollEngine.Client.Core.
+            const packages = filter === 'all'
+              ? allPackages
+              : allPackages.filter(p => {
+                  const suffix = p.replace('PayrollEngine.', '');
+                  return suffix === filter || suffix.startsWith(filter + '.');
+                });
+
+            if (packages.length === 0) {
+              core.setFailed(`No packages matched filter: '${filter}'`);
+              return;
+            }
+
+            console.log(`\n📦 Packages to sync (${packages.length}):`);
+            for (const pkg of packages) {
+              console.log(`  - ${pkg} v${version}`);
+            }
+
+            const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'nuget-sync-'));
+            const errors = [];
+
+            for (const pkg of packages) {
+              const tag = `v${version}`;
+
+              console.log(`\n──────────────────────────────────`);
+              console.log(`📥 ${pkg} ${version}`);
+
+              // Find release
+              let release;
+              try {
+                const response = await github.rest.repos.getReleaseByTag({
+                  owner: org, repo: pkg, tag
+                });
+                release = response.data;
+                console.log(`  ✅ Release ${tag} found`);
+              } catch (e) {
+                if (e.status === 404) {
+                  const msg = `${pkg}: Release ${tag} not found`;
+                  errors.push(msg);
+                  console.log(`  ❌ ${msg}`);
+                  continue;
+                }
+                throw e;
+              }
+
+              // Find all .nupkg assets
+              const nupkgs = release.assets.filter(a => a.name.endsWith('.nupkg'));
+              if (nupkgs.length === 0) {
+                const msg = `${pkg}: No .nupkg asset in release ${tag}`;
+                errors.push(msg);
+                console.log(`  ❌ ${msg}`);
+                continue;
+              }
+
+              for (const nupkg of nupkgs) {
+                console.log(`  📎 Asset: ${nupkg.name} (${(nupkg.size / 1024).toFixed(0)} KB)`);
+
+                // Download asset
+                const downloadPath = path.join(workDir, nupkg.name);
+                const dlResponse = await github.request(
+                  'GET /repos/{owner}/{repo}/releases/assets/{asset_id}',
+                  {
+                    owner: org,
+                    repo: pkg,
+                    asset_id: nupkg.id,
+                    headers: { accept: 'application/octet-stream' }
+                  }
+                );
+                fs.writeFileSync(downloadPath, Buffer.from(dlResponse.data));
+                console.log(`  ⬇️  Downloaded`);
+
+                // Push to NuGet.org using the short-lived key from Trusted Publishing.
+                // The key must be passed as a CLI argument; spawnSync does not log
+                // its argv array to the Actions log.
+                console.log(`  🚀 Pushing to NuGet.org...`);
+                const result = spawnSync(
+                  'dotnet',
+                  [
+                    'nuget', 'push', downloadPath,
+                    '--source', 'https://api.nuget.org/v3/index.json',
+                    '--api-key', nugetKey,
+                    '--skip-duplicate'
+                  ],
+                  {
+                    stdio: 'inherit',
+                    env: { ...process.env }
+                  }
+                );
+                if (result.status !== 0) {
+                  const msg = `${pkg}: Push failed for ${nupkg.name} (exit ${result.status})`;
+                  errors.push(msg);
+                  console.log(`  ❌ ${msg}`);
+                } else {
+                  console.log(`  ✅ Pushed ${nupkg.name}`);
+                }
+              }
+            }
+
+            // Summary
+            console.log('\n═══════════════════════════════════════════');
+            console.log('  NuGet.org Sync Summary');
+            console.log('═══════════════════════════════════════════');
+            const succeeded = packages.length - errors.length;
+            console.log(`  Synced: ${succeeded}/${packages.length}`);
+            if (errors.length > 0) {
+              console.log('\n  Failed:');
+              for (const e of errors) console.log(`    ❌ ${e}`);
+              core.setFailed(`${errors.length} package(s) failed to sync`);
+            } else {
+              console.log('\n  ✅ All packages synced to NuGet.org');
+            }

@@ -1,0 +1,73 @@
+{
+    "version": "0.2.0",    "configurations": [
+        {
+            "type": "java",
+            "name": "▶️ Run MotorPH Payroll System",
+            "request": "launch",
+            "mainClass": "com.motorph.Main",
+            "projectName": "motorph_payroll_system",
+            "cwd": "${workspaceFolder}",
+            "args": [],
+            "vmArgs": [
+                "-Xmx1024m",
+                "-Djava.awt.headless=false",
+                "-Dfile.encoding=UTF-8"
+            ],
+            "env": {},
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "preLaunchTask": "Full Build"
+        },
+        {
+            "type": "java",
+            "name": "🚀 Run MotorPH (Login Flow)",
+            "request": "launch",
+            "mainClass": "com.motorph.Main",
+            "projectName": "motorph_payroll_system",
+            "cwd": "${workspaceFolder}",
+            "args": [],
+            "vmArgs": [
+                "-Xmx1024m",
+                "-Djava.awt.headless=false",
+                "-Dfile.encoding=UTF-8"
+            ],
+            "env": {},
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "preLaunchTask": "Full Build"
+        },
+        {
+            "type": "java",
+            "name": "🐛 Debug MotorPH Payroll System",
+            "request": "launch",
+            "mainClass": "com.motorph.Main",
+            "projectName": "motorph_payroll_system",
+            "cwd": "${workspaceFolder}",
+            "args": [],            "vmArgs": [
+                "-Xmx1024m",
+                "-Djava.awt.headless=false",
+                "-Dfile.encoding=UTF-8"
+            ],
+            "env": {},
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "stopOnEntry": false,
+            "preLaunchTask": "Full Build",
+            "stepFilters": {
+                "skipSynthetics": true,
+                "skipStaticInitializers": true,
+                "skipConstructors": false
+            }
+        },
+        {
+            "type": "java",
+            "name": "🧪 Run Tests",
+            "request": "launch",
+            "mainClass": "",
+            "projectName": "motorph_payroll_system",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Test Application",
+            "console": "integratedTerminal"
+        }
+    ]
+}

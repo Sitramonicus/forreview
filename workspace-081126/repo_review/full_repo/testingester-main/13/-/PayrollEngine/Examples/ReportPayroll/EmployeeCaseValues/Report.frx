@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="06/20/2009 22:40:42" ReportInfo.Modified="07/13/2023 14:52:26" ReportInfo.CreatorVersion="2023.2.0.0">
+  <Dictionary>
+    <TableDataSource Name="Employees" ReferenceName="Data.Employees" DataType="System.Int32" Enabled="true">
+      <Column Name="TenantId" DataType="System.Int32"/>
+      <Column Name="Id" DataType="System.Int32"/>
+      <Column Name="Status" DataType="System.String"/>
+      <Column Name="Created" DataType="System.DateTime"/>
+      <Column Name="Updated" DataType="System.DateTime"/>
+      <Column Name="Identifier" DataType="System.String"/>
+      <Column Name="FirstName" DataType="System.String"/>
+      <Column Name="LastName" DataType="System.String"/>
+      <Column Name="Culture" DataType="System.String"/>
+      <Column Name="Calendar" DataType="System.String"/>
+      <Column Name="Divisions" DataType="System.String"/>
+      <Column Name="Attributes" DataType="System.String"/>
+    </TableDataSource>
+    <TableDataSource Name="CaseValues" ReferenceName="Data.CaseValues" DataType="System.Int32" Enabled="true">
+      <Column Name="EmployeeId" DataType="System.Int32"/>
+      <Column Name="MonthlyWage" DataType="System.Decimal"/>
+      <Column Name="EmploymentLevel" DataType="System.String"/>
+      <Column Name="BirthDate" DataType="System.String"/>
+      <Column Name="Location" DataType="System.String"/>
+    </TableDataSource>
+    <Relation Name="EmployeeCaseValueRelation" ParentDataSource="Employees" ChildDataSource="CaseValues" ParentColumns="Id" ChildColumns="EmployeeId" Enabled="true"/>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="210" PaperHeight="297" RawPaperSize="9" Watermark.Font="Arial, 60pt" LastPageSource="15" FirstPageSource="15">
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Report Title Band — dark navy, logo left · report title right
+         ──────────────────────────────────────────────────────────────────── -->
+    <ReportTitleBand Name="ReportTitle1" Width="718.4" Height="60" Fill.Color="13, 34, 64">
+      <PictureObject Name="PicLogoMark" Left="18.9" Top="16" Width="28" Height="28" ImageFormat="Png" Image="iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFxSURBVHhe7dvBTQNBEAVRx0EopEAC5EAKnIiGUMgKtJbW0pZX/O3p20yN9G72l7oOvvl2u/BeXj9+Z8Q7y4+Ds+Ld8XFgFexw+vil1bDH4fHDq2KX++OHVsc+BgLjXGCgwDgXGCgwUGCgwEBBO9DP91sL9+jr872Fe1WtQDx2FHd3PHYUdyuGA/HILu7zyC7uX2WgwECBgQIDBQYKDBQYKDBQYKDAQIGBAgMFBgoMFBgoGA604ZGjuLvjkaO4W9EKtOGxVdwjHlvFvap2oNkZKDBQYKCgHYg/ilXcI/6oV3GvqhWIx47i7o7HjuJuxXAgHtnFfR7Zxf2rDBQYKDBQYKDAQIGBAgMFBgoMFBgoMFBgoMBAgYECAwXDgTY8chR3dzxyFHcrWoE2PLaKe8Rjq7hX1Q40OwMFBgoMFBgo8J/P//B/88EjkJGeHeIY6Bn73B8/tCp2OTx+eDXscfr4pVWwQ3wcmBXvLj8OzoJ3nr0/Sf4icliT3SsAAAAASUVORK5CYII="/>
+      <TextObject Name="TextLogoName" Left="54" Top="16" Width="180" Height="28" Text="Acme Corp" VertAlign="Center" Font="Arial, 11pt, style=Bold" TextFill.Color="200, 168, 75"/>
+      <TextObject Name="TextReportTitle" Left="234" Top="16" Width="465.4" Height="28" Text="Employee Case Values" HorzAlign="Right" VertAlign="Center" Font="Arial, 13pt, style=Bold" TextFill.Color="White"/>
+    </ReportTitleBand>
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Page Header Band — breathing space (37.8) + column headers at Top=37.8
+         ──────────────────────────────────────────────────────────────────── -->
+    <PageHeaderBand Name="PageHeader1" Top="63.15" Width="718.4" Height="75.6">
+      <TextObject Name="TextHdrIdentifier"       Left="0"   Top="37.8" Width="200"   Height="22" Text="Identifier"       VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+      <TextObject Name="TextHdrMonthlyWage"      Left="200" Top="37.8" Width="130"   Height="22" Text="Monthly wage"     VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+      <TextObject Name="TextHdrEmploymentLevel"  Left="330" Top="37.8" Width="130"   Height="22" Text="Employment level" VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+      <TextObject Name="TextHdrBirthDate"        Left="460" Top="37.8" Width="130"   Height="22" Text="Birth date"       VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+      <TextObject Name="TextHdrLocation"         Left="590" Top="37.8" Width="128.4" Height="22" Text="Location"         VertAlign="Center" Font="Arial, 8.5pt, style=Bold" TextFill.Color="13, 34, 64" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="200, 168, 75" Border.Width="1.5"/>
+    </PageHeaderBand>
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Data Band — Employees (outer), CaseValues (inner via relation)
+         ──────────────────────────────────────────────────────────────────── -->
+    <DataBand Name="Data1" Top="141.03" Width="718.4" DataSource="Employees">
+      <DataBand Name="Data2" Top="143.32" Width="718.4" Height="20" DataSource="CaseValues" Relation="EmployeeCaseValueRelation">
+        <TextObject Name="TextIdentifier"      Left="0"   Top="1" Width="200"   Height="18" Text="[Employees.Identifier]"                      VertAlign="Center" Font="Arial, 9pt" TextFill.Color="120, 148, 185" Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+        <TextObject Name="TextMonthlyWage"     Left="200" Top="1" Width="130"   Height="18" Text="[FormatCurrency([CaseValues.MonthlyWage])]"  VertAlign="Center" Font="Arial, 9pt" TextFill.Color="40, 55, 75"   Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+        <TextObject Name="TextEmploymentLevel" Left="330" Top="1" Width="130"   Height="18" Text="[CaseValues.EmploymentLevel]"                VertAlign="Center" Font="Arial, 9pt" TextFill.Color="40, 55, 75"   Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+        <TextObject Name="TextBirthDate"       Left="460" Top="1" Width="130"   Height="18" Text="[CaseValues.BirthDate]"                      VertAlign="Center" Font="Arial, 9pt" TextFill.Color="40, 55, 75"   Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+        <TextObject Name="TextLocation"        Left="590" Top="1" Width="128.4" Height="18" Text="[CaseValues.Location]"                       VertAlign="Center" Font="Arial, 9pt" TextFill.Color="40, 55, 75"   Padding="8, 0, 0, 0" Border.Lines="Bottom" Border.Color="215, 225, 240" Border.Width="0.5"/>
+      </DataBand>
+    </DataBand>
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         Page Footer Band — dark navy, date left · page right
+         ──────────────────────────────────────────────────────────────────── -->
+    <PageFooterBand Name="PageFooter1" Top="750" Width="718.4" Height="28.35" Fill.Color="13, 34, 64">
+      <TextObject Name="TextDate" Left="18.9"   Top="5" Width="200"   Height="18" Text="[Date]"                         VertAlign="Center" Font="Arial, 8pt" TextFill.Color="122, 153, 191"/>
+      <TextObject Name="TextPage" Left="540.74" Top="5" Width="158.76" Height="18" Text="Page [Page#] of [TotalPages#]" HorzAlign="Right" VertAlign="Center" Font="Arial, 8pt" TextFill.Color="122, 153, 191"/>
+    </PageFooterBand>
+
+  </ReportPage>
+</Report>

@@ -1,0 +1,6321 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Exchange",
+  "type": "object",
+  "description": "The exchange object",
+  "required": [
+    "tenants"
+  ],
+  "properties": {
+    "schema": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Json schema"
+    },
+    "createdObjectDate": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "The default created date for new objects",
+      "format": "date-time"
+    },
+    "tenants": {
+      "type": "array",
+      "description": "The tenants",
+      "items": {
+        "$ref": "#/definitions/ExchangeTenant"
+      }
+    },
+    "regulationShares": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "The regulation shares",
+      "items": {
+        "$ref": "#/definitions/RegulationShare"
+      }
+    }
+  },
+  "definitions": {
+    "ExchangeTenant": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Tenant"
+        },
+        {
+          "type": "object",
+          "description": "The tenant client object",
+          "properties": {
+            "users": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant users",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            },
+            "calendars": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant calendars",
+              "items": {
+                "$ref": "#/definitions/Calendar"
+              }
+            },
+            "divisions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant divisions",
+              "items": {
+                "$ref": "#/definitions/Division"
+              }
+            },
+            "employees": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant employees",
+              "items": {
+                "$ref": "#/definitions/EmployeeSet"
+              }
+            },
+            "tasks": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant tasks",
+              "items": {
+                "$ref": "#/definitions/Task"
+              }
+            },
+            "webhooks": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant webhooks",
+              "items": {
+                "$ref": "#/definitions/WebhookSet"
+              }
+            },
+            "regulations": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant regulations",
+              "items": {
+                "$ref": "#/definitions/RegulationSet"
+              }
+            },
+            "globalCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant global cases",
+              "items": {
+                "$ref": "#/definitions/CaseChange"
+              }
+            },
+            "globalValues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant global values",
+              "items": {
+                "$ref": "#/definitions/CaseValue"
+              }
+            },
+            "nationalCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant national cases",
+              "items": {
+                "$ref": "#/definitions/CaseChange"
+              }
+            },
+            "nationalValues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant national values",
+              "items": {
+                "$ref": "#/definitions/CaseValue"
+              }
+            },
+            "companyCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant company cases",
+              "items": {
+                "$ref": "#/definitions/CaseChange"
+              }
+            },
+            "companyValues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant company values",
+              "items": {
+                "$ref": "#/definitions/CaseValue"
+              }
+            },
+            "payrolls": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant payrolls",
+              "items": {
+                "$ref": "#/definitions/PayrollSet"
+              }
+            },
+            "payruns": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant payruns",
+              "items": {
+                "$ref": "#/definitions/Payrun"
+              }
+            },
+            "payrunJobs": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant payrun jobs",
+              "items": {
+                "$ref": "#/definitions/PayrunJob"
+              }
+            },
+            "payrunJobInvocations": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant payrun job invocations",
+              "items": {
+                "$ref": "#/definitions/PayrunJobInvocation"
+              }
+            },
+            "payrollResults": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The tenant payroll results",
+              "items": {
+                "$ref": "#/definitions/PayrollResultSet"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "User": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll user client object",
+          "required": [
+            "identifier",
+            "firstName",
+            "lastName"
+          ],
+          "properties": {
+            "identifier": {
+              "type": "string",
+              "description": "The user identifier",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "password": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The user password",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "passwordAvailable": {
+              "type": "boolean",
+              "description": "Indicates whether a password is set for this user"
+            },
+            "firstName": {
+              "type": "string",
+              "description": "The first name of the user",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "lastName": {
+              "type": "string",
+              "description": "The last name of the user",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The user culture name based on RFC 4646",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "userType": {
+              "description": "The user type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/UserType"
+                }
+              ]
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "UserType": {
+      "type": "string",
+      "description": "The type of the user",
+      "x-enumNames": [
+        "Employee",
+        "User",
+        "TenantAdministrator",
+        "SystemAdministrator"
+      ],
+      "enum": [
+        "Employee",
+        "User",
+        "TenantAdministrator",
+        "SystemAdministrator"
+      ]
+    },
+    "ModelBase": {
+      "type": "object",
+      "description": "Base for all Payroll models",
+      "x-abstract": true,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The unique object id (immutable)",
+          "format": "int32"
+        },
+        "isExistingObject": {
+          "type": "boolean",
+          "description": "Test for existing object (opposite of IsNewObject)"
+        },
+        "isNewObject": {
+          "type": "boolean",
+          "description": "Test for new object (opposite of IsExistingObject)"
+        },
+        "status": {
+          "description": "The status of the object",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ObjectStatus"
+            }
+          ]
+        },
+        "created": {
+          "type": "string",
+          "description": "The date which the client object was created (immutable)",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "description": "The date which the client object was last updated (immutable)",
+          "format": "date-time"
+        },
+        "updateMode": {
+          "description": "The object update mode",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/UpdateMode"
+            }
+          ]
+        }
+      }
+    },
+    "ObjectStatus": {
+      "type": "string",
+      "description": "The object status",
+      "x-enumNames": [
+        "Active",
+        "Inactive"
+      ],
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    },
+    "UpdateMode": {
+      "type": "string",
+      "description": "The exchange update mode",
+      "x-enumNames": [
+        "Update",
+        "NoUpdate"
+      ],
+      "enum": [
+        "Update",
+        "NoUpdate"
+      ]
+    },
+    "Calendar": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll calendar client object",
+          "required": [
+            "name",
+            "cycleTimeUnit",
+            "periodTimeUnit"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The calendar name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized calendar names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "cycleTimeUnit": {
+              "description": "The cycle time unit (default: year)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CalendarTimeUnit"
+                }
+              ]
+            },
+            "periodTimeUnit": {
+              "description": "The period time unit (default: calendar month)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CalendarTimeUnit"
+                }
+              ]
+            },
+            "timeMap": {
+              "description": "The time map (default: period)",
+              "default": "Period",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CalendarTimeMap"
+                }
+              ]
+            },
+            "firstMonthOfYear": {
+              "description": "The first month of a year  (default: january)",
+              "default": "January",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/Month"
+                }
+              ]
+            },
+            "periodDayCount": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "Override the effective period day count",
+              "format": "decimal"
+            },
+            "yearWeekRule": {
+              "description": "Override the calendar year start week rule",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/CalendarWeekRule"
+                }
+              ]
+            },
+            "firstDayOfWeek": {
+              "description": "Override the calendar first day of week",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/DayOfWeek"
+                }
+              ]
+            },
+            "weekMode": {
+              "description": "The week mode (default: week)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CalendarWeekMode"
+                }
+              ]
+            },
+            "workMonday": {
+              "type": "boolean",
+              "description": "Work on monday (default: true), used by WorkWeek ",
+              "default": true
+            },
+            "workTuesday": {
+              "type": "boolean",
+              "description": "Work on tuesday (default: true), used by WorkWeek ",
+              "default": true
+            },
+            "workWednesday": {
+              "type": "boolean",
+              "description": "Work on wednesday (default: true), used by WorkWeek ",
+              "default": true
+            },
+            "workThursday": {
+              "type": "boolean",
+              "description": "Work on thursday (default: true), used by WorkWeek ",
+              "default": true
+            },
+            "workFriday": {
+              "type": "boolean",
+              "description": "Work on friday (default: true), used by WorkWeek ",
+              "default": true
+            },
+            "workSaturday": {
+              "type": "boolean",
+              "description": "Work on saturday (default: false), used by WorkWeek "
+            },
+            "workSunday": {
+              "type": "boolean",
+              "description": "Work on sunday (default: false), used by WorkWeek "
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "CalendarTimeUnit": {
+      "type": "string",
+      "description": "The calendar time unit",
+      "x-enumNames": [
+        "Year",
+        "SemiYear",
+        "Quarter",
+        "BiMonth",
+        "CalendarMonth",
+        "LunisolarMonth",
+        "SemiMonth",
+        "BiWeek",
+        "Week"
+      ],
+      "enum": [
+        "Year",
+        "SemiYear",
+        "Quarter",
+        "BiMonth",
+        "CalendarMonth",
+        "LunisolarMonth",
+        "SemiMonth",
+        "BiWeek",
+        "Week"
+      ]
+    },
+    "CalendarTimeMap": {
+      "type": "string",
+      "description": "The calendar time map",
+      "x-enumNames": [
+        "Period",
+        "Cycle"
+      ],
+      "enum": [
+        "Period",
+        "Cycle"
+      ]
+    },
+    "Month": {
+      "type": "string",
+      "description": "Enumeration with the year months",
+      "x-enumNames": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "enum": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    "CalendarWeekRule": {
+      "type": "string",
+      "description": "Defines different rules for determining the first week of the year",
+      "x-enumNames": [
+        "FirstDay",
+        "FirstFullWeek",
+        "FirstFourDayWeek"
+      ],
+      "enum": [
+        "FirstDay",
+        "FirstFullWeek",
+        "FirstFourDayWeek"
+      ]
+    },
+    "DayOfWeek": {
+      "type": "string",
+      "description": "Specifies the day of the week",
+      "x-enumNames": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "enum": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ]
+    },
+    "CalendarWeekMode": {
+      "type": "string",
+      "description": "The calendar week mode",
+      "x-enumNames": [
+        "Week",
+        "WorkWeek"
+      ],
+      "enum": [
+        "Week",
+        "WorkWeek"
+      ]
+    },
+    "Division": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll division client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The division name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized division names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The division culture name based on RFC 4646 (fallback: tenant culture)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "calendar": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The division calendar (fallback: tenant calendar)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "EmployeeSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Employee"
+        },
+        {
+          "type": "object",
+          "description": "The employee set client object",
+          "properties": {
+            "cases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The employee case changes",
+              "items": {
+                "$ref": "#/definitions/CaseChange"
+              }
+            },
+            "values": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The employee case values",
+              "items": {
+                "$ref": "#/definitions/CaseValue"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseChange": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "Payroll case value change client object",
+          "properties": {
+            "userId": {
+              "type": "integer",
+              "description": "The change user id",
+              "format": "int32"
+            },
+            "userIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change user unique identifier (client only)"
+            },
+            "payrollId": {
+              "type": "integer",
+              "description": "The payroll id",
+              "format": "int32"
+            },
+            "payrollName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payroll name"
+            },
+            "employeeId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The employee id, mandatory for employee case changes (immutable)",
+              "format": "int32"
+            },
+            "divisionId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The division id (immutable)\n            If present, this values overrides all case value divisions  DivisionId",
+              "format": "int32"
+            },
+            "divisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The division name (client only)"
+            },
+            "cancellationType": {
+              "description": "The cancellation type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseCancellationType"
+                }
+              ]
+            },
+            "cancellationId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The cancellation case id (immutable)",
+              "format": "int32"
+            },
+            "cancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The cancellation date (immutable)",
+              "format": "date-time"
+            },
+            "reason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change reason"
+            },
+            "validationCaseName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The validation case name"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name"
+            },
+            "values": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case values",
+              "items": {
+                "$ref": "#/definitions/CaseValue"
+              }
+            },
+            "ignoredValues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The ignored case values",
+              "items": {
+                "$ref": "#/definitions/CaseValue"
+              }
+            },
+            "issues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case validation issues",
+              "items": {
+                "$ref": "#/definitions/CaseValidationIssue"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseCancellationType": {
+      "type": "string",
+      "description": "The case cancellation type",
+      "x-enumNames": [
+        "None",
+        "Case"
+      ],
+      "enum": [
+        "None",
+        "Case"
+      ]
+    },
+    "CaseValue": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case value client object (immutable)",
+          "required": [
+            "caseFieldName"
+          ],
+          "properties": {
+            "caseName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The associated case name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "caseFieldName": {
+              "type": "string",
+              "description": "The associated case field name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseFieldNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case field names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "caseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "valueType": {
+              "description": "The type of the value",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case value (JSON format)"
+            },
+            "numericValue": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The case numeric value",
+              "format": "decimal"
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case value culture name based on RFC 4646"
+            },
+            "caseRelation": {
+              "description": "The case relation",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/CaseRelationReference"
+                }
+              ]
+            },
+            "cancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Cancellation date",
+              "format": "date-time"
+            },
+            "start": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The starting date for the value",
+              "format": "date-time"
+            },
+            "end": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The ending date for the value",
+              "format": "date-time"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case value tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            },
+            "divisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The associated case field name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "divisionId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The division id (immutable), Mandatory for case values with local value scope ValueScope",
+              "format": "int32"
+            },
+            "employeeId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The employee id, mandatory for employee case changes (immutable)",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "ValueType": {
+      "type": "string",
+      "description": "The payroll value types for cases",
+      "x-enumNames": [
+        "String",
+        "Boolean",
+        "Integer",
+        "NumericBoolean",
+        "Decimal",
+        "DateTime",
+        "None",
+        "Date",
+        "Weekday",
+        "Month",
+        "Year",
+        "Money",
+        "Percent",
+        "WebResource"
+      ],
+      "enum": [
+        "String",
+        "Boolean",
+        "Integer",
+        "NumericBoolean",
+        "Decimal",
+        "DateTime",
+        "None",
+        "Date",
+        "Weekday",
+        "Month",
+        "Year",
+        "Money",
+        "Percent",
+        "WebResource"
+      ]
+    },
+    "CaseRelationReference": {
+      "type": "object",
+      "description": "Case relation reference",
+      "properties": {
+        "sourceCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case name (immutable)"
+        },
+        "sourceCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case slot"
+        },
+        "targetCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case name (immutable)"
+        },
+        "targetCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case slot"
+        }
+      }
+    },
+    "CaseValidationIssue": {
+      "type": "object",
+      "description": "Represents an issue from the case validation",
+      "required": [
+        "issueType"
+      ],
+      "properties": {
+        "issueType": {
+          "description": "The validation issue type",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/CaseIssueType"
+            }
+          ]
+        },
+        "number": {
+          "type": "integer",
+          "description": "The issue number (negative issue type)",
+          "format": "int32"
+        },
+        "caseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets the name of the case",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "caseNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "caseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The case slot",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "caseSlotLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case slot names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "caseFieldName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets the name of the case field",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "caseFieldNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case field names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "sourceCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case name",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "sourceCaseNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized source case names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "sourceCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation source case slot",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "sourceCaseSlotLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized source case slots",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "targetCaseName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case name",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "targetCaseNameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized target case names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "targetCaseSlot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The relation target case slot",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "targetCaseSlotLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized target case slots",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "message": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The validation message"
+        }
+      }
+    },
+    "CaseIssueType": {
+      "type": "string",
+      "description": "The case issue type",
+      "x-enumNames": [
+        "Unknown",
+        "CaseInvalid",
+        "CaseUnknown",
+        "CaseRelationInvalid",
+        "CaseFieldDuplicated",
+        "CaseValueIncomplete",
+        "CaseValueMissing",
+        "CaseValueStartInvalid",
+        "CaseValueEndInvalid",
+        "CaseValueEndMissing",
+        "CaseValueWeekdayInvalid",
+        "CaseValueMonthInvalid"
+      ],
+      "enum": [
+        "Unknown",
+        "CaseInvalid",
+        "CaseUnknown",
+        "CaseRelationInvalid",
+        "CaseFieldDuplicated",
+        "CaseValueIncomplete",
+        "CaseValueMissing",
+        "CaseValueStartInvalid",
+        "CaseValueEndInvalid",
+        "CaseValueEndMissing",
+        "CaseValueWeekdayInvalid",
+        "CaseValueMonthInvalid"
+      ]
+    },
+    "Employee": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The employee client object",
+          "required": [
+            "identifier",
+            "lastName"
+          ],
+          "properties": {
+            "identifier": {
+              "type": "string",
+              "description": "The employee identifier",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "firstName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The first name of the employee",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "lastName": {
+              "type": "string",
+              "description": "The last name of the employee",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "divisions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Employee division names",
+              "items": {
+                "type": "string"
+              }
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The employee culture name based on RFC 4646 (fallback: division culture)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "calendar": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The employee calendar (fallback: division calendar)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "Task": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll task object",
+          "required": [
+            "name",
+            "instruction",
+            "scheduled"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The task name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized task names (immutable)",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "category": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The task category",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "instruction": {
+              "type": "string",
+              "description": "The task instruction",
+              "minLength": 1
+            },
+            "scheduledUserId": {
+              "type": "integer",
+              "description": "The scheduled user id",
+              "format": "int32"
+            },
+            "scheduledUserIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The scheduled user identifier"
+            },
+            "scheduled": {
+              "type": "string",
+              "description": "The task schedule date (immutable)",
+              "format": "date-time",
+              "minLength": 1
+            },
+            "completedUserId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The completed user id",
+              "format": "int32"
+            },
+            "completedUserIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The completed user identifier"
+            },
+            "completed": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The task completed date",
+              "format": "date-time"
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "WebhookSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Webhook"
+        },
+        {
+          "type": "object",
+          "description": "The Webhook set client object",
+          "properties": {
+            "messages": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The webhook messages",
+              "items": {
+                "$ref": "#/definitions/WebhookMessage"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "WebhookMessage": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The Webhook message client object",
+          "required": [
+            "actionName",
+            "receiverAddress",
+            "requestDate",
+            "requestMessage"
+          ],
+          "properties": {
+            "actionName": {
+              "type": "string",
+              "description": "The webhook action name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "receiverAddress": {
+              "type": "string",
+              "description": "The webhook receiver address",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "requestDate": {
+              "type": "string",
+              "description": "The request date",
+              "format": "date-time",
+              "minLength": 1
+            },
+            "requestMessage": {
+              "type": "string",
+              "description": "The request message",
+              "minLength": 1
+            },
+            "requestOperation": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The request operation"
+            },
+            "responseDate": {
+              "type": "string",
+              "description": "The response date",
+              "format": "date-time"
+            },
+            "responseStatus": {
+              "type": "integer",
+              "description": "The response HTTP status code",
+              "format": "int32"
+            },
+            "responseMessage": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The response message"
+            }
+          }
+        }
+      ]
+    },
+    "Webhook": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The Webhook client object",
+          "required": [
+            "name",
+            "receiverAddress",
+            "action"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The webhook name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "receiverAddress": {
+              "type": "string",
+              "description": "The webhook receiver address",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "action": {
+              "description": "The web hook trigger action",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/WebhookAction"
+                }
+              ]
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "WebhookAction": {
+      "type": "string",
+      "description": "The Webhook message type",
+      "x-enumNames": [
+        "None",
+        "CaseFunctionRequest",
+        "CaseChangeAdded",
+        "PayrunFunctionRequest",
+        "PayrunJobProcess",
+        "PayrunJobFinish",
+        "ReportFunctionRequest",
+        "TaskChange"
+      ],
+      "enum": [
+        "None",
+        "CaseFunctionRequest",
+        "CaseChangeAdded",
+        "PayrunFunctionRequest",
+        "PayrunJobProcess",
+        "PayrunJobFinish",
+        "ReportFunctionRequest",
+        "TaskChange"
+      ]
+    },
+    "RegulationSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Regulation"
+        },
+        {
+          "type": "object",
+          "description": "The payroll regulation set client object",
+          "properties": {
+            "cases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The regulation cases",
+              "items": {
+                "$ref": "#/definitions/CaseSet"
+              }
+            },
+            "caseRelations": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The regulation case relations",
+              "items": {
+                "$ref": "#/definitions/CaseRelation"
+              }
+            },
+            "collectors": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The regulation collectors",
+              "items": {
+                "$ref": "#/definitions/Collector"
+              }
+            },
+            "wageTypes": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The regulation wage types",
+              "items": {
+                "$ref": "#/definitions/WageType"
+              }
+            },
+            "lookups": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The regulation lookups (including lookup values)",
+              "items": {
+                "$ref": "#/definitions/LookupSet"
+              }
+            },
+            "scripts": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The regulation scripts",
+              "items": {
+                "$ref": "#/definitions/Script"
+              }
+            },
+            "reports": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The regulation reports",
+              "items": {
+                "$ref": "#/definitions/ReportSet"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Case"
+        },
+        {
+          "type": "object",
+          "description": "The payroll derived case",
+          "properties": {
+            "displayName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case display name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "cancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The cancellation date",
+              "format": "date-time"
+            },
+            "reason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change reason"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change forecast"
+            },
+            "fields": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The derived case fields",
+              "items": {
+                "$ref": "#/definitions/CaseFieldSet"
+              }
+            },
+            "relatedCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The related cases",
+              "items": {
+                "$ref": "#/definitions/CaseSet"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseFieldSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CaseField"
+        },
+        {
+          "type": "object",
+          "description": "The case field including the slot and values",
+          "properties": {
+            "displayName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case field display name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case value (JSON format)"
+            },
+            "start": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The starting date for the value",
+              "format": "date-time"
+            },
+            "end": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The ending date for the value",
+              "format": "date-time"
+            },
+            "cancellationDate": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Cancellation date",
+              "format": "date-time"
+            },
+            "hasValue": {
+              "type": "boolean",
+              "description": "Test for existing value"
+            }
+          }
+        }
+      ]
+    },
+    "CaseField": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case field client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The case field name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case field names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case field description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case field descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "valueType": {
+              "description": "The value type of the case field",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "valueScope": {
+              "description": "The value scope",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueScope"
+                }
+              ]
+            },
+            "timeType": {
+              "description": "The date period type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldTimeType"
+                }
+              ]
+            },
+            "timeUnit": {
+              "description": "The date unit type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldTimeUnit"
+                }
+              ]
+            },
+            "periodAggregation": {
+              "description": "The period aggregation type for Period",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldAggregationType"
+                }
+              ]
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "cancellationMode": {
+              "description": "The cancellation mode",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldCancellationMode"
+                }
+              ]
+            },
+            "valueCreationMode": {
+              "description": "The case value creation mode",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseValueCreationMode"
+                }
+              ]
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case field culture name based on RFC 4646"
+            },
+            "valueMandatory": {
+              "type": "boolean",
+              "description": "Mandatory case field value"
+            },
+            "order": {
+              "type": "integer",
+              "description": "The case field order",
+              "format": "int32"
+            },
+            "startDateType": {
+              "description": "The start date type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldDateType"
+                }
+              ]
+            },
+            "endDateType": {
+              "description": "The end date type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseFieldDateType"
+                }
+              ]
+            },
+            "endMandatory": {
+              "type": "boolean",
+              "description": "The end date mandatory state"
+            },
+            "defaultStart": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default start value of the case field (date or expression)"
+            },
+            "defaultEnd": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default end value of the case field (date or expression)"
+            },
+            "defaultValue": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default value of the case field (JSON format)"
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case field tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "lookupSettings": {
+              "description": "The lookup settings",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/LookupSettings"
+                }
+              ]
+            },
+            "clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case field clusters",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            },
+            "valueAttributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom value attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "ValueScope": {
+      "type": "string",
+      "description": "The scope for a payroll value",
+      "x-enumNames": [
+        "Local",
+        "Global"
+      ],
+      "enum": [
+        "Local",
+        "Global"
+      ]
+    },
+    "CaseFieldTimeType": {
+      "type": "string",
+      "description": "The time period type for a regulation case field",
+      "x-enumNames": [
+        "Timeless",
+        "Moment",
+        "Period",
+        "CalendarPeriod"
+      ],
+      "enum": [
+        "Timeless",
+        "Moment",
+        "Period",
+        "CalendarPeriod"
+      ]
+    },
+    "CaseFieldTimeUnit": {
+      "type": "string",
+      "description": "The date type for a regulation case field",
+      "x-enumNames": [
+        "Day",
+        "HalfDay",
+        "Month"
+      ],
+      "enum": [
+        "Day",
+        "HalfDay",
+        "Month"
+      ]
+    },
+    "CaseFieldAggregationType": {
+      "type": "string",
+      "description": "Aggregation type for a period case field Period",
+      "x-enumNames": [
+        "Summary",
+        "Last",
+        "First"
+      ],
+      "enum": [
+        "Summary",
+        "Last",
+        "First"
+      ]
+    },
+    "OverrideType": {
+      "type": "string",
+      "description": "Override type for derivable object",
+      "x-enumNames": [
+        "Active",
+        "Inactive"
+      ],
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    },
+    "CaseFieldCancellationMode": {
+      "type": "string",
+      "description": "The cancellation mode for a regulation case field",
+      "x-enumNames": [
+        "TimeType",
+        "Previous",
+        "Keep",
+        "Reset",
+        "Invert"
+      ],
+      "enum": [
+        "TimeType",
+        "Previous",
+        "Keep",
+        "Reset",
+        "Invert"
+      ]
+    },
+    "CaseValueCreationMode": {
+      "type": "string",
+      "description": "The case value creation mode",
+      "x-enumNames": [
+        "OnChanges",
+        "Always",
+        "Discard"
+      ],
+      "enum": [
+        "OnChanges",
+        "Always",
+        "Discard"
+      ]
+    },
+    "CaseFieldDateType": {
+      "type": "string",
+      "description": "The case field date type",
+      "x-enumNames": [
+        "Day",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Month",
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "Year",
+        "PeriodStart",
+        "PeriodStartDate",
+        "PeriodEnd",
+        "PeriodEndDate",
+        "CycleStart",
+        "CycleStartDate",
+        "CycleEnd",
+        "CycleEndDate"
+      ],
+      "enum": [
+        "Day",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Month",
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+        "Year",
+        "PeriodStart",
+        "PeriodStartDate",
+        "PeriodEnd",
+        "PeriodEndDate",
+        "CycleStart",
+        "CycleStartDate",
+        "CycleEnd",
+        "CycleEndDate"
+      ]
+    },
+    "LookupSettings": {
+      "type": "object",
+      "description": "The lookup settings",
+      "required": [
+        "lookupName"
+      ],
+      "properties": {
+        "lookupName": {
+          "type": "string",
+          "description": "The lookup name",
+          "minLength": 1
+        },
+        "valueFieldName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The lookup value field name"
+        },
+        "textFieldName": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The lookup text/display field name"
+        }
+      }
+    },
+    "Case": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case client object",
+          "required": [
+            "name",
+            "caseType"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The case name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "caseType": {
+              "description": "The type of he case (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseType"
+                }
+              ]
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "nameSynonyms": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Synonyms for the case name",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized case descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "defaultReason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default case change reason"
+            },
+            "defaultReasonLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized default case change reasons",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "baseCase": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The base case name"
+            },
+            "baseCaseFields": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The base case fields",
+              "items": {
+                "$ref": "#/definitions/CaseFieldReference"
+              }
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "cancellationType": {
+              "description": "The cancellation type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseCancellationType"
+                }
+              ]
+            },
+            "hidden": {
+              "type": "boolean",
+              "description": "Hidden case (default: false)"
+            },
+            "availableExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case"
+            },
+            "availableExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case file"
+            },
+            "buildExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case"
+            },
+            "buildExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build a case file"
+            },
+            "validateExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case validate expression"
+            },
+            "validateExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case validate expression file"
+            },
+            "availableActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case available actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "buildActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case build actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "validateActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case validate actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "lookups": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case lookups",
+              "items": {
+                "type": "string"
+              }
+            },
+            "slots": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case slots",
+              "items": {
+                "$ref": "#/definitions/CaseSlot"
+              }
+            },
+            "clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case clusters",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "CaseType": {
+      "type": "string",
+      "description": "The case type",
+      "x-enumNames": [
+        "Global",
+        "National",
+        "Company",
+        "Employee"
+      ],
+      "enum": [
+        "Global",
+        "National",
+        "Company",
+        "Employee"
+      ]
+    },
+    "CaseFieldReference": {
+      "type": "object",
+      "description": "Case field reference",
+      "properties": {
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The case field name"
+        },
+        "order": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The case field order",
+          "format": "int32"
+        }
+      }
+    },
+    "CaseSlot": {
+      "type": "object",
+      "description": "Case slot",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The case slot name",
+          "maxLength": 128,
+          "minLength": 0
+        },
+        "nameLocalizations": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "The localized case slot names",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CaseRelation": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case relation client object",
+          "required": [
+            "sourceCaseName",
+            "targetCaseName"
+          ],
+          "properties": {
+            "sourceCaseName": {
+              "type": "string",
+              "description": "The relation source case name (immutable)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "sourceCaseNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized source case names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "sourceCaseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The relation source case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "sourceCaseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized source case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "targetCaseName": {
+              "type": "string",
+              "description": "The relation target case name (immutable)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "targetCaseNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized target case names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "targetCaseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The relation target case slot",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "targetCaseSlotLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized target case slots",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "buildExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build the case relation"
+            },
+            "buildExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression used to build the case relation file"
+            },
+            "validateExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression which evaluates if the case relation is valid"
+            },
+            "validateExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression which evaluates if the case relation is valid file"
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "order": {
+              "type": "integer",
+              "description": "The case relation order",
+              "format": "int32"
+            },
+            "buildActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case relation build actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "validateActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case relation validate actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case relation clusters",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "Collector": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll collector client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The collector name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized collector names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "collectMode": {
+              "description": "The collect mode (immutable, default: summary)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CollectMode"
+                }
+              ]
+            },
+            "negated": {
+              "type": "boolean",
+              "description": "Negated collector result (immutable, default: false)"
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "valueType": {
+              "description": "The value type, default is value type money",
+              "default": "Money",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The collector culture name based on RFC 4646"
+            },
+            "collectorGroups": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Associated collector groups",
+              "items": {
+                "type": "string"
+              }
+            },
+            "threshold": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The threshold value",
+              "format": "decimal"
+            },
+            "minResult": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The minimum allowed value",
+              "format": "decimal"
+            },
+            "maxResult": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The maximum allowed value",
+              "format": "decimal"
+            },
+            "startExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression used while the collector is started"
+            },
+            "startExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression used while the collector is started file"
+            },
+            "applyExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression used while applying a value to the collector"
+            },
+            "applyExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression used while applying a value to the collector file"
+            },
+            "endExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression used while the collector is ended"
+            },
+            "endExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression used while the collector is ended file"
+            },
+            "startActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The collector start actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "applyActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The collector apply actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "endActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The collector end actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The collector clusters",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "CollectMode": {
+      "type": "string",
+      "description": "The collect mode",
+      "x-enumNames": [
+        "Summary",
+        "Minimum",
+        "Maximum",
+        "Average",
+        "Range",
+        "Count"
+      ],
+      "enum": [
+        "Summary",
+        "Minimum",
+        "Maximum",
+        "Average",
+        "Range",
+        "Count"
+      ]
+    },
+    "WageType": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll wage type client object",
+          "required": [
+            "wageTypeNumber",
+            "name"
+          ],
+          "properties": {
+            "wageTypeNumber": {
+              "type": "number",
+              "description": "The wage type number (immutable)",
+              "format": "decimal"
+            },
+            "name": {
+              "type": "string",
+              "description": "The wage type name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized wage type names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized wage type descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "valueType": {
+              "description": "The value type, default is value type money",
+              "default": "Money",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "calendar": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type calendar (fallback: employee calendar)"
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type culture name based on RFC 4646"
+            },
+            "valueExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression: calculates of the wage type value"
+            },
+            "valueExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression: calculates of the wage type value file"
+            },
+            "resultExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression: calculates of the wage type result attributes"
+            },
+            "resultExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Expression: calculates of the wage type result attributes file"
+            },
+            "valueActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The wage type value actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "resultActions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The wage type result actions",
+              "items": {
+                "type": "string"
+              }
+            },
+            "collectors": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Associated collectors",
+              "items": {
+                "type": "string"
+              }
+            },
+            "collectorGroups": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Associated collector groups",
+              "items": {
+                "type": "string"
+              }
+            },
+            "clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The wage type clusters",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "LookupSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Lookup"
+        },
+        {
+          "type": "object",
+          "description": "Lookup including the lookup value",
+          "required": [
+            "values"
+          ],
+          "properties": {
+            "values": {
+              "type": "array",
+              "description": "The lookup values",
+              "items": {
+                "$ref": "#/definitions/LookupValue"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "LookupValue": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "Represents a value within a lookup",
+          "properties": {
+            "key": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The lookup key"
+            },
+            "keyValues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The lookup key values (client only)",
+              "items": {}
+            },
+            "value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The lookup value as JSON"
+            },
+            "valueObject": {
+              "description": "The lookup value object",
+              "oneOf": [
+                {},
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "valueLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized lookup values",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "valueObjectLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized lookup values",
+              "additionalProperties": {}
+            },
+            "rangeValue": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The lookup range value",
+              "format": "decimal"
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "Lookup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll lookup client object identified by his unique name.\n            The lookup contains one or more columns and the ValueColumn indicates.",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The lookup name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized lookup names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The lookup description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized lookup descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "rangeMode": {
+              "description": "Lookup range mode",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/LookupRangeMode"
+                }
+              ]
+            },
+            "rangeSize": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The lookup range size",
+              "format": "decimal"
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "LookupRangeMode": {
+      "type": "string",
+      "description": "The lookup range mode",
+      "x-enumNames": [
+        "None",
+        "Threshold",
+        "Progressive"
+      ],
+      "enum": [
+        "None",
+        "Threshold",
+        "Progressive"
+      ]
+    },
+    "Script": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll script client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The script name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "functionTypes": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The scripting function types",
+              "items": {
+                "$ref": "#/definitions/FunctionType"
+              }
+            },
+            "value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The script content"
+            },
+            "valueFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The script file name"
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "FunctionType": {
+      "type": "string",
+      "description": "The payroll function type",
+      "x-enumFlags": true,
+      "x-enumNames": [
+        "CaseAvailable",
+        "CaseBuild",
+        "CaseValidate",
+        "CaseChange",
+        "Case",
+        "CaseRelationBuild",
+        "CaseRelationValidate",
+        "CaseRelation",
+        "CollectorStart",
+        "CollectorApply",
+        "CollectorEnd",
+        "Collector",
+        "WageTypeValue",
+        "WageTypeResult",
+        "WageType",
+        "PayrunStart",
+        "PayrunEmployeeAvailable",
+        "PayrunEmployeeStart",
+        "PayrunEmployeeEnd",
+        "PayrunWageTypeAvailable",
+        "PayrunEnd",
+        "PayrunBase",
+        "Payrun",
+        "Payroll",
+        "ReportBuild",
+        "ReportStart",
+        "ReportEnd",
+        "Report",
+        "All"
+      ],
+      "enum": [
+        "CaseAvailable",
+        "CaseBuild",
+        "CaseValidate",
+        "CaseChange",
+        "Case",
+        "CaseRelationBuild",
+        "CaseRelationValidate",
+        "CaseRelation",
+        "CollectorStart",
+        "CollectorApply",
+        "CollectorEnd",
+        "Collector",
+        "WageTypeValue",
+        "WageTypeResult",
+        "WageType",
+        "PayrunStart",
+        "PayrunEmployeeAvailable",
+        "PayrunEmployeeStart",
+        "PayrunEmployeeEnd",
+        "PayrunWageTypeAvailable",
+        "PayrunEnd",
+        "PayrunBase",
+        "Payrun",
+        "Payroll",
+        "ReportBuild",
+        "ReportStart",
+        "ReportEnd",
+        "Report",
+        "All"
+      ]
+    },
+    "ReportSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Report"
+        },
+        {
+          "type": "object",
+          "description": "The report set API object",
+          "properties": {
+            "regulationId": {
+              "type": "integer",
+              "description": "The regulation id",
+              "format": "int32"
+            },
+            "parameters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The report parameters",
+              "items": {
+                "$ref": "#/definitions/ReportParameter"
+              }
+            },
+            "templates": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The report templates",
+              "items": {
+                "$ref": "#/definitions/ReportTemplate"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ReportParameter": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll report parameter client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The report parameter name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized wage type names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report parameter description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized report parameter descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "mandatory": {
+              "type": "boolean",
+              "description": "The parameter mandatory state"
+            },
+            "hidden": {
+              "type": "boolean",
+              "description": "Hidden parameter"
+            },
+            "value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The parameter value (JSON)"
+            },
+            "valueType": {
+              "description": "The parameter value type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "parameterType": {
+              "description": "The parameter type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ReportParameterType"
+                }
+              ]
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "ReportParameterType": {
+      "type": "string",
+      "description": "The report value types",
+      "x-enumNames": [
+        "Value",
+        "Now",
+        "Today",
+        "TenantId",
+        "UserId",
+        "EmployeeId",
+        "RegulationId",
+        "PayrollId",
+        "PayrunId",
+        "ReportId",
+        "WebhookId"
+      ],
+      "enum": [
+        "Value",
+        "Now",
+        "Today",
+        "TenantId",
+        "UserId",
+        "EmployeeId",
+        "RegulationId",
+        "PayrollId",
+        "PayrunId",
+        "ReportId",
+        "WebhookId"
+      ]
+    },
+    "ReportTemplate": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll report template client object",
+          "required": [
+            "name",
+            "culture"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The payroll report template name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "culture": {
+              "type": "string",
+              "description": "The report culture",
+              "minLength": 1
+            },
+            "content": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report content (client owned)"
+            },
+            "contentFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report content file name (client only)"
+            },
+            "contentType": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report content type",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "schema": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report schema (client owned)"
+            },
+            "schemaFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report schema file name (client only)"
+            },
+            "resource": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report external resource",
+              "maxLength": 256,
+              "minLength": 0
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "Report": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll report client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The report name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized payroll result report names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payroll result report description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized payroll result report descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "category": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report category"
+            },
+            "attributeMode": {
+              "description": "The report attribute mode",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ReportAttributeMode"
+                }
+              ]
+            },
+            "userType": {
+              "description": "The user type (default: employee)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/UserType"
+                }
+              ]
+            },
+            "reportIsolation": {
+              "description": "The report isolation level",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ReportIsolation"
+                }
+              ]
+            },
+            "buildExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report build expression"
+            },
+            "buildExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report build expression file"
+            },
+            "startExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report start expression"
+            },
+            "startExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report start expression file"
+            },
+            "endExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report end expression"
+            },
+            "endExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The report end expression file"
+            },
+            "overrideType": {
+              "description": "The override type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/OverrideType"
+                }
+              ]
+            },
+            "queries": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The report queries, key is the query name and value the api operation name",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "relations": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The report data relations, based on the queries",
+              "items": {
+                "$ref": "#/definitions/DataRelation"
+              }
+            },
+            "clusters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The report clusters",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "ReportAttributeMode": {
+      "type": "string",
+      "description": "The case result kind",
+      "x-enumNames": [
+        "Json",
+        "Table"
+      ],
+      "enum": [
+        "Json",
+        "Table"
+      ]
+    },
+    "ReportIsolation": {
+      "type": "string",
+      "description": "The report data isolation level.\n            Controls which context data (division, employee) is automatically\n            injected into the report request.",
+      "x-enumNames": [
+        "None",
+        "Global",
+        "Company",
+        "Division",
+        "Employee"
+      ],
+      "enum": [
+        "None",
+        "Global",
+        "Company",
+        "Division",
+        "Employee"
+      ]
+    },
+    "DataRelation": {
+      "type": "object",
+      "description": "Represents a data relation in a DataTable",
+      "properties": {
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets or sets the relation name"
+        },
+        "parentTable": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets or sets the relation parent table name"
+        },
+        "parentColumn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets or sets the relation parent column names"
+        },
+        "childTable": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets or sets the relation child table name"
+        },
+        "childColumn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Gets or sets the relation child column names"
+        }
+      }
+    },
+    "Regulation": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll regulation client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The regulation name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized regulation names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "namespace": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The regulation namespace",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "version": {
+              "type": "integer",
+              "description": "The regulation version, unique per regulation name",
+              "format": "int32"
+            },
+            "sharedRegulation": {
+              "type": "boolean",
+              "description": "Shared regulation (immutable)"
+            },
+            "validFrom": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The date the regulation to be in force, anytime if undefined",
+              "format": "date-time"
+            },
+            "owner": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The owner name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The regulation description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized payroll descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "baseRegulations": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Required base regulations",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "PayrollSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Payroll"
+        },
+        {
+          "type": "object",
+          "description": "The payroll set client object",
+          "properties": {
+            "layers": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The payroll layers",
+              "items": {
+                "$ref": "#/definitions/PayrollLayer"
+              }
+            },
+            "cases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case change setups",
+              "items": {
+                "$ref": "#/definitions/CaseChangeSetup"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "PayrollLayer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll layer client object",
+          "required": [
+            "regulationName",
+            "level"
+          ],
+          "properties": {
+            "regulationName": {
+              "type": "string",
+              "description": "The regulation name",
+              "minLength": 1
+            },
+            "level": {
+              "type": "integer",
+              "description": "The layer level",
+              "format": "int32"
+            },
+            "priority": {
+              "type": "integer",
+              "description": "The layer priority (default: 1)",
+              "format": "int32",
+              "default": 1
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "CaseChangeSetup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "Payroll case change setup client object",
+          "required": [
+            "case"
+          ],
+          "properties": {
+            "userId": {
+              "type": "integer",
+              "description": "The change user id",
+              "format": "int32"
+            },
+            "userIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change user unique identifier (client only)"
+            },
+            "employeeId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The change employee id (immutable)",
+              "format": "int32"
+            },
+            "employeeIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The employee identifier (client only)"
+            },
+            "divisionId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The division id (immutable)\n            If present, this values overrides all case value divisions  DivisionId",
+              "format": "int32"
+            },
+            "divisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The division name (client only)"
+            },
+            "cancellationId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The case to cancel, the root case specifies the target case",
+              "format": "int32"
+            },
+            "cancellationCreated": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The creation date from the case to cancel, the root case specifies the target case",
+              "format": "date-time"
+            },
+            "reason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The change reason"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name"
+            },
+            "case": {
+              "description": "The setup root case",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CaseSetup"
+                }
+              ]
+            },
+            "issues": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case validation issues",
+              "items": {
+                "$ref": "#/definitions/CaseValidationIssue"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseSetup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "Payroll case value change client object",
+          "required": [
+            "caseName"
+          ],
+          "properties": {
+            "caseName": {
+              "type": "string",
+              "description": "The case name",
+              "minLength": 1
+            },
+            "caseSlot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The case slot"
+            },
+            "values": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The case values",
+              "items": {
+                "$ref": "#/definitions/CaseValueSetup"
+              }
+            },
+            "relatedCases": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The related cases",
+              "items": {
+                "$ref": "#/definitions/CaseSetup"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseValueSetup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CaseValue"
+        },
+        {
+          "type": "object",
+          "description": "The payroll case value client object (immutable)",
+          "properties": {
+            "documents": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Case documents",
+              "items": {
+                "$ref": "#/definitions/CaseDocument"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CaseDocument": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The case document client object",
+          "required": [
+            "name",
+            "contentType"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The case document name",
+              "minLength": 1
+            },
+            "content": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The document content"
+            },
+            "contentFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The document file name"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "The document content type",
+              "maxLength": 128,
+              "minLength": 0
+            }
+          }
+        }
+      ]
+    },
+    "Payroll": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The payroll name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized payroll names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "Payroll description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized payroll descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "divisionId": {
+              "type": "integer",
+              "description": "The division id",
+              "format": "int32"
+            },
+            "divisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The division name (client only)"
+            },
+            "clusterSet": {
+              "description": "Typed cluster set name references for this payroll",
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/definitions/PayrollClusterSets"
+                }
+              ]
+            },
+            "clusterSets": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "Cluster sets",
+              "items": {
+                "$ref": "#/definitions/ClusterSet"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "PayrollClusterSets": {
+      "type": "object",
+      "description": "Typed cluster set name references for a payroll.\n            Each property holds the name of a ClusterSet entry defined in\n            ClusterSets. An empty or null value means no cluster\n            filtering is applied for that context.",
+      "properties": {
+        "clusterSetCase": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The case cluster set name (undefined: all)."
+        },
+        "clusterSetCaseField": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The case field cluster set name (undefined: all)."
+        },
+        "clusterSetCollector": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The collector cluster set name (undefined: all)."
+        },
+        "clusterSetCollectorRetro": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The collector cluster set name for retro payrun jobs (undefined: all)."
+        },
+        "clusterSetWageType": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The wage type cluster set name (undefined: all)."
+        },
+        "clusterSetWageTypeRetro": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The wage type cluster set name for retro payrun jobs (undefined: all)."
+        },
+        "clusterSetCaseValue": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The case value cluster set name (undefined: none, *: all)."
+        },
+        "clusterSetWageTypePeriod": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The wage type period result cluster set name (undefined: none)."
+        },
+        "clusterSetWageTypeCycle": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The wage type cycle cache cluster set name (undefined: no cycle cache pre-loading).\n            Works for any calendar cycle type (annual, quarterly, monthly, etc.)."
+        },
+        "clusterSetWageTypeCons": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The wage type consolidated cache cluster set name (undefined: no Cons preloading)."
+        }
+      }
+    },
+    "ClusterSet": {
+      "type": "object",
+      "description": "Cluster set",
+      "properties": {
+        "name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The filter name"
+        },
+        "includeClusters": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The included clusters",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludeClusters": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The excluded clusters",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Payrun": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payrun client object",
+          "required": [
+            "name",
+            "payrollName"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The payrun name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized payrun name",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "defaultReason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The default payrun reason"
+            },
+            "defaultReasonLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized default payrun reasons",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "startExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payrun start expression"
+            },
+            "startExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payrun start expression file"
+            },
+            "employeeAvailableExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The employee available expression"
+            },
+            "employeeAvailableExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The employee available expression file"
+            },
+            "employeeStartExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression evaluates the employee start"
+            },
+            "employeeStartExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression file evaluates the employee start"
+            },
+            "employeeEndExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression evaluates the employee end"
+            },
+            "employeeEndExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The expression file evaluates the employee end"
+            },
+            "wageTypeAvailableExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type available expression"
+            },
+            "wageTypeAvailableExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type available expression file"
+            },
+            "endExpression": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payrun end expression"
+            },
+            "endExpressionFile": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payrun end expression file"
+            },
+            "retroBackCycles": {
+              "type": "integer",
+              "description": "The number of previous cycles allowed for retro calculation.\n0  = current cycle only (no back cycles).\nn  = retro may reach back n complete cycles before the current one.\n-1 = unlimited (no cycle boundary) — default.",
+              "format": "int32"
+            },
+            "payrollId": {
+              "type": "integer",
+              "description": "The payroll id (immutable)",
+              "format": "int32"
+            },
+            "payrollName": {
+              "type": "string",
+              "description": "The payroll name (client only)",
+              "minLength": 1
+            },
+            "payrunParameters": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The payrun parameters",
+              "items": {
+                "$ref": "#/definitions/PayrunParameter"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "PayrunParameter": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll payrun parameter client object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The payrun parameter name",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized wage type names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "description": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payrun parameter description"
+            },
+            "descriptionLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized payrun parameter descriptions",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "mandatory": {
+              "type": "boolean",
+              "description": "The parameter mandatory state"
+            },
+            "value": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The parameter value (JSON)"
+            },
+            "valueType": {
+              "description": "The parameter value type",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "PayrunJob": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payrun job client object",
+          "required": [
+            "name",
+            "payrunName",
+            "payrollName",
+            "userIdentifier",
+            "cycleName",
+            "cycleStart",
+            "periodName",
+            "periodStart",
+            "periodEnd",
+            "evaluationDate",
+            "createdReason"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The job name (immutable)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "owner": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The job owner (immutable)"
+            },
+            "payrunId": {
+              "type": "integer",
+              "description": "The payrun id (immutable)",
+              "format": "int32"
+            },
+            "payrunName": {
+              "type": "string",
+              "description": "The payrun name (client only)",
+              "minLength": 1
+            },
+            "payrollId": {
+              "type": "integer",
+              "description": "The payroll id (immutable)",
+              "format": "int32"
+            },
+            "payrollName": {
+              "type": "string",
+              "description": "The payroll name (client only)",
+              "minLength": 1
+            },
+            "divisionId": {
+              "type": "integer",
+              "description": "The division id (immutable)",
+              "format": "int32"
+            },
+            "createdUserId": {
+              "type": "integer",
+              "description": "The created user id (immutable)",
+              "format": "int32"
+            },
+            "releasedUserId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The release user id (immutable)",
+              "format": "int32"
+            },
+            "processedUserId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The processed user id (immutable)",
+              "format": "int32"
+            },
+            "finishedUserId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The finished user id (immutable)",
+              "format": "int32"
+            },
+            "userIdentifier": {
+              "type": "string",
+              "description": "The user unique identifier (client only)",
+              "minLength": 1
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The job tags (immutable)",
+              "items": {
+                "type": "string"
+              }
+            },
+            "parentJobId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The parent payrun job id, e.g. the parent retro pay run job (immutable)",
+              "format": "int32"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name (immutable)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "retroPayMode": {
+              "description": "The payrun retro pay mode (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/RetroPayMode"
+                }
+              ]
+            },
+            "jobStatus": {
+              "description": "The payrun job status (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/PayrunJobStatus"
+                }
+              ]
+            },
+            "jobResult": {
+              "description": "The payrun job result",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/PayrunJobResult"
+                }
+              ]
+            },
+            "cycleName": {
+              "type": "string",
+              "description": "The cycle name (immutable)",
+              "minLength": 1
+            },
+            "cycleStart": {
+              "type": "string",
+              "description": "The cycle start date (immutable)",
+              "format": "date-time",
+              "minLength": 1
+            },
+            "cycleEnd": {
+              "type": "string",
+              "description": "The cycle end date (immutable)",
+              "format": "date-time"
+            },
+            "periodName": {
+              "type": "string",
+              "description": "The period name (immutable)",
+              "minLength": 1
+            },
+            "periodStart": {
+              "type": "string",
+              "description": "The period start date (immutable)",
+              "format": "date-time",
+              "minLength": 1
+            },
+            "periodEnd": {
+              "type": "string",
+              "description": "The period end date (immutable)",
+              "format": "date-time",
+              "minLength": 1
+            },
+            "evaluationDate": {
+              "type": "string",
+              "description": "The evaluation date (immutable)",
+              "format": "date-time",
+              "minLength": 1
+            },
+            "released": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The job release date (immutable)",
+              "format": "date-time"
+            },
+            "processed": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The job process date (immutable)",
+              "format": "date-time"
+            },
+            "finished": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The job finish date (immutable)",
+              "format": "date-time"
+            },
+            "createdReason": {
+              "type": "string",
+              "description": "The created reason (immutable)",
+              "minLength": 1
+            },
+            "releasedReason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The release reason (immutable)"
+            },
+            "processedReason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The process reason (immutable)"
+            },
+            "finishedReason": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The finished reason (immutable)"
+            },
+            "totalEmployeeCount": {
+              "type": "integer",
+              "description": "Total employee count (immutable)",
+              "format": "int32"
+            },
+            "processedEmployeeCount": {
+              "type": "integer",
+              "description": "Processed employee count (immutable)",
+              "format": "int32"
+            },
+            "jobStart": {
+              "type": "string",
+              "description": "The job start date (immutable)",
+              "format": "date-time"
+            },
+            "jobEnd": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The job end date (immutable)",
+              "format": "date-time"
+            },
+            "message": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The job message (immutable)"
+            },
+            "errorMessage": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The job error message (immutable)"
+            },
+            "employees": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The payrun employees",
+              "items": {
+                "$ref": "#/definitions/PayrunJobEmployee"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "RetroPayMode": {
+      "type": "string",
+      "description": "The payrun retro pay mode",
+      "x-enumNames": [
+        "ValueChange",
+        "None"
+      ],
+      "enum": [
+        "ValueChange",
+        "None"
+      ]
+    },
+    "PayrunJobStatus": {
+      "type": "string",
+      "description": "The payrun job status\nSupported state changes:\n- *: Draft | Forecast | Abort\n- Draft: Release | Abort\n- Release: Process | Abort\n- Process: Complete | Cancel",
+      "x-enumNames": [
+        "Draft",
+        "Release",
+        "Process",
+        "Complete",
+        "Forecast",
+        "Abort",
+        "Cancel"
+      ],
+      "enum": [
+        "Draft",
+        "Release",
+        "Process",
+        "Complete",
+        "Forecast",
+        "Abort",
+        "Cancel"
+      ]
+    },
+    "PayrunJobResult": {
+      "type": "string",
+      "description": "The payrun job result",
+      "x-enumNames": [
+        "Full",
+        "Incremental"
+      ],
+      "enum": [
+        "Full",
+        "Incremental"
+      ]
+    },
+    "PayrunJobEmployee": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payrun job client object",
+          "properties": {
+            "employeeId": {
+              "type": "integer",
+              "description": "The employee id (immutable)",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "PayrunJobInvocation": {
+      "type": "object",
+      "description": "The payrun job client object",
+      "required": [
+        "name",
+        "payrunName",
+        "userIdentifier",
+        "periodStart",
+        "reason"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The job name (immutable)",
+          "minLength": 1
+        },
+        "owner": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The job owner (immutable)"
+        },
+        "payrunName": {
+          "type": "string",
+          "description": "The payrun name (immutable)",
+          "minLength": 1
+        },
+        "userIdentifier": {
+          "type": "string",
+          "description": "The user identifier (immutable)",
+          "minLength": 1
+        },
+        "payrunJobId": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The payrun job id (immutable)",
+          "format": "int32"
+        },
+        "parentJobId": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The parent payrun job id, e.g. the parent retro pay run job (immutable)",
+          "format": "int32"
+        },
+        "retroJobs": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The retro payrun jobs, requires the ParentJobId (immutable)",
+          "items": {
+            "$ref": "#/definitions/RetroPayrunJob"
+          }
+        },
+        "tags": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The job tags (immutable)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forecast": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The forecast name (immutable)"
+        },
+        "retroPayMode": {
+          "description": "The payrun retro pay mode (immutable)",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/RetroPayMode"
+            }
+          ]
+        },
+        "jobStatus": {
+          "description": "The target payrun job status",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/PayrunJobStatus"
+            }
+          ]
+        },
+        "completedJobStatus": {
+          "description": "The completed payrun job status, used by test runner to bypass the manual workflow.\n            If set, the background processor finalizes the job with this status instead of leaving it in Draft.\n            Null (default) means the job stays in Draft after calculation, following the normal workflow.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/PayrunJobStatus"
+            }
+          ]
+        },
+        "jobResult": {
+          "description": "The payrun job result",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/PayrunJobResult"
+            }
+          ]
+        },
+        "periodStart": {
+          "type": "string",
+          "description": "The period start date (immutable)",
+          "format": "date-time",
+          "minLength": 1
+        },
+        "evaluationDate": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The evaluation date (immutable)",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string",
+          "description": "The execution reason (immutable)",
+          "minLength": 1
+        },
+        "storeEmptyResults": {
+          "type": "boolean",
+          "description": "Store empty employee results (default: false)"
+        },
+        "logLevel": {
+          "description": "The function log level, default is information",
+          "default": "Information",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/LogLevel"
+            }
+          ]
+        },
+        "employeeIdentifiers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The payrun employee identifiers",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attributes": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "description": "Payrun job attributes",
+          "additionalProperties": {}
+        }
+      }
+    },
+    "RetroPayrunJob": {
+      "type": "object",
+      "description": "The retro payrun job client object",
+      "required": [
+        "scheduleDate"
+      ],
+      "properties": {
+        "scheduleDate": {
+          "type": "string",
+          "description": "The schedule date",
+          "format": "date-time",
+          "minLength": 1
+        },
+        "resultTags": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The result tags",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "LogLevel": {
+      "type": "string",
+      "description": "Specifies the meaning and relative importance of a log event",
+      "x-enumNames": [
+        "Verbose",
+        "Debug",
+        "Information",
+        "Warning",
+        "Error",
+        "Fatal"
+      ],
+      "enum": [
+        "Verbose",
+        "Debug",
+        "Information",
+        "Warning",
+        "Error",
+        "Fatal"
+      ]
+    },
+    "PayrollResultSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PayrollResult"
+        },
+        {
+          "type": "object",
+          "description": "The payroll result client object",
+          "properties": {
+            "retroPeriodStart": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The retro period start date (client only: test payrun results)",
+              "format": "date-time"
+            },
+            "wageTypeResults": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The wage type results",
+              "items": {
+                "$ref": "#/definitions/WageTypeResultSet"
+              }
+            },
+            "collectorResults": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The collector results",
+              "items": {
+                "$ref": "#/definitions/CollectorResultSet"
+              }
+            },
+            "payrunResults": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The payrun results",
+              "items": {
+                "$ref": "#/definitions/PayrunResult"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "WageTypeResultSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/WageTypeResult"
+        },
+        {
+          "type": "object",
+          "description": "The wage type result set client object",
+          "properties": {
+            "customResults": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The wage type custom results (immutable)",
+              "items": {
+                "$ref": "#/definitions/WageTypeCustomResult"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "WageTypeCustomResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The wage type custom result client object",
+          "required": [
+            "source"
+          ],
+          "properties": {
+            "wageTypeNumber": {
+              "type": "number",
+              "description": "The wage type number (immutable)",
+              "format": "decimal"
+            },
+            "wageTypeName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type name (immutable)"
+            },
+            "wageTypeResultId": {
+              "type": "integer",
+              "description": "The wage type result id (immutable)",
+              "format": "int32"
+            },
+            "wageTypeNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized wage type names (immutable)",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "source": {
+              "type": "string",
+              "description": "The value source (immutable)",
+              "minLength": 1
+            },
+            "valueType": {
+              "description": "The value type (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "value": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The collector custom result value (immutable)",
+              "format": "decimal"
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type custom result culture name based on RFC 4646"
+            },
+            "start": {
+              "type": "string",
+              "description": "The period starting date for the value",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "description": "The period ending date for the value",
+              "format": "date-time"
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The result tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "WageTypeResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The wage type result client object",
+          "required": [
+            "wageTypeNumber"
+          ],
+          "properties": {
+            "wageTypeNumber": {
+              "type": "number",
+              "description": "The wage type number (immutable)",
+              "format": "decimal"
+            },
+            "payrollResultId": {
+              "type": "integer",
+              "description": "The payroll result id (immutable)",
+              "format": "int32"
+            },
+            "wageTypeId": {
+              "type": "integer",
+              "description": "The wage type id (immutable)",
+              "format": "int32"
+            },
+            "wageTypeName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type name (immutable)"
+            },
+            "wageTypeNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized wage type names (immutable)",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "valueType": {
+              "description": "The value type (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "value": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The collector custom result value (immutable)",
+              "format": "decimal"
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The wage type result culture name based on RFC 4646"
+            },
+            "start": {
+              "type": "string",
+              "description": "The starting date for the value (immutable)",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "description": "The ending date for the value (immutable)",
+              "format": "date-time"
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The result tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            },
+            "tenantId": {
+              "type": "integer",
+              "description": "The tenant id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "employeeId": {
+              "type": "integer",
+              "description": "The employee id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "divisionId": {
+              "type": "integer",
+              "description": "The division id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "payrunJobId": {
+              "type": "integer",
+              "description": "The payrun job id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name (denormalized, immutable)"
+            },
+            "parentJobId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The parent payrun job id (denormalized, immutable)",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "CollectorResultSet": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/CollectorResult"
+        },
+        {
+          "type": "object",
+          "description": "The collector result set client object",
+          "properties": {
+            "customResults": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The collector custom results (immutable)",
+              "items": {
+                "$ref": "#/definitions/CollectorCustomResult"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "CollectorCustomResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The collector custom result client object",
+          "required": [
+            "collectorName",
+            "source"
+          ],
+          "properties": {
+            "collectorResultId": {
+              "type": "integer",
+              "description": "The wage type result id (immutable)",
+              "format": "int32"
+            },
+            "collectorName": {
+              "type": "string",
+              "description": "The collector name (immutable)",
+              "minLength": 1
+            },
+            "collectorNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized collector names (immutable)",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "source": {
+              "type": "string",
+              "description": "The value source (immutable)",
+              "minLength": 1
+            },
+            "valueType": {
+              "description": "The value type (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "value": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The collector custom result value (immutable)",
+              "format": "decimal"
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The collector custom result culture name based on RFC 4646+"
+            },
+            "start": {
+              "type": "string",
+              "description": "The period starting date for the value",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "description": "The period ending date for the value",
+              "format": "date-time"
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The result tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "CollectorResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The collector result client object",
+          "properties": {
+            "collectorName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The collector name (immutable)"
+            },
+            "collectorNameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized collector names (immutable)",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "collectMode": {
+              "description": "The collect mode (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/CollectMode"
+                }
+              ]
+            },
+            "negated": {
+              "type": "boolean",
+              "description": "Negated collector result (immutable)"
+            },
+            "valueType": {
+              "description": "The value type (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "value": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The collector custom result value (immutable)",
+              "format": "decimal"
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The collector result culture name based on RFC 4646"
+            },
+            "start": {
+              "type": "string",
+              "description": "The starting date for the value (immutable)",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "description": "The ending date for the value (immutable)",
+              "format": "date-time"
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The result tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            },
+            "payrollResultId": {
+              "type": "integer",
+              "description": "The payroll result id (immutable)",
+              "format": "int32"
+            },
+            "collectorId": {
+              "type": "integer",
+              "description": "The collector id (immutable)",
+              "format": "int32"
+            },
+            "tenantId": {
+              "type": "integer",
+              "description": "The tenant id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "employeeId": {
+              "type": "integer",
+              "description": "The employee id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "divisionId": {
+              "type": "integer",
+              "description": "The division id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "payrunJobId": {
+              "type": "integer",
+              "description": "The payrun job id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name (denormalized, immutable)"
+            },
+            "parentJobId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The parent payrun job id (denormalized, immutable)",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "PayrunResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payrun result client object",
+          "required": [
+            "name",
+            "value"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The payrun result name",
+              "minLength": 1
+            },
+            "nameLocalizations": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "The localized result names",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "payrollResultId": {
+              "type": "integer",
+              "description": "The payroll result id (immutable)",
+              "format": "int32"
+            },
+            "source": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The result source (immutable)"
+            },
+            "slot": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The result slot (immutable)"
+            },
+            "valueType": {
+              "description": "The value type (immutable)",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/ValueType"
+                }
+              ]
+            },
+            "value": {
+              "type": "string",
+              "description": "The result value (immutable)",
+              "minLength": 1
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payrun result culture name based on RFC 4646"
+            },
+            "numericValue": {
+              "type": [
+                "null",
+                "number"
+              ],
+              "description": "The numeric result value (immutable)",
+              "format": "decimal"
+            },
+            "start": {
+              "type": "string",
+              "description": "The period starting date for the value",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "description": "The period ending date for the value",
+              "format": "date-time"
+            },
+            "tags": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "description": "The result tags",
+              "items": {
+                "type": "string"
+              }
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            },
+            "tenantId": {
+              "type": "integer",
+              "description": "The tenant id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "employeeId": {
+              "type": "integer",
+              "description": "The employee id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "divisionId": {
+              "type": "integer",
+              "description": "The division id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "payrunJobId": {
+              "type": "integer",
+              "description": "The payrun job id (denormalized, immutable)",
+              "format": "int32"
+            },
+            "forecast": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The forecast name (denormalized, immutable)"
+            },
+            "parentJobId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The parent payrun job id (denormalized, immutable)",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "PayrollResult": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The payroll result info client object",
+          "properties": {
+            "payrunJobName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The payrun job name (client only)"
+            },
+            "payrunJobId": {
+              "type": "integer",
+              "description": "The payrun job id (immutable)",
+              "format": "int32"
+            },
+            "payrollId": {
+              "type": "integer",
+              "description": "The payroll id (immutable)",
+              "format": "int32"
+            },
+            "payrunId": {
+              "type": "integer",
+              "description": "The payrun id (immutable)",
+              "format": "int32"
+            },
+            "employeeId": {
+              "type": "integer",
+              "description": "The employee id (immutable)",
+              "format": "int32"
+            },
+            "employeeIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The employee identifier (client only)"
+            },
+            "divisionId": {
+              "type": "integer",
+              "description": "The division id (immutable)",
+              "format": "int32"
+            },
+            "cycleName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The cycle name (immutable)"
+            },
+            "cycleStart": {
+              "type": "string",
+              "description": "The cycle start date (immutable)",
+              "format": "date-time"
+            },
+            "cycleEnd": {
+              "type": "string",
+              "description": "The cycle end date (immutable)",
+              "format": "date-time"
+            },
+            "periodName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The period name (immutable)"
+            },
+            "periodStart": {
+              "type": "string",
+              "description": "The period start date (immutable)",
+              "format": "date-time"
+            },
+            "periodEnd": {
+              "type": "string",
+              "description": "The period end date (immutable)",
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "Tenant": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The tenant client object",
+          "required": [
+            "identifier"
+          ],
+          "properties": {
+            "identifier": {
+              "type": "string",
+              "description": "The tenant identifier",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "culture": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The tenant culture name based on RFC 4646 (fallback: system culture)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "calendar": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The tenant calendar (fallback: default calendar)",
+              "maxLength": 128,
+              "minLength": 0
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "RegulationShare": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelBase"
+        },
+        {
+          "type": "object",
+          "description": "The regulation share client object",
+          "properties": {
+            "providerTenantId": {
+              "type": "integer",
+              "description": "The provider tenant id",
+              "format": "int32"
+            },
+            "providerTenantIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The provider tenant identifier (client only)"
+            },
+            "providerRegulationId": {
+              "type": "integer",
+              "description": "The provider regulation id",
+              "format": "int32"
+            },
+            "providerRegulationName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The provider regulation name (client only)"
+            },
+            "consumerTenantId": {
+              "type": "integer",
+              "description": "The consumer tenant id",
+              "format": "int32"
+            },
+            "consumerTenantIdentifier": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The consumer tenant identifier (client only)"
+            },
+            "consumerDivisionId": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "description": "The consumer division id",
+              "format": "int32"
+            },
+            "consumerDivisionName": {
+              "type": [
+                "null",
+                "string"
+              ],
+              "description": "The consumer division name (client only)"
+            },
+            "isolationLevel": {
+              "description": "The isolation level granted to the consumer tenant.\n            Consolidation: cross-tenant result access for report scripts — regulation not added as payroll layer.\n            Write: regulation available as full payroll layer (default).",
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/TenantIsolationLevel"
+                }
+              ]
+            },
+            "attributes": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "description": "Custom object attributes",
+              "additionalProperties": {}
+            }
+          }
+        }
+      ]
+    },
+    "TenantIsolationLevel": {
+      "type": "string",
+      "description": "Server-wide policy controlling cross-tenant access on a backend instance.\n            Configured once at startup in PayrollServerConfiguration — not changeable at runtime.\n            Applied by TenantIsolationFilter before every request.",
+      "x-enumNames": [
+        "None",
+        "Consolidation",
+        "Read",
+        "Write"
+      ],
+      "enum": [
+        "None",
+        "Consolidation",
+        "Read",
+        "Write"
+      ]
+    }
+  }
+}

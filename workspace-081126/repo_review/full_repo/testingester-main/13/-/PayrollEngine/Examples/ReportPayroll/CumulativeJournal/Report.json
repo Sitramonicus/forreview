@@ -1,0 +1,72 @@
+{
+  "$schema": "../../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2025-01-01T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "Report.Tenant",
+      "updateMode": "NoUpdate",
+      "regulations": [
+        {
+          "name": "Report.Regulation",
+          "updateMode": "Update",
+           "reports": [
+            {
+              "name": "CumulativeJournal",
+              "nameLocalizations": {
+                "en": "Cumulative journal Report"
+              },
+              "clusters": [
+                "Year",
+                "Employee",
+                "Pay"
+              ],
+              "endExpressionFile": "Script.cs",
+              "queries": {
+                "Employees": "QueryEmployees"
+              },
+              "parameters": [
+                {
+                  "name": "TenantId",
+                  "valueType": "Integer",
+                  "parameterType": "TenantId",
+                  "hidden": true
+                },
+                {
+                  "name": "JournalYear",
+                  "valueType": "Year",
+                  "value": "2025",
+                  "mandatory": true,
+                  "attributes": {
+                    "input.minvalue": 2000
+                  }
+                },
+                {
+                  "name": "Employees.Filter",
+                  "nameLocalizations": {
+                    "en": "Employees"
+                  },
+                  "description": "Employees name filter",
+                  "descriptionLocalizations": {
+                    "en": "Employees name filter"
+                  }
+                }
+              ],
+              "templates": [
+                {
+                  "name": "DefaultGerman",
+                  "culture": "de",
+                  "contentFile": "Report.frx"
+                },
+                {
+                  "name": "DefaultEnglish",
+                  "culture": "en",
+                  "contentFile": "Report.frx"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

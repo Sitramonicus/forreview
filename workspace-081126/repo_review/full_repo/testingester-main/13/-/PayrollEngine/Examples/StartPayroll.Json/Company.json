@@ -1,0 +1,53 @@
+{
+  "$schema": "../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2023-01-01T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "StartTenant",
+      "regulations": [
+        {
+          "name": "CompanyRegulation",
+          "baseRegulations": [
+            "InsuranceRegulation"
+          ],
+          "cases": [
+            {
+              "name": "Benefit",
+              "caseType": "Employee",
+              "fields": [
+                {
+                  "name": "Benefit",
+                  "valueType": "Money",
+                  "timeType": "Moment"
+                }
+              ]
+            }
+          ],
+          "wageTypes": [
+            {
+              "wageTypeNumber": 100.1,
+              "name": "Benefit",
+              "valueExpression": "CaseValue[\"Benefit\"]",
+              "collectors": [
+                "Income"
+              ]
+            }
+          ]
+        }
+      ],
+      "payrolls": [
+        {
+          "name": "StartPayroll",
+          "layers": [
+            {
+              "level": 3,
+              "regulationName": "CompanyRegulation"
+            }
+          ],
+          "updateMode": "NoUpdate"
+        }
+      ],
+      "updateMode": "NoUpdate"
+    }
+  ]
+}

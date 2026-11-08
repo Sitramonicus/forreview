@@ -1,0 +1,95 @@
+{
+  "$schema": "../../Schemas/PayrollEngine.Exchange.schema.json",
+  "createdObjectDate": "2023-01-01T00:00:00.0Z",
+  "tenants": [
+    {
+      "identifier": "ExtendedTenant",
+      "culture": "en-US",
+      "users": [
+        {
+          "identifier": "lucy.smith@foo.com",
+          "firstName": "Lucy",
+          "lastName": "Smith",
+          "culture": "en-US",
+          "userType": "TenantAdministrator"
+        }
+      ],
+      "divisions": [
+        {
+          "name": "ExtendedDivision"
+        }
+      ],
+      "employees": [
+        {
+          "identifier": "mario.nuñez@foo.com",
+          "firstName": "Mario",
+          "lastName": "Nuñez",
+          "divisions": [
+            "ExtendedDivision"
+          ]
+        }
+      ],
+      "regulations": [
+        {
+          "name": "ExtendedRegulation",
+          "cases": [
+            {
+              "name": "Salary",
+              "caseType": "Employee",
+              "buildExpression": "true",
+              "validateExpression": "true",
+              "fields": [
+                {
+                  "name": "Salary",
+                  "valueType": "Money",
+                  "timeType": "CalendarPeriod"
+                }
+              ]
+            }
+          ],
+          "wageTypes": [
+            {
+              "wageTypeNumber": 100,
+              "name": "Salary",
+              "valueExpression": "MyRegulation.GetSalary()"
+            }
+          ],
+          "scripts": [
+            {
+              "name": "WageTypeValueFunction",
+              "functionTypes": [
+                "WageTypeValue"
+              ],
+              "valueFile": "Scripts/WageTypeValueFunction.cs"
+            },
+            {
+              "name": "CompositeWageTypeValueFunction",
+              "functionTypes": [
+                "WageTypeValue"
+              ],
+              "valueFile": "Scripts/CompositeWageTypeValueFunction.cs"
+            }
+          ]
+        }
+      ],
+      "payrolls": [
+        {
+          "name": "ExtendedPayroll",
+          "divisionName": "ExtendedDivision",
+          "layers": [
+            {
+              "level": 1,
+              "regulationName": "ExtendedRegulation"
+            }
+          ]
+        }
+      ],
+      "payruns": [
+        {
+          "name": "ExtendedPayrun",
+          "payrollName": "ExtendedPayroll"
+        }
+      ]
+    }
+  ]
+}

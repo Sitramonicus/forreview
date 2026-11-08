@@ -1,0 +1,5 @@
+{
+    "java.project.referencedLibraries": [
+        "MO-IT103-Group18-master/MO-IT103-Group18-master/lib/**/*.jar"
+    ]
+}

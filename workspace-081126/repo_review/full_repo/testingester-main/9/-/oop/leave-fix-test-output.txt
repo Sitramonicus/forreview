@@ -1,0 +1,62 @@
+Leave service console evidence — KI-18 (duplicate leaves) + KI-19 (swapped columns)
+Run: 2026-10-31 20:27 TST  ·  javac 21.0.12.1
+Command: javac -encoding UTF-8 -d <classes> $(find src oop/src -name '*.java') test/LeaveServiceTest.java && java -cp <classes> LeaveServiceTest
+
+LeaveService console evidence � KI-18 (duplicate leaves) + KI-19 (swapped columns)
+
+[1] approve: request leaves pendingleaves.csv, lands in leaves.csv with Yes, credit drops by 1
+    PASS  returned row keeps header order
+    PASS  pending file keeps only the untouched request
+    PASS  leaves.csv got one row
+    PASS  leaves.csv row has the reason in column 4 and Yes in column 5
+    PASS  data.csv keeps all 24 columns on the edited row
+    PASS  leave credits 5 -> 4
+    PASS  approved leaves 0 -> 1
+    PASS  rejected leaves unchanged
+[2] reject: same single write, No in the approval column, credit untouched
+    PASS  returned row keeps header order
+    PASS  pending file is empty
+    PASS  leaves.csv row has the reason in column 4 and No in column 5
+    PASS  leave credits unchanged
+    PASS  approved leaves unchanged
+    PASS  rejected leaves 0 -> 1
+[3] the same request cannot be approved twice (the old duplicate-leave bug)
+    PASS  second decision on the same index is refused
+    PASS  the refusal explains why
+    PASS  pending file still empty
+    PASS  leaves.csv still has one row
+    PASS  leaves.csv unchanged
+    PASS  leave credit was only deducted once
+[4] unknown employee: refused before any file is written
+    PASS  refused
+    PASS  pending file untouched
+    PASS  data file untouched
+    PASS  leaves.csv still empty
+[5] employee with 0 leave credits: approval refused, nothing written
+    PASS  refused
+    PASS  pending file untouched
+    PASS  data file untouched
+    PASS  leaves.csv still empty
+[6] a row that changed on disk is refused instead of processing the wrong request
+    PASS  refused
+    PASS  no processed row was written
+    PASS  leave credits untouched
+[7] data.csv with a shifted row is refused instead of being rewritten
+    PASS  refused
+    PASS  pending file untouched
+    PASS  leaves.csv still empty
+    PASS  shifted row kept its extra column (nothing rewritten)
+[8] a reason that contains a comma stays in the Reason column
+    PASS  reason rebuilt from the split fields
+    PASS  approval still last
+    PASS  pending table shows the whole reason
+[9] CRLF files keep CRLF after the pending rewrite (no whole-file diff)
+    PASS  remaining line still ends with CRLF
+    PASS  no bare LF was introduced
+    PASS  appended row also uses CRLF
+[10] a write failure restores all three files (no half-processed request)
+    PASS  the failure is reported
+    PASS  pending file restored
+    PASS  data file restored
+
+Summary: 44 passed, 0 failed

@@ -1,0 +1,16 @@
+ActionPayroll/Setup.pecmd
+CaseDefPayroll/Setup.pecmd
+ExtendedPayroll/Setup.pecmd
+ForecastPayroll/Setup.pecmd
+GlobalPayroll/Setup.pecmd
+MarchClausePayroll/Setup.pecmd
+MinWagePayroll/Setup.pecmd
+MultiCountryPayroll/Setup.pecmd
+PartTimePayroll/Setup.pecmd
+ReportPayroll/Setup.pecmd
+RetroPayroll/Setup.pecmd
+StartPayroll.Json/Setup.pecmd
+StartPayroll.Yaml/Setup.pecmd
+TaxTablePayroll/Setup.pecmd
+TemporalPayroll/Setup.pecmd
+TimesheetPayroll/Setup.pecmd

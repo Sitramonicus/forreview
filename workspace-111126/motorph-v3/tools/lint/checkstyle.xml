@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+  <property name="charset" value="UTF-8"/>
+  <property name="fileExtensions" value="java"/>
+  <property name="severity" value="error"/>
+
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern" value=".*module-info\.java$"/>
+  </module>
+
+  <!-- A CSV escape pair legitimately consumes one extra char; that one file is suppressed. -->
+  <module name="SuppressionFilter">
+    <property name="file" value="tools/lint/suppressions.xml"/>
+    <property name="optional" value="true"/>
+  </module>
+
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true"/>
+  </module>
+
+  <module name="NewlineAtEndOfFile">
+    <property name="lineSeparator" value="lf"/>
+  </module>
+
+  <module name="LineLength">
+    <property name="max" value="200"/>
+    <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://"/>
+  </module>
+
+  <module name="TreeWalker">
+
+    <!-- Imports: no star imports, no unused, no redundant java.lang -->
+    <module name="AvoidStarImport"/>
+    <module name="UnusedImports">
+      <property name="processJavadoc" value="true"/>
+    </module>
+    <module name="RedundantImport"/>
+
+    <!-- House style, honoured rather than fought: declarations are grouped on one comma line,
+         single-statement methods sit on one line, and members use the ab_name / ab_dtName form.
+         So: no MultipleVariableDeclarations, OneStatementPerLine, braces-on-own-line, or name-pattern
+         checks. What is left is the stuff that is genuinely a bug. -->
+    <module name="PackageName"/>
+    <module name="TypeName"/>
+    <module name="MethodName"/>
+    <!-- §4 wins over Java convention here: the project's own members use ab_dtName even when final,
+         so ConstantName only enforces the ALL_CAPS form where it already holds. -->
+    <module name="ConstantName">
+      <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|[a-z]{1,2}_[a-zA-Z0-9]*)$"/>
+    </module>
+
+    <!-- Structure and correctness -->
+    <module name="EmptyBlock">
+      <property name="option" value="text"/>
+    </module>
+    <module name="IllegalCatch">
+      <property name="illegalClassNames" value="java.lang.Throwable, java.lang.Error"/>
+    </module>
+    <module name="IllegalThrows">
+      <property name="illegalClassNames" value="java.lang.Throwable, java.lang.Error, java.lang.RuntimeException"/>
+      <property name="ignoreOverriddenMethods" value="true"/>
+    </module>
+    <module name="EqualsHashCode"/>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="StringLiteralEquality"/>
+    <module name="FallThrough"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="DefaultComesLast"/>
+    <module name="InnerAssignment"/>
+  </module>
+</module>

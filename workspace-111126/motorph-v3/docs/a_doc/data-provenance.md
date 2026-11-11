@@ -1,0 +1,17 @@
+# Data provenance and limits
+
+## Source and seed
+
+The supplied employee CSV is the source for the 34 seeded employee accounts and the salary fields. The supplied sample timecard and payslip inform the attendance pattern and golden payroll test. These files have not been verified as records from an operating company; do not describe them as verified real employee or payroll data.
+
+`data/local-demo.json` is the local seed snapshot. An inspection on **2026-11-02** found 7,421 attendance rows dated 2026-01-01 through 2026-11-07, including **130 rows after that date**. These are generated/test attendance, not proof of work. The earlier claim of 10,358 rows and no current or future-month entries did not describe this snapshot. The rows all say `Imported`; the data model does not distinguish generated from manually entered rows. Keep the seed separate from production records and do not infer a record's origin from that label.
+
+The seed had no saved payslip snapshots when inspected. Payslips calculated from seeded attendance and temporary rules are estimates, not evidence of historical payments. Finalized snapshots generated later are only as trustworthy as their inputs and approval process.
+
+No automatic deletion or alteration of future-dated entries was performed: such a cleanup would also risk destroying legitimate appointments or imported records in another database. The `motorph-jd` cloud state was not rechecked after an earlier interrupted writer. Export it and assess provenance before using or replacing it. Future dates become past dates over time; retain the observation date when reporting counts.
+
+## Reference comparison
+
+The My Pay reference is a fixed-rate 2026, private-employee estimate using the same employee, month, attendance earnings, allowances and recorded voluntary deductions as the MotorPH calculation. It recalculates statutory amounts with `PayReference2026` / `StatutoryCalculator2026`, independently of administrator-configured rate versions. Contribution bases are monthly basic; taxable compensation is monthly basic plus taxable bonuses. Overtime and other benefits are not separately classified for tax in this comparison. Other deductions are carried over, not re-priced. Gross includes allowances; blocked cutoffs remain unavailable. It does not modify a finalized payslip or payroll data.
+
+Sweldong Pinoy's [public calculator](https://www.sweldongpinoy.com/) (inspected 2026-11-02) accepts employment type, daily/weekly/semi-monthly/monthly period, basic pay, taxable/non-taxable allowances, night differential, overtime and schedule; its results show gross, tax, contributions and net for semi-monthly, monthly and annual periods, with 2025/2026 rates. Its [public guide](https://blog.sweldongpinoy.com/2023/03/sweldong-pinoy-guide-to-understanding.html) describes the same basic categories. It is not a documented API and its full current algorithm was not independently established. This app's reference is inspired by its public categories and existing checked-in 2026 statutory assumptions; it is **not** the external site's output, a full implementation of all its options, or a verified match. In particular, at exactly ₱1,500 the app applies the 1% Pag-IBIG low band; do not assert that the live site currently matches this boundary. Consult the published SSS, PhilHealth, Pag-IBIG and BIR schedules and payroll professionals before operational use.

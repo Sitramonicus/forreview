@@ -1,0 +1,866 @@
+ MO-IT107: Information Management
+
+ Week No.                    7
+
+ Topic:                      Logical Schema Design
+
+ Worksheet No. 4             Data Dictionary for MotorPH Payroll System Database
+
+
+
+ Project Manager:
+
+ Business Analyst:                     Jether Daniel A. Torres
+
+ Database Designer:
+
+ Program and Year Level:               BSIT - Software Development; A.Y. 2024 - 2025
+
+
+A data dictionary assists in grasping the significance, organization, and setting of the data items by providing a clear description of
+the data field contained within a dataset, making it easier for everyone to work with the data.
+
+
+Now that you have a better knowledge of the logical schema design and have practiced making it using the practice activity earlier,
+It is time to move forward with your main assignment for the week, which is also a part of the second milestone.
+Instructions:
+   1.​ Access your team’s Milestone 1 output.
+   2.​ Using the information found in your Milestone 1, fill in the requirements needed in the sections of the table provided below.
+   3.​ Overwrite the texts marked red and delete this note prior to submission.
+   4.​ You may refer to this example as a guide.
+
+
+==================================================================================================
+
+
+                               Data Dictionary for MotorPH Payroll System Database
+                                                          Jether Daniel A. Torres
+                                              (Bachelor of Science in Information Technology,
+                                                     Major in Software Development)
+
+
+
+ 1.​      Table Definitions
+          1.1.​   List of Database Tables
+                  The Payroll system database is composed of the following tables:
+       Group           Table                                                        Description
+
+                                 Preserves detailed records of all employees, incorporating unique identifiers, departmental affiliations,
+ A. Employee
+                   Employee      positional data, government-linked information, and supervisory relationships
+       Details
+  Group           Table                                                         Description
+
+                             Maintains discrete records of employees' physical addresses, incorporating city and regional identifiers, building
+             Address         details, street information and postal codes
+
+                             Delineates the various operational units within the organisation, providing unique identifiers and names that
+             Department      define each departmental segment
+
+                             Registers individual job roles by associating a unique position identifier with corresponding departmental
+             Position        information
+
+                             Documents supervisory assignments by linking supervisor identifiers with employee records and departmental
+             Supervisor      associations
+
+                             Records employee scheduling data, including their start times, required daily working hours, and assigned
+             Schedule        weekly rest days, to facilitate effective workforce management and help calculate preformance in payroll
+
+                             Tracks employee leave entitlements, maintaining balances per leave type, and recording timestamps for the
+             Leave Balance latest updates to ensure accurate accrual management
+
+                             Archives logs of modifications made to employee records, including detailed timestamps, field identifiers, and
+             Changelog       both previous and updated data values for audit purposes
+
+                             Registers employee attendance information, documenting clock-in and clock-out times, attendance dates and
+             Attendance      the classification of the day, thus ensuring accurate timekeeping
+B. Logging
+                             Records employee leave requests with detailed data on leave types, durations, justifications, approval statuses
+             Leave           and scheduled start dates to simplify absence management
+
+             Leave Accrual   Records the progression of leave accruals over time by documenting accrual dates, credited leave amounts, and
+   Group             Table                                                         Description
+
+                History         balance transitions, providing an extensive account
+
+                Government      Consolidates government-related identifiers for each employee
+
+                Government      Itemises monthly governmental deductions, enumerating employer and employee contributions alongside
+C. Government
+                Deductibles     withholding taxes
+   Details
+                                Records individual governmenet contributions, detailing both employee and employer shares for PhilHealth,
+                Contributions   Pag-ibig and SSS
+
+                                Compiles extensive payroll information by linking employee identifiers with wage, rebate and summary records,
+                Payroll         while also incorporating monthly identifiers and detailed salary rates
+
+                                Generates individual payslip records within the pay period, hour metrics (including overtime and undertime), and
+                Payslip         both gross and net income figures.
+
+                Leave
+                Monetisation    Documents the conversion of accrued leave into monetary value
+
+  D. Payroll                    Aggregates additional remuneration components such as overtime, paid time off, holiday pay and various
+                Earnings        stipends
+
+                                Details payroll deductions by listing rebate identifiers, other deduction totals and aggregating these values to
+                Deductibles     yield the overall deductibles per payroll cycle
+
+                Other           Records misc financial transactions related to payroll, such as bonuses, advances, reimbursements and
+                Transactions    additional deductions
+   Group                 Table                                                      Description
+
+                 Government      Consolidates government contribution totals over each payroll period, providing total figures (for current
+                 Tally           payroll) of Pag-ibig, PhilHealth and SSS contributions according to designated contributor
+
+                                 Organises an overarching financial summary of payroll disbursements, benefits, tax withholdings and
+                 Summary         government disbursements (for the month)
+
+                                 Maintains static records of regions by assigning a unique identifier to each region along with its designated
+                 Regions         name
+
+                 Cities          Lists cities by uniquely identifying each with a specific identifier, associating them with corresponding regions
+
+                                 Enumerates public and recognised organisational holidays by capturing unique identifiers, holiday names and
+                 Holiday         corresponding dates
+     E.
+                                 Defines monthly periods by assigning unique identifiers to each month and documenting the number of
+Static-Update
+                 Months          workdays
+    Only
+                                 Specifies statutory rates for various contributions by detailing employer and employee Pag-ibig rates, maximum
+                 Rates           contributions, PhilHealth and SSS rates
+
+                 Tax Table       Outlines detailed tax brackets by defining income ranges, bracket widths and associated tax rates
+
+                                 Classifies different leave categories by specifying whether a leave type is mandatory, detailing default accrual
+                 Leave Type      rates, accrual frequencies and maximum accrual limits
+
+
+      1.2.​     Column Definitions
+                The tables inside the MotorPH Payroll system database are composed of the following columns:
+             1.2.1.​   Employee Details
+
+
+                                                         A. Employee Details
+
+Employee
+
+                                                                 Data
+  Column Name                         Description                              Length and Precision            Constraints
+                                                                 Type
+
+employeeID             Unique employee identifier                SmallInt                       Size(5) Primary Key, Unique
+
+addressID              Linked address identifier                 SmallInt                       Size(5) Foreign Key
+
+departmentID           Identifier for the department              TinyInt                             – Foreign Key
+
+positionID             Identifier for the position                TinyInt                             – Foreign Key
+
+governmentID           Linked government record identifier       SmallInt                       Size(5) Foreign Key
+
+                       Employee’s immediate supervisor
+supervisorID                                                     SmallInt                       Size(5) Foreign Key
+                       identifier
+
+firstName              Employee’s given name                     Varchar                     Size(255) –
+
+lastName               Employee’s surname                        Varchar                     Size(255) –
+
+contactNumber          Employee’s phone number                   Varchar                       Size(15) –
+
+birthdate              Employee’s date of birth                     Date                              – CHECK (NOT NULL),
+                                                                                        CHECK (birthdate <
+                                                                                        CURRENT_DATE)
+
+employmentStatus Current employment status             Enum                            – –
+
+Address
+
+                                                     Data
+  Column Name                    Description                    Length and Precision            Constraints
+                                                     Type
+
+addressID         Unique address record identifier   SmallInt                    Size(5) Primary Key, Unique
+
+cityID            Linked city identifier             SmallInt                    Size(3) Foreign Key
+
+regionID          Linked region identifier            TinyInt                    Size(1) Foreign Key
+
+building          Building name or number            Varchar                  Size(100) –
+
+street            Street name                        Varchar                  Size(150) –
+
+postalCode        Postal or zip code                 Varchar                     Size(5) –
+
+Department
+
+                                                     Data
+  Column Name                    Description                    Length and Precision            Constraints
+                                                     Type
+
+departmentID      Unique department identifier        TinyInt                          – Primary Key, Unique
+
+departmentName    Name of the department             Varchar                  Size(100) –
+Position
+
+                                                      Data
+  Column Name                 Description                        Length and Precision            Constraints
+                                                      Type
+
+positionID      Unique position identifier             TinyInt                          – Primary Key, Unique
+
+departmentID    Linked department identifier           TinyInt                          – Foreign Key
+
+positionName    Name of the position                  Varchar                  Size(100) –
+
+Supervisor
+
+                                                      Data
+  Column Name                 Description                        Length and Precision            Constraints
+                                                      Type
+
+supervisorID    Unique supervisor record identifier   SmallInt                    Size(5) Primary Key, Unique
+
+employeeID      Linked employee identifier            SmallInt                    Size(5) Foreign Key
+
+departmentID    Linked department identifier           TinyInt                          – Foreign Key
+
+Schedule
+
+                                                      Data
+  Column Name                 Description                        Length and Precision            Constraints
+                                                      Type
+
+scheduleID      Unique schedule identifier            SmallInt                    Size(5) Primary Key, Unique
+
+employeeID      Linked employee identifier            SmallInt                    Size(5) Foreign Key, Unique
+startTime              Scheduled work start time                      Time                            – NOT NULL
+
+                                                                                                          Min(1), Max(24), NOT
+requiredDailyHours Number of work hours required per day            TinyInt                     Size(2)
+                                                                                                          NULL
+
+restDay                Assigned weekly rest day                        SET                            – NOT NULL
+
+Leave Balance
+
+                                                                   Data
+  Column Name                        Description                              Length and Precision                Constraints
+                                                                   Type
+
+balanceID              Unique leave balance identifier              Integer                           – Primary Key, Unique
+
+leaveType              Linked leave type identifier                  Enum                             – Foreign Key
+
+scheduleID             Linked schedule identifier for employee     SmallInt                     Size(5) Foreign Key
+
+currentBalance         Balance of leave type under employee        Decimal        Precision(4), Scale(2) Min(0)
+
+lastUpdated            Update timestamp                          DateTime                             – –
+
+
+             1.2.2.​   Logging
+
+
+                                                              B. Logging
+
+Changelog
+
+  Column Name                        Description                 Data Type    Length and Precision                Constraints
+changelogNo   Unique changelog entry identifier          Integer           – Primary Key, Unique
+
+employeeID    Linked employee identifier                SmallInt     Size(5) Foreign Key
+
+                                                                            NOT NULL,
+createdAt     Record creation timestamp                DateTime            – Default(CURRENT_TIMES
+                                                                            TAMP)
+
+appenderID    Identifier for the entry creator          SmallInt     Size(5) –
+
+                                                                            NOT NULL,
+updatedAt     Timestamp of the last update             DateTime            – Default(CURRENT_TIMES
+                                                                            TAMP)
+
+editorID      Identifier for the entry editor           SmallInt     Size(5) –
+
+              Shortened identifier for Table &
+fieldCode     Column (e.g., "P_NP" for                  Varchar     Size(10) –
+              Payroll.NetPay)
+
+dataType      Defines the type of old and new values      Enum             – –
+
+              Previous value before the change,
+oldValue                                                Varchar    Size(255) –
+              stored as text
+
+              Updated value after the change, stored
+newValue                                                Varchar    Size(255) –
+              as text
+Attendance
+
+  Column Name                   Description                Data Type      Length and Precision               Constraints
+
+attendanceID      Unique attendance record identifier        Integer                               – Primary Key, Unique
+
+scheduleID        Linked schedule identifier                SmallInt                          Size(5) Foreign Key
+
+date              Attendance date                               Date                               – Unique (scheduleID, date)
+
+timeIn            Time when the employee clocked in            Time                                – Check (timeIn <= timeOut)
+
+timeOut           Time when the employee clocked out           Time                                – Check (timeIn <= timeOut)
+
+dayType           Type of day                                  Enum                                – –
+
+Leave
+
+Column Name       Description                              Data Type   Length and Precision           Constraints
+
+        leaveID       Unique leave record identifier        Integer                  –                   Primary Key, Unique
+
+balanceID         Linked leave balance record identifier     Integer                               – Foreign Key
+
+leaveType         Category of leave                            Enum                                – Foreign Key
+
+scheduleID        Linked schedule identifier                SmallInt                          Size(5) Foreign Key
+
+                                                                                                     NOT NULL, Check
+dateStart         Leave start date                              Date                               – (dateStart >=
+                                                                                                     CURRENT_DATE)
+hourDuration        Duration of leave in hours                SmallInt                                  – Min(0)
+
+leaveReason         Justification for the leave request        Varchar                          Size(150) –
+
+leaveStatus         Approval status                              Enum                                   – –
+
+requestLeaveCredit Credits that will be consumed              Decimal            Precision(4), Scale(2) –
+
+remainingLeaveCre
+                    Credits remaining after used              Decimal            Precision(4), Scale(2) –
+dit
+
+                    Timestamp of leave request                                                              Default(CURRENT_TIMES
+dateRequested                                                DateTime                                   –
+                    submission                                                                              TAMP)
+
+dateApproved        NULL until request is approved           DateTime                                   – NULL Allowed
+
+                    Tracks Supervisor ID who approved
+approverID                                                    SmallInt                            Size(5) –
+                    leave
+
+Leave Accrual History
+
+Column Name         Description                              Data Type   Length and Precision               Constraints
+
+      accrualID     Unique leave accrual record identifier   Integer                   –                      Primary Key, Unique
+
+balanceID           Linked leave balance record identifier     Integer                                  – Foreign Key
+
+leaveType           Category of leave for accrual purposes       Enum                                   – NOT NULL
+
+accrualDate         Date when the leave accrual is                Date                                  – NOT NULL, Check
+                       recorded and applied                                                               (accrualDate ≤
+                                                                                                          CURRENT_DATE)
+
+                       Number of leave credits accrued until
+creditAccrued                                                    Decimal            Precision(4), Scale(2) Min(0)
+                       accrual date
+
+oldBalance             Leave balance prior to the accrual        Decimal            Precision(4), Scale(2) Min(0)
+
+                       Leave balance subsequent to the
+newBalance                                                       Decimal            Precision(4), Scale(2) Min(0)
+                       accrual
+
+
+             1.2.3.​   Government Details
+
+
+                                                        C. Government Details
+
+Government
+
+  Column Name                         Description              Data Type        Length and Precision                Constraints
+
+governmentID           Unique government record identifier       SmallInt                         Size(5) Primary Key, Unique
+
+employeeID             Linked employee identifier                SmallInt                         Size(5) Foreign Key
+
+TIN                    Taxpayer Identification Number            Varchar                         Size(15) –
+
+sssNo                  Social Security System number             Varchar                         Size(12) –
+
+philHealthNo           PhilHealth identifier                     Varchar                         Size(12) –
+pagIbigNo             Pag-ibig fund identifier                Varchar                    Size(12) –
+
+encryptedRef          Encrypted reference data              Varbinary                        Max –
+
+Government Deductibles
+
+     Column Name                     Description            Data Type   Length and Precision                Constraints
+
+governmentID          Linked government record identifier    SmallInt                     Size(5) Primary Key, Foreign Key
+
+monthID               Linked month identifier                   Enum                            – Foreign Key
+
+employerContributio
+                      Employer contribution amount            Decimal      Precision(19), Scale(4) Min(0)
+n
+
+employeeContributi
+                      Employee contribution amount            Decimal      Precision(19), Scale(4) Min(0)
+on
+
+withholdingTax        Amount of tax withheld                  Decimal      Precision(19), Scale(4) Min(0)
+
+Contributions
+
+     Column Name                     Description            Data Type   Length and Precision                Constraints
+
+                                                                                                    Composite Primary Key,
+governmentID          Linked government record identifier    SmallInt                     Size(5)
+                                                                                                    Foreign Key
+
+contributor           Identifier for contributor                Enum                            – Composite Primary Key
+
+philHealthContributi PhilHealth contribution amount           Decimal      Precision(19), Scale(4) Min(0)
+on
+
+pagIbigContribution Pag-ibig contribution amount                 Decimal       Precision(19), Scale(4) Min(0)
+
+sssContribution        SSS contribution amount                   Decimal       Precision(19), Scale(4) Min(0)
+
+
+             1.2.4.​   Payroll
+
+
+                                                             D. Payroll
+
+Payroll
+
+     Column Name                     Description              Data Type     Length and Precision                Constraints
+
+payrollID              Unique payroll record identifier           Integer                           – Primary Key, Unique
+
+employeeID             Linked employee identifier               SmallInt                      Size(5) Foreign Key
+
+rebateID               Linked rebate record identifier            Integer                           – Foreign Key
+
+wageID                 Linked wage record identifier              Integer                           – Foreign Key
+
+summaryID              Linked summary record identifier           Integer                           – Foreign Key
+
+monthID                Identifier for the payroll month            Enum                             – –
+
+ptoMax                 Maximum allowed paid time off (PTO)        Integer                           – Min(0)
+
+hourlyRate             Pay rate per hour                         Decimal       Precision(19), Scale(4) Min(0), NOT NULL
+dailyRate           Fixed daily pay rate                 Decimal       Precision(19), Scale(4) Min(0), NOT NULL
+
+monthlyRate         Monthly salary rate                  Decimal       Precision(19), Scale(4) Min(0)
+
+netPay              Final pay after deductions           Decimal       Precision(19), Scale(4) Min(0), NOT NULL
+
+Payslip
+
+  Column Name                     Description          Data Type    Length and Precision                Constraints
+
+payslipID           Unique payslip identifier            Integer                            – Primary Key, Unique
+
+payrollID           Linked payroll record identifier     Integer                            – Foreign Key
+
+periodStartDate     Start date of the pay period            Date                            – NOT NULL
+
+                                                                                                Unique (payrollID,
+periodEndDate       End date of the pay period              Date                            –
+                                                                                                periodEndDate)
+
+regularHours        Standard work hours                 SmallInt                            – Min(0), NOT NULL
+
+overtimeHours       Overtime hours worked               SmallInt                            – Min(0)
+
+holidayOvertimeHo
+                    Overtime during holidays            SmallInt                            – Min(0)
+urs
+
+ptoHours            Total paid time off hours taken     SmallInt                            – Min(0)
+
+undertimeHours      Hours below expected work time      SmallInt                            – Min(0)
+
+daysWorked          Total days worked                     TinyInt                           – Min(0)
+holidaysWorked       Number of holidays worked                   TinyInt                           – Min(0)
+
+restDaysWorked       Number of rest days worked                  TinyInt                           – Min(0)
+
+grossIncome          Total earnings before deductions           Decimal       Precision(19), Scale(4) Min(0)
+
+Leave Monetisation
+
+  Column Name                      Description                Data Type    Length and Precision                Constraints
+
+                     Unique leave monetisation record
+monetisationID                                                  Integer                            – Primary Key, Unique
+                     identifier
+
+leaveType            Type of leave being monetised                Enum                             – NOT NULL
+
+                     Linked leave balance record identifier
+balanceID                                                       Integer                            – Foreign Key
+                     for monetisation
+
+                     Number of leave credits converted to
+creditsMonetised                                                Decimal        Precision(4), Scale(2) Min(0)
+                     monetary value
+
+                     Monetary value assigned per leave
+monetaryValuePer                                                Decimal       Precision(19), Scale(4) Min(0)
+                     credit
+
+                     Aggregate monetary value resulting
+totalConverted                                                  Decimal       Precision(19), Scale(4) Min(0)
+                     from the conversion
+
+                     Date when leave monetisation was
+dateMonetised                                                      Date                            – –
+                     effected
+                   Identifier for the approver responsible
+approverID                                                    SmallInt                     Size(5) –
+                   for validating the monetisation
+
+Earnings
+
+  Column Name                    Description                 Data Type   Length and Precision                Constraints
+
+wageID             Unique wage record identifier               Integer                           – Primary Key, Unique
+
+overtimePay        Payment for overtime hours                  Decimal      Precision(19), Scale(4) Min(0)
+
+ptoPay             Paid time off compensation                  Decimal      Precision(19), Scale(4) Min(0)
+
+holidayPay         Payment for holiday work                    Decimal      Precision(19), Scale(4) Min(0)
+
+restDayPay         Payment for work on rest days               Decimal      Precision(19), Scale(4) Min(0)
+
+riceSubsidy        Subsidy provided for rice                   Decimal      Precision(19), Scale(4) Min(0)
+
+phoneStipend       Stipend for phone expenses                  Decimal      Precision(19), Scale(4) Min(0)
+
+clothesStipend     Stipend for clothing expenses               Decimal      Precision(19), Scale(4) Min(0)
+
+otherIncentTotal   Sum of other incentives                     Decimal      Precision(19), Scale(4) Min(0)
+
+totalBenefits      Total benefit amount                        Decimal      Precision(19), Scale(4) Min(0)
+
+Deductibles
+
+  Column Name                    Description                 Data Type   Length and Precision                Constraints
+
+rebateID           Unique rebate record identifier             Integer                           – Primary Key, Unique
+governmentID         Linked government record identifier       SmallInt                     Size(5) Foreign Key
+
+otherDeductTotal     Sum of other deductions                    Decimal      Precision(19), Scale(4) Min(0)
+
+totalDeductibles     Overall deductions sum                     Decimal      Precision(19), Scale(4) Min(0)
+
+Other Transactions
+
+  Column Name                       Description               Data Type   Length and Precision                Constraints
+
+transactionID        Unique transaction record identifier       Integer                           – Primary Key, Unique
+
+payrollID            Payroll identifier for the transaction     Integer                           – Foreign Key
+
+transactionType      Type of transaction                          Enum                            – –
+
+transactionAmount    Amount of the transaction                  Decimal      Precision(19), Scale(4) Min(0)
+
+description          Description of the transaction             Varchar                  Size(150) –
+
+Government Tally
+
+  Column Name                       Description               Data Type   Length and Precision                Constraints
+
+summaryID            Linked summary record identifier           Integer                           – Primary Key (assumed)
+
+contributor          Identifier for contributor                   Enum                            – –
+
+                     Overall (between this month's
+overallPagIbig                                                  Decimal      Precision(19), Scale(4) Min(0)
+                     payrolls) Pag-ibig contribution
+                    Overall (between this month's
+overallPhilHealth                                         Decimal      Precision(19), Scale(4) Min(0)
+                    payrolls) PhilHealth contribution
+
+                    Overall (between this month's
+overallSSS                                                Decimal      Precision(19), Scale(4) Min(0)
+                    payrolls) SSS contribution
+
+Summary
+
+  Column Name                    Description            Data Type   Length and Precision                Constraints
+
+summaryID           Unique summary record identifier      Integer                           – Primary Key, Unique
+
+monthID             Linked month identifier                 Enum                            – –
+
+overallGrossIncome Total gross income summed              Decimal      Precision(19), Scale(4) Min(0)
+
+overallBenefits     Total benefits summed                 Decimal      Precision(19), Scale(4) Min(0)
+
+employeeDisbursem
+                    Total disbursements to employees      Decimal      Precision(19), Scale(4) Min(0)
+entTotal
+
+employerDisbursem Total amount disbursed by the
+                                                          Decimal      Precision(19), Scale(4) Min(0)
+entTotal            employer
+
+overallPITotal      Combined Pag-ibig total               Decimal      Precision(19), Scale(4) Min(0)
+
+overallPHTotal      Combined PhilHealth total             Decimal      Precision(19), Scale(4) Min(0)
+
+overallSSSTotal     Combined SSS total                    Decimal      Precision(19), Scale(4) Min(0)
+overallTaxTotal        Total tax withheld summed            Decimal           Precision(19), Scale(4) Min(0)
+
+governmentDisburs Total government disbursement
+                                                            Decimal           Precision(19), Scale(4) Min(0)
+ementTotal             summed
+
+
+
+             1.2.5.​   Static-Update Only
+
+
+
+                                                   F. Static-Update Only
+
+Regions
+
+   Column Name                       Description         Data Type         Length and Precision                Constraints
+
+regionID               Unique region identifier              TinyInt                         Size(1) Primary Key, Unique
+
+regionName             Name of the region                   Varchar                       Size(100) –
+
+Cities
+
+   Column Name                       Description         Data Type         Length and Precision                Constraints
+
+cityID                 Unique city identifier               SmallInt                         Size(3) Primary Key, Unique
+
+regionID               Linked region identifier              TinyInt                               – Foreign Key
+
+cityName               Name of the city                     Varchar                       Size(100) Unique
+Holiday
+
+  Column Name                    Description           Data Type    Length and Precision              Constraints
+
+holidayID           Unique holiday record identifier      TinyInt                          – Primary Key, Unique
+
+holidayName         Name of the holiday                  Varchar                   Size(255) Unique
+
+holidayDate         Date of the holiday                     Date                           – Unique
+
+Months
+
+  Column Name                    Description           Data Type    Length and Precision              Constraints
+
+monthID             Unique month identifier                Enum                            – –
+
+monthlyWorkdays     Number of workdays in the month       Integer                    Size(2) Min(1), Max(31)
+
+Rates
+
+  Column Name                    Description           Data Type    Length and Precision              Constraints
+
+piEmployerRate      Global employer Pag-ibig rate        Decimal        Precision(5), Scale(3) Min(0), NOT NULL
+
+piEmployeeRate      Global employee Pag-ibig rate        Decimal        Precision(5), Scale(3) Min(0), NOT NULL
+
+piMaxContribution   Maximum Pag-ibig contribution        Decimal        Precision(5), Scale(3) Min(0), NOT NULL
+
+phRate              Global PhilHealth rate               Decimal        Precision(5), Scale(3) Min(0), NOT NULL
+
+sssRate             Global SSS rate                      Decimal        Precision(5), Scale(3) Min(0), NOT NULL
+Tax Table
+
+  Column Name                        Description            Data Type    Length and Precision                Constraints
+
+taxBracket           Identifier for the tax bracket            Integer                      Min(1) Primary Key
+
+minCompensation      Minimum income for the bracket           Decimal       Precision(19), Scale(4) Min(0), NOT NULL
+
+maxCompensation      Maximum income for the bracket           Decimal       Precision(19), Scale(4) Min(0), NOT NULL
+
+bracketWidth         Income range width for the bracket       Decimal       Precision(19), Scale(4) Min(0)
+
+taxRate              Tax rate for the bracket                 Decimal       Precision(19), Scale(4) Min(0), NOT NULL
+
+Leave Type
+
+  Column Name                        Description            Data Type    Length and Precision                Constraints
+
+leaveType            Classification of leave                    Enum                             – NOT NULL
+
+                     Indicates whether the leave type is
+mandatory                                                     Boolean                            – –
+                     mandatory
+
+                     Standard rate at which leave accrues
+defaultAccrualRate                                            Decimal        Precision(4), Scale(2) Min(0)
+                     for this type
+
+accrualFrequency     Frequency of leave accrual                 Enum                             – –
+
+                     Maximum allowable accrual for the
+maxAccrual                                                    Decimal        Precision(4), Scale(2) Min(0)
+                     leave type
+2.​     Relationships
+
+
+                        Foreign Key     Referenced        Referenced
+Foreign Key Table                                                                        Description of Relationship
+                         Column                Table      Primary Key
+                    addressID         Address          addressID        Each employee is assigned an address (1:1)
+
+                    departmentID      Department       departmentID     Employees are categorised by their department (N:1)
+
+      Employee      positionID        Position         positionID       The employee holds a specific position (N:1)
+
+                    governmentID      Government       governmentID     Government records are uniquely linked to each employee (1:1)
+
+                    supervisorID      Supervisor       supervisorID     The system references the supervisor of the employee (N:1)
+
+                    cityID            Cities           cityID           Each address entry is located within a specific city (1:1)
+       Address
+                    regionID          Regions          regionID         Addresses are also linked to a region (1:1)
+
+       Position                                                         Positions are assigned within departments (N:1)
+                    departmentID      Department       departmentID
+                                                                        Departments have at least one supervisor (N:1)
+      Supervisor                                                        Supervisors are employees themselves, connecting both tables
+                                                                        directly (1:1)
+                    employeeID        Employee         employeeID
+      Schedule                                                          Each employee is assigned a schedule (1:1)
+
+      Changelog                                                         Tracks changes made by the employee (N:1)
+                     Foreign Key     Referenced       Referenced
+Foreign Key Table                                                                   Description of Relationship
+                       Column           Table        Primary Key
+                                                                   Indicates the leave type applicable for employee leave balance
+                    leaveType      Leave Type      leaveType       (N:1)
+  LeaveBalance
+                                                                   Leave balances are determined based on an employee’s
+                                                                   schedule (N:1)
+                    scheduleID     Schedule        scheduleID
+   Attendance                                                      Attendance records are linked to the schedule (N:1)
+
+                                                                   Leave requester identifier (N:1)
+
+                    leaveType      Leave Type      leaveType       Indicates the leave type used for request (N:1)
+      Leave
+                                                                   Leave requests are validated against available leave balances
+                    balanceID      Leave Balance   balanceID       (N:1)
+
+  Leave Accrual                                                    Accrual records adjust the leave balance over time (N:1)
+     History                                                       Indicates the leave type has been accrued (N:1)
+                    leaveType      Leave Type      leaveType
+                                                                   Indicates the leave type is requested for conversion (N:1)
+      Leave
+                                                                   Converts leave credits into monetary value based on the leave
+   Monetisation
+                    balanceID      Leave Balance   balanceID       balance (N:1)
+
+   Government                                                      Links each government record with an employee (1:1)
+                    employeeID     Employee        employeeID
+                                                                   Links payroll records to employees (N:1)
+     Payroll        rebateID       Deductibles     rebateID        Deduction computations of payroll (1:1)
+                      Foreign Key     Referenced       Referenced
+Foreign Key Table                                                                      Description of Relationship
+                        Column           Table        Primary Key
+                     wageID         Earnings        wageID            Benefit computations of payroll (1:1)
+
+                     summaryID      Summary         summaryID         Collates payroll data into a monthly summary record (N:1)
+
+                                                                      References payroll month and its corresponding working days
+                     monthID        Months          monthID           (1:1)
+
+      Government                                                      Reference the month these deductibles are for (N:1)
+      Deductibles                   Government                        Associates deductibles with a government record (1:1)
+
+                                    Government                        Reference location where computed contribution will be
+  Contributions
+                     governmentID   Deductibles     governmentID      collated (N:1)
+
+                                    Government                        Needs government deductibles to compute total deductibles
+      Deductibles
+                                    Deductibles                       (1:1)
+
+        Payslip                                                       Each payslip is uniquely tied to a payroll record (1:1)
+                     payrollID      Payroll         payrollID
+Other Transactions                                                    Connects misc transactions to payroll records (N:1).
+
+                                                                      Aggregates government-related disbursements within a
+ Government Tally    summaryID      Summary         summaryID         summary (N:1).
+
+
+3.​     Definition of Terms
+        Listed below are the key terms and acronyms used throughout this document.
+             Term                                             Definition
+
+                    Taxpayer Identification Number – a unique number assigned to individuals or entities for tax
+TIN                 purposes.
+
+                    Social Security System Number – an identifier used to track social security contributions and
+SSS                 benefits.
+
+                    Identifier for the Philippine Health Insurance Corporation – used to manage health insurance
+PhilHealth          records and contributions.
+
+                    Identifier for the Pag-IBIG Fund (Home Development Mutual Fund) – used for housing
+PagIbig             savings and related benefits.
+
+                    Paid Time Off – the policy allowing employees to take leave while still receiving their regular
+PTO                 pay.
+
+                    No, not Archimedes' constant. Abbreviation used in rate fields (piEmployerRate,
+PI                  piEmployeeRate, piMaxContribution) – refers to Pag-IBIG related contribution rates.
+
+                    A shortened identifier used in logging to represent specific table and column names concisely
+fieldCode           (e.g., "P_NP" for Payroll.NetPay).
+
+Varchar             Variable Character – a data type for storing text strings of varying lengths.
+
+Varbinary           Variable Binary – a data type for storing binary data that does not have a fixed length.
+
+Enum                Enumeration – a data type that defines a set of predefined values.
+
+TinyInt             Tiny Integer – a data type representing a small-range integer (values that typically won’t
+               Term                                             Definition
+
+                      reach beyond 127)
+
+                      Small Integer – a numeric data type used to store integers within a limited range (values that
+SmallInt              typically won’t reach beyond 32,767)
+
+                      The total number of digits allowed in a decimal number, both to the left and right of the
+Precision             decimal point
+
+Scale                 The number of digits allowed to the right of the decimal point in a decimal number.
+
+                      The process by which leave credits are accumulated over time, typically based on a defined
+accrual               rate or frequency.
+
+                      The conversion of leave credits into monetary value, allowing employees to receive
+monetisation          compensation for unused leave.
+
+                      Represents the income range covered by a tax bracket, defining the span between the
+bracketWidth          minimum and maximum compensation for that bracket.
+
+                      Identifier for the party (such as an employee or employer) contributing to a benefit or
+contributor           deduction in payroll and related calculations.
+

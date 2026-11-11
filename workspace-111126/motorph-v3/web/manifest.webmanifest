@@ -1,0 +1,12 @@
+{
+  "name": "MotorPH Payroll Office",
+  "short_name": "MotorPH",
+  "description": "MotorPH employee register, attendance and payroll.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef2f8",
+  "theme_color": "#1f3c6e",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

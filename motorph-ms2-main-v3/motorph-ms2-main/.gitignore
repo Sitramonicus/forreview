@@ -1,0 +1,26 @@
+# Environment files: Firebase keys and any local settings. Only the placeholder example is committed.
+.env
+.env.*
+*.env
+!.env.example
+
+# Local demo data: the saved state (password hashes, synthetic personal details, photos), its backups and archives.
+/data/
+
+# Dependencies and build output.
+node_modules/
+dist/
+target/
+
+# Logs, editor and OS files.
+*.log
+npm-debug.log*
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Playwright / browser test output.
+test-results/
+playwright-report/

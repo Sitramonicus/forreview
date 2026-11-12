@@ -1,0 +1,5 @@
+# Dependency risk review
+
+On 2026-11-02, `npm ci --ignore-scripts` and `npm audit` reported 30 findings: 10 high and 20 moderate, none critical. The only directly flagged package was the development-only Lighthouse dependency; its transitive dependency tree includes Puppeteer/browser extraction, proxy/FTP, Zod, Sentry/OpenTelemetry and minimatch findings. The audit suggested a different Lighthouse version as a breaking fix. This is an observation, not a complete threat assessment: build/test tooling can still be exposed to untrusted inputs. No forced upgrade was applied without compatibility testing. Avoid running these tools on untrusted archives or targets, restrict the build environment and plan a tested dependency refresh.
+
+Google authentication JARs are included in `lib/google/` and are not covered by `npm audit`. They and Bouncy Castle/Gson need separate Java dependency and license reviews. `THIRD_PARTY_NOTICES.md` records their presence, but a full transitive notice and vulnerability inventory remains outstanding.
